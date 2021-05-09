@@ -8,7 +8,7 @@ with new_tables as (
     select
         table_name
     from
-        {{ref('monitored_columns')}}
+        {{ref('re_monitored_columns')}}
     {%- if is_incremental() %}
     where
         table_name not in (
@@ -25,7 +25,7 @@ new_time_columns as (
         columns.time_filter
     from
         new_tables,
-        {{ref('monitored_columns')}} as columns
+        {{ref('re_monitored_columns')}} as columns
     where
         columns.table_name = new_tables.table_name and
         columns.time_filter is not null

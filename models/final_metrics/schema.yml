@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: min_length
+  - name: re_min_length
     columns:
       - name: value
         tests:

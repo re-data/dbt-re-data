@@ -2,7 +2,7 @@
 version: 2
 
 models:
-    - name: monitored_tables
+    - name: re_monitored_tables
       description: "Model representing tables ;) to be monitored for anomalies"
       columns:
         - name: table_name
@@ -19,6 +19,6 @@ models:
             - accepted_values:
                 values: [true, false]
 
-    - name: monitored_columns
+    - name: re_monitored_columns
       description: "Model representing all columns of tables"
 

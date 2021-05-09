@@ -1,7 +1,7 @@
 {% macro base_metrics_query(mtable) %}
 
     {% set columns_query %}
-        select * from {{ ref('monitored_columns') }}
+        select * from {{ ref('re_monitored_columns') }}
         where table_name = '{{ mtable['table_name'] }}'
     {% endset %}
 

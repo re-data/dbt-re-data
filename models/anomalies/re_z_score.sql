@@ -9,8 +9,8 @@ select
     {{ time_window_end() }} as time_window_end,
     {{dbt_utils.current_timestamp_in_utc()}} as computed_on
 from
-    {{ ref('all_last_stats') }} as stats,
-    {{ ref('all_last_metrics') }} as last_metric
+    {{ ref('re_last_stats') }} as stats,
+    {{ ref('re_last_metrics') }} as last_metric
 where
     stats.table_name = last_metric.table_name and
     stats.column_name = last_metric.column_name and
