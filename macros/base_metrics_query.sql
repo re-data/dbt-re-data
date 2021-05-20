@@ -37,7 +37,8 @@ text:
     {% set data_kind = get_column_type(column) %}
 
     {% for func in column_metrics[data_kind] %}
-        {{ column_expression(column['column_name'], func) }} as {{column['column_name']}}___{{func}},
+        {% set column_name = row_value(column, 'column_name') %}
+        {{ column_expression(column_name, func) }} as {{column_name}}___{{func}},
     {% endfor %}
 
 {% endmacro %}

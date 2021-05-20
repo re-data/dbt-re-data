@@ -37,3 +37,7 @@
 {% macro bigquery__freshness_expression(time_column) %}
     TIMESTAMP_DIFF ( timestamp({{ time_window_end()}}), max({{time_column}}), SECOND)
 {% endmacro %}
+
+{% macro snowflake__freshness_expression(time_column) %}
+   timediff(second, max({{time_column}}), {{- time_window_end() -}})
+{% endmacro %}

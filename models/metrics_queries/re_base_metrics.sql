@@ -5,19 +5,20 @@
 {%- set table_results = [] %}
 
 {%- for mtable in tables %}
+    {% set table_name = row_value(mtable, 'table_name') %}
+    {% set time_filter = row_value(mtable, 'time_filter') %}
 
     {%- call statement('metrics', fetch_result=True) -%}
     select
         {{- base_metrics_query(mtable) -}}
     from
-        {{mtable['table_name']}}
+        {{table_name}}
     where
-        {{mtable['time_filter']}} >= {{ time_window_start() }} and
-        {{mtable['time_filter']}} < {{ time_window_end() }}
+        {{time_filter}} >= {{ time_window_start() }} and
+        {{time_filter}} < {{ time_window_end() }}
     {%- endcall -%}
 
     {%- set result = load_result('metrics')['table'] -%}
-    {%- set table_name = mtable['table_name'] %}
     {%- do table_results.append({'table': table_name, 'result': result}) %}
 {% endfor %}
 
