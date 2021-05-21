@@ -41,7 +41,7 @@ vars:
 - [re_alerting](#re_alerting)
 
 
- ### [re_monitored_columns](dbt_re_data/models/meta/re_monitored_columns.sql)
+ ### [re_monitored_columns](models/meta/re_monitored_columns.sql)
  ### re_monitored_tables
  ### re_freshness
  ### re_row_count
