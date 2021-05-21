@@ -42,19 +42,19 @@ vars:
 
 
  ### [re_monitored_columns](models/meta/re_monitored_columns.sql)
- ### re_monitored_tables
- ### re_freshness
- ### re_row_count
- ### re_count_nulls
- ### re_count_missing
- ### re_min
- ### re_max
- ### re_avg
- ### re_min_length
- ### re_max_length
- ### re_avg_length
- ### re_base_metrics
+ ### [re_monitored_tables](models/meta/re_monitored_tables.sql)
+ ### [re_freshness](models/metrics_queries/re_base_metrics.sql)
+ ### [re_row_count](models/final_metrics/re_row_count.sql)
+ ### [re_count_nulls](models/final_metrics/re_count_nulls.sql)
+ ### [re_count_missing](models/final_metrics/re_count_missing.sql)
+ ### [re_min](models/final_metrics/re_min.sql)
+ ### [re_max](models/final_metrics/re_max.sql)
+ ### [re_avg](models/final_metrics/re_avg.sql)
+ ### [re_min_length](models/final_metrics/re_min_length.sql)
+ ### [re_max_length](models/final_metrics/re_max_length.sql)
+ ### [re_avg_length](models/final_metrics/re_avg_length.sql)
+ ### [re_base_metrics](models/final_metrics/re_base_metrics.sql)
  
- ### re_z_score
- ### re_alerting
+ ### [re_z_score](models/final_metrics/re_z_score.sql)
+ ### [re_alerting](models/final_metrics/re_alerting.sql)
  
