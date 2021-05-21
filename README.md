@@ -20,6 +20,8 @@ vars:
 ### Information about monitored tables
 
 - [re_monitored_columns](#re_monitored_columns)
+
+ 
 - [re_monitored_tables](#re_monitored_tables)
 
 ### Metrics computed
@@ -40,9 +42,8 @@ vars:
 - [re_z_score](#re_z_score)
 - [re_alerting](#re_alerting)
 
-
- ### [re_monitored_columns](models/meta/re_monitored_columns.sql)
  ### [re_monitored_tables](models/meta/re_monitored_tables.sql)
+ ### [re_monitored_columns](models/meta/re_monitored_columns.sql)
  ### [re_freshness](models/metrics_queries/re_base_metrics.sql)
  ### [re_row_count](models/final_metrics/re_row_count.sql)
  ### [re_count_nulls](models/final_metrics/re_count_nulls.sql)
@@ -53,8 +54,8 @@ vars:
  ### [re_min_length](models/final_metrics/re_min_length.sql)
  ### [re_max_length](models/final_metrics/re_max_length.sql)
  ### [re_avg_length](models/final_metrics/re_avg_length.sql)
- ### [re_base_metrics](models/final_metrics/re_base_metrics.sql)
+ ### [re_base_metrics](models/metrics_queries/re_base_metrics.sql)
  
- ### [re_z_score](models/final_metrics/re_z_score.sql)
+ ### [re_z_score](models/anomalies/re_z_score.sql)
  ### [re_alerting](models/final_metrics/re_alerting.sql)
  
