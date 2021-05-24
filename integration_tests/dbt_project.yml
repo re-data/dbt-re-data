@@ -1,0 +1,30 @@
+name: 'dbt_re_data_integration_tests'
+version: '1.0'
+config-version: 2
+
+# Specify this when running tests
+profile: ''
+
+source-paths: ["models"]
+analysis-paths: ["analysis"]
+test-paths: ["tests"]
+data-paths: ["data"]
+macro-paths: ["macros"]
+
+target-path: "target"
+clean-targets:
+    - "target"
+    - "dbt_modules"
+
+seeds:
+  +schema: raw
+  +quote_columns: false
+
+vars:
+    re_data:alerting_z_score: 3
+    re_data:schemas:
+        - RE_DATA_RAW
+    
+    re_data:time_window_start: '2021-05-01 00:00:00'
+    re_data:time_window_end: '2021-05-02 00:00:00'
+    re_data:anomaly_detection_window_start: '2021-04-01 00:00:00'

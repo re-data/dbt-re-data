@@ -1,4 +1,4 @@
-{% set schemas = var('redata:schemas') %}
+{% set schemas = var('re_data:schemas') %}
 
 {% for for_schema in schemas %}
     {{ get_monitored_columns(for_schema) }}

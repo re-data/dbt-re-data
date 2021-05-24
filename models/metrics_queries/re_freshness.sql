@@ -4,7 +4,6 @@
 {%- for mtable in tables %}
     {% set table_name = row_value(mtable, 'table_name') %}
     {% set time_filter = row_value(mtable, 'time_filter') %}
-
     select
         '{{table_name}}' as table_name,
         '' as column_name,

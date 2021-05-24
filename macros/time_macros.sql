@@ -12,17 +12,17 @@
 
 
 {% macro time_window_start() %}
-    cast('{{- var('redata:time_window_start') -}}' as timestamp) 
+    cast('{{- var('re_data:time_window_start') -}}' as timestamp) 
 {% endmacro %}
 
 
 {% macro time_window_end() %}
-    cast('{{- var('redata:time_window_end') -}}' as timestamp)
+    cast('{{- var('re_data:time_window_end') -}}' as timestamp)
 {% endmacro %}
 
 
 {% macro anamaly_detection_time_window_start() %}
-   cast('{{- var('redata:anomaly_detection_window_start') -}}' as timestamp)
+   cast('{{- var('re_data:anomaly_detection_window_start') -}}' as timestamp)
 {% endmacro %}
 
 
@@ -31,7 +31,7 @@
 {% endmacro %}
 
 {% macro default__freshness_expression(time_column) %}
-   {{- time_window_end() -}} - max({{time_column}}) 
+   EXTRACT(EPOCH FROM ({{time_window_end()}} - max({{time_column}})))
 {% endmacro %}
 
 {% macro bigquery__freshness_expression(time_column) %}
@@ -40,4 +40,8 @@
 
 {% macro snowflake__freshness_expression(time_column) %}
    timediff(second, max({{time_column}}), {{- time_window_end() -}})
+{% endmacro %}
+
+{% macro redshift__freshness_expression(time_column) %}
+   DATEDIFF(second, max({{time_column}}), {{- time_window_end() -}})
 {% endmacro %}

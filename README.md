@@ -11,7 +11,7 @@ The following variables need to be defined in your dbt_project.yml:
 
 ```yaml
 vars:
-     redata:schemas:
+     re_data:schemas:
          - schema_to_monitor
          - another_schema_to_monitor
 ```
