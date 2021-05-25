@@ -13,8 +13,8 @@
         {{- dbt_utils.current_timestamp_in_utc() -}} as computed_on
     from
         {{table_name}}
-    where
-        {{time_filter}} < {{- time_window_end() -}}
+    where 
+        {{before_time_window_end(time_filter)}}
 
 {%- if not loop.last -%} union all {%- endif %}
 {%- endfor %}

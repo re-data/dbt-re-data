@@ -21,10 +21,3 @@ seeds:
   +quote_columns: false
 
 vars:
-    re_data:alerting_z_score: 3
-    re_data:schemas:
-        - RE_DATA_RAW
-    
-    re_data:time_window_start: '2021-05-01 00:00:00'
-    re_data:time_window_end: '2021-05-02 00:00:00'
-    re_data:anomaly_detection_window_start: '2021-04-01 00:00:00'

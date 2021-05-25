@@ -14,8 +14,7 @@
     from
         {{table_name}}
     where
-        {{time_filter}} >= {{ time_window_start() }} and
-        {{time_filter}} < {{ time_window_end() }}
+        {{ in_time_window(time_filter) }}
     {%- endcall -%}
 
     {%- set result = load_result('metrics')['table'] -%}

@@ -3,7 +3,6 @@ import copy
 import yaml
 
 CHECK_DBS = ['postgres', 'snowflake', 'redshift', 'bigquery']
-CHECK_DBS = ['bigquery']
 
 DBT_VARS = {
     're_data:alerting_z_score': 3,

@@ -35,7 +35,7 @@
 {% endmacro %}
 
 {% macro bigquery__freshness_expression(time_column) %}
-    TIMESTAMP_DIFF ( timestamp({{ time_window_end()}}), max({{time_column}}), SECOND)
+    TIMESTAMP_DIFF ( timestamp({{ time_window_end()}}), timestamp(max({{time_column}})), SECOND)
 {% endmacro %}
 
 {% macro snowflake__freshness_expression(time_column) %}
@@ -44,4 +44,31 @@
 
 {% macro redshift__freshness_expression(time_column) %}
    DATEDIFF(second, max({{time_column}}), {{- time_window_end() -}})
+{% endmacro %}
+
+{% macro before_time_window_end(time_column) %}
+    {{ adapter.dispatch('before_time_window_end')(time_column) }}
+{% endmacro %}
+
+{% macro default__before_time_window_end(time_column) %}
+    {{time_column}} < {{- time_window_end() -}}
+{% endmacro %}
+
+{% macro bigquery__before_time_window_end(time_column) %}
+    timestamp({{time_column}}) < {{- time_window_end() -}}
+{% endmacro %}
+
+
+{% macro in_time_window(time_column) %}
+    {{ adapter.dispatch('in_time_window')(time_column) }}
+{% endmacro %}
+
+{% macro default__in_time_window(time_column) %}
+    {{time_column}} >= {{ time_window_start() }} and
+    {{time_column}} < {{ time_window_end() }}
+{% endmacro %}
+
+{% macro bigquery__in_time_window(time_column) %}
+    timestamp({{time_column}}) >= {{ time_window_start() }} and
+    timestamp({{time_column}}) < {{ time_window_end() }}
 {% endmacro %}
