@@ -1,0 +1,2 @@
+table_namem,column_name,metric,value,time_window_start,time_window_end,computed_on
+"re_data_raw"."sample_table",,row_count,4,2021-05-01 00:00:00,2021-05-02 00:00:00,2021-05-01 00:00:00

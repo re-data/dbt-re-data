@@ -18,12 +18,12 @@ def test_dbt():
     os.system(load_deps)
 
     for db in CHECK_DBS:
+        dbt_vars = copy.deepcopy(DBT_VARS)
+
         profile_part = f' --profile re_data_{db}'
 
-        init_data = 'dbt seed --full-refresh' + profile_part
-        os.system(init_data)
-
-        dbt_vars = copy.deepcopy(DBT_VARS)
+        init_seeds = 'dbt seed --full-refresh {} --vars "{}"'.format(profile_part, yaml.dump(dbt_vars))
+        os.system(init_seeds)
         
         if db == 'snowflake':
             schemas = dbt_vars['re_data:schemas']
@@ -32,6 +32,9 @@ def test_dbt():
 
         run_re_data = 'dbt run --full-refresh {} --vars "{}"'.format(profile_part, yaml.dump(dbt_vars))
         os.system(run_re_data)
+
+        test_re_data = 'dbt test {} --vars "{}"'.format(profile_part, yaml.dump(dbt_vars))
+        os.system(test_re_data)
 
 
 test_dbt()

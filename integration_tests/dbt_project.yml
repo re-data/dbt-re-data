@@ -20,4 +20,6 @@ seeds:
   +schema: raw
   +quote_columns: false
 
-vars:
+  dbt_re_data_integration_tests:
+    expected:
+      +schema: expected

@@ -1,0 +1,12 @@
+version: 2
+
+models:
+  - name: re_row_count
+    tests:
+      - dbt_utils.equality:
+          compare_model: ref('expected_sample_data_row_count')
+          compare_columns:
+            - metric
+            - value
+            - time_window_start
+            - time_window_end
