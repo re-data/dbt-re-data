@@ -38,12 +38,12 @@ text:
 
     {% for func in column_metrics[data_kind] %}
         {% set column_name = row_value(column, 'column_name') %}
-        {{ column_expression(column_name, func) }} as {{column_name}}___{{func}},
+        {{ column_expression(column_name, func) }} as "{{column_name}}___{{func}}",
     {% endfor %}
 
 {% endmacro %}
 
 
 {% macro metrics_for_whole_table(mtable, column) %}
-    count(*) as ___row_count
+    count(*) as "___row_count"
 {% endmacro %}
