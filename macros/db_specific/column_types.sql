@@ -123,7 +123,7 @@
 {% endmacro %}
 
 
-% macro bigquery__get_column_type(column) %}
+{% macro bigquery__get_column_type(column) %}
     
     {% if column.data_type in [
         'STRING'
@@ -132,7 +132,7 @@
         {{ return('text') }}
 
     {% elif column.data_type in [
-        "INT64", "NUMERIC", "BIGNUMERIC", "FLOAT64"]
+        "INT64", "NUMERIC", "BIGNUMERIC", "FLOAT64", "INTEGER"]
     %}
 
         {{ return('numeric') }}

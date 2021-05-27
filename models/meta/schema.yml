@@ -11,14 +11,6 @@ models:
             - unique
             - not_null
 
-        - name: actively_monitored
-          description: >
-            Information whether table is actively monitored.
-            You can change it in any moment
-          tests:
-            - accepted_values:
-                values: [true, false]
-
     - name: re_monitored_columns
       description: "Model representing all columns of tables"
 

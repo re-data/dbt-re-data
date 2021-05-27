@@ -23,3 +23,9 @@ seeds:
   dbt_re_data_integration_tests:
     expected:
       +schema: expected
+      
+      expected_sample_data_row_count:
+        +column_types:
+          time_window_start: 'TIMESTAMP'
+          time_window_end: 'TIMESTAMP'
+          computed_on: 'TIMESTAMP'

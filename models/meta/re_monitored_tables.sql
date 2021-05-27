@@ -38,8 +38,9 @@ order_by_rank as (
         row_number () over (partition by table_name order by time_filter) as rank_num
     from 
         new_time_columns
-)
+),
 
+without_types as (
 select
     table_name,
     time_filter,
@@ -50,3 +51,11 @@ from
 where
     rank_num = 1
 
+)
+
+select
+    cast (table_name as {{ string_type() }} ) as table_name,
+    cast (time_filter as {{ string_type() }} ) as time_filter,
+    cast (actively_monitored as {{ boolean_type() }} ) as actively_monitored,
+    cast (detected_time as {{ timestamp_type() }} ) as detected_time
+from without_types

@@ -1,5 +1,6 @@
 -- depends_on: {{ ref('re_monitored_columns') }}
 -- depends_on: {{ ref('re_monitored_tables') }}
+with without_forced_types as (
 
 {%- set tables =  run_query(get_tables()) %}
 {%- set table_results = [] %}
@@ -43,4 +44,14 @@
     {%- if not loop.last %} union all {%- endif %}
 {%- endfor %}
 
+)
 
+select
+    cast (table_name as {{ string_type() }} ) as table_name,
+    cast (column_name as {{ string_type() }} ) as column_name,
+    cast (metric as {{ string_type() }} ) as metric,
+    cast (value as {{ numeric_type() }} ) as value,
+    cast (time_window_start as {{ timestamp_type() }} ) as time_window_start,
+    cast (time_window_end as {{ timestamp_type() }} ) as time_window_end,
+    cast (computed_on as {{ timestamp_type() }} ) as computed_on
+from without_forced_types
