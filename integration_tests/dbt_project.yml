@@ -29,3 +29,8 @@ seeds:
           time_window_start: 'TIMESTAMP'
           time_window_end: 'TIMESTAMP'
           computed_on: 'TIMESTAMP'
+
+      expected_sample_data_freshness:
+        +column_types:
+          time_window_end: 'TIMESTAMP'
+          computed_on: 'TIMESTAMP'
