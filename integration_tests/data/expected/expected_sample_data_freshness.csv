@@ -1,0 +1,3 @@
+table_name,column_name,metric,value,time_window_end,computed_on
+re_data_raw.sample_table,,freshness,40765,2021-05-02 00:00:00,2021-05-01 00:00:00
+re_data_raw.sample_with_anomaly,,freshness,41308,2021-05-02 00:00:00,2021-05-01 00:00:00

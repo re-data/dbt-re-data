@@ -6,7 +6,19 @@ models:
       - dbt_utils.equality:
           compare_model: ref('expected_sample_data_row_count')
           compare_columns:
+            - upper(replace(replace(table_name, '"', ''), '`', '')) as table_name
             - metric
             - value
             - time_window_start
             - time_window_end
+
+  - name: re_freshness
+    tests:
+      - dbt_utils.equality:
+          compare_model: ref('expected_sample_data_freshness')
+          compare_columns:
+            - upper(replace(replace(table_name, '"', ''), '`', '')) as table_name
+            - metric
+            - value
+            - time_window_end
+                

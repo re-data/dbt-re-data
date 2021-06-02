@@ -1,2 +1,3 @@
 table_name,column_name,metric,value,time_window_start,time_window_end,computed_on
-not_checked,,row_count,4,2021-05-01 00:00:00,2021-05-02 00:00:00,2021-05-01 00:00:00
+re_data_raw.sample_table,,row_count,4,2021-05-01 00:00:00,2021-05-02 00:00:00,2021-05-01 00:00:00
+re_data_raw.sample_with_anomaly,,row_count,1,2021-05-01 00:00:00,2021-05-02 00:00:00,2021-05-01 00:00:00
