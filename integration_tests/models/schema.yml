@@ -21,4 +21,24 @@ models:
             - metric
             - value
             - time_window_end
-                
+  - name: re_max
+    tests:
+      - dbt_utils.equality:
+          compare_model: ref('expected_sample_data_max')
+          compare_columns:
+            - upper(replace(replace(table_name, '"', ''), '`', '')) as table_name
+            - metric
+            - value
+            - time_window_start
+            - time_window_end
+
+  - name: re_max_length
+    tests:
+      - dbt_utils.equality:
+          compare_model: ref('expected_sample_data_max_length')
+          compare_columns:
+            - upper(replace(replace(table_name, '"', ''), '`', '')) as table_name
+            - metric
+            - value
+            - time_window_start
+            - time_window_end

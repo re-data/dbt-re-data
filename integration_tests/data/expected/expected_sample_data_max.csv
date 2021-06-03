@@ -1,0 +1,5 @@
+table_name,column_name,metric,value,time_window_start,time_window_end
+re_data_raw.sample_table,value1,max,200,2021-05-01 00:00:00,2021-05-02 00:00:00
+re_data_raw.sample_table,value2,max,209,2021-05-01 00:00:00,2021-05-02 00:00:00
+re_data_raw.sample_with_anomaly,value2,max,200,2021-05-01 00:00:00,2021-05-02 00:00:00
+re_data_raw.sample_with_anomaly,value1,max,107,2021-05-01 00:00:00,2021-05-02 00:00:00
