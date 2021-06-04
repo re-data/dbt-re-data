@@ -29,6 +29,8 @@ vars:
     re_data:time_window_start: null
     re_data:anomaly_detection_window_start: null
 
+    re_data:activey_monitored_by_default: false
+
     re_data:alerting_z_score: 3
 
     dbt_date:time_zone: 'UTC'

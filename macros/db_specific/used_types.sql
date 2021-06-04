@@ -6,6 +6,10 @@
     timestamp without time zone
 {% endmacro %}
 
+{% macro redshift__timestamp_type() %}
+    TIMESTAMP
+{% endmacro %}
+
 {% macro bigquery__timestamp_type() %}
     TIMESTAMP
 {% endmacro %}
@@ -43,6 +47,10 @@
     BOOLEAN
 {% endmacro %}
 
+{% macro redshift__boolean_type() %}
+    boolean
+{% endmacro %}
+
 {% macro bigquery__boolean_type() %}
     BOOLEAN
 {% endmacro %}
@@ -58,6 +66,10 @@
 
 {% macro default__numeric_type() %}
     double precision
+{% endmacro %}
+
+{% macro redshift__numeric_type() %}
+    DOUBLE PRECISION
 {% endmacro %}
 
 {% macro bigquery__numeric_type() %}

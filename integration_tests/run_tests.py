@@ -9,7 +9,8 @@ DBT_VARS = {
     're_data:schemas': ['re_data_raw'],
     're_data:time_window_start': '2021-05-01 00:00:00',
     're_data:time_window_end': '2021-05-02 00:00:00',
-    're_data:anomaly_detection_window_start': '2021-04-01 00:00:00'
+    're_data:anomaly_detection_window_start': '2021-04-01 00:00:00',
+    're_data:activey_monitored_by_default': True
 }
 
 def test_dbt(debug=True):
