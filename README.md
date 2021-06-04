@@ -54,6 +54,13 @@ Currently stats are computed for numeric and text columns.
   - Change `time_filter` to name of column you would like to use as time filter.
     Time filter is important thing in `re_data`, it's used in all filters computing metrics (to filter records added in a given day)
     One the start some educated guess :) is assigned as this field, but quite often it may require to be changed.
+  
+**Important: default behaviour for newly discovered tables**
+ 
+   By default (assuming env variable `re_data:activey_monitored_by_default` hasn't been changed tables are not monitored. So first `re_data`
+   run should just find tables to monitor but don't actually compute metrics. This is for you so that you can check confirmation and run it for tables you wish.
+   You can obviously just update all `actively_monitored` parameters to true if you want to run it for all tables or set  `re_data:activey_monitored_by_default` to true.
+ 
  
  #### re_monitored_columns ([source](models/meta/re_monitored_columns.sql))
  Information about all monitored columns, this contains information about columns similar to this
