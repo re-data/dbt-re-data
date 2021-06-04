@@ -19,8 +19,8 @@ vars:
 ## Models
 ### Information about monitored tables
 
-- [re_monitored_columns](#re_monitored_columns-source)
 - [re_monitored_tables](#re_monitored_tables-source)
+- [re_monitored_columns](#re_monitored_columns-source)
 
 ### Metrics computed
 
