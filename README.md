@@ -24,8 +24,16 @@ vars:
 
 ### Metrics computed
 
+#### Table metrics
+Contain metrics for whole table changes.
+
 - [re_freshness](#re_freshness-source)
 - [re_row_count](#re_row_count-source)
+
+#### Column metrics
+Contain metrics for specifc column in the table.
+Currently stats are computed for numeric and text columns.
+
 - [re_count_nulls](#re_count_nulls-source)
 - [re_count_missing](#re_count_missing-source)
 - [re_min](#re_min-source)
@@ -61,7 +69,7 @@ vars:
  Numbers of rows added to table in specific time range. `re_data` time range is currently one day period.
  
  #### re_count_nulls ([source](models/final_metrics/re_count_nulls.sql))
- Number of nulls in a given column for specific time range. Rows in this table apart from `table_name` also have `column_name`.
+ Number of nulls in a given column for specific time range.
  
  #### re_count_missing ([source](models/final_metrics/re_count_missing.sql))
  Number of nulls and empty string values in a given column for specific time range.
