@@ -49,17 +49,18 @@ Currently stats are computed for numeric and text columns.
 - [re_alerting](#re_alerting-source)
 
  #### re_monitored_tables ([source](models/meta/re_monitored_tables.sql))
- Information about all monitored tables. You can edit it in 2 ways:
-  - Change `actively_monitored` to false to stop monitor table and stop computing stats for it
-  - Change `time_filter` to name of column you would like to use as time filter.
+ Information about all monitored tables. This is currently only table which is supposed to be edited (you can think of it as a configuration table) 
+ 2 columns can be changed there:
+  - Change `actively_monitored` to `true`/`false` to start/stop monitoring table and computing stats for it, `(default: false)`
+  - Change `time_filter` to name of column you would like to use as time filter
     Time filter is important thing in `re_data`, it's used in all filters computing metrics (to filter records added in a given day)
-    One the start some educated guess :) is assigned as this field, but quite often it may require to be changed.
+    One the start some educated guess :) is assigned as this field, but quite often it may require to be changed. `(default: first timestamp type column)`
   
 **Important: default behaviour for newly discovered tables**
  
    By default (assuming env variable `re_data:activey_monitored_by_default` hasn't been changed tables are not monitored. So first `re_data`
    run should just find tables to monitor but don't actually compute metrics. This is for you so that you can check confirmation and run it for tables you wish.
-   You can obviously just update all `actively_monitored` parameters to true if you want to run it for all tables or set  `re_data:activey_monitored_by_default` to true.
+   You can obviously just update all `actively_monitored` parameters to true if you want to run it for all tables or even set `re_data:activey_monitored_by_default` to true.
  
  
  #### re_monitored_columns ([source](models/meta/re_monitored_columns.sql))
