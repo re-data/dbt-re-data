@@ -3,7 +3,7 @@
     {% set table_name = row_value(mtable, 'table_name') %}
 
     {% set columns_query %}
-        select * from {{ ref('re_monitored_columns') }}
+        select * from {{ ref('re_data_monitored_columns') }}
         where table_name = '{{ table_name }}'
     {% endset %}
 

@@ -4,6 +4,6 @@
 
 {% macro default__final_metric(metric) %}
 
-select * from {{ ref('re_base_metrics') }} where metric = '{{metric}}'
+select * from {{ ref('re_data_base_metrics') }} where metric = '{{metric}}'
 
 {% endmacro %}

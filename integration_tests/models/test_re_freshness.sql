@@ -1,1 +1,0 @@
-select * from {{ ref('re_freshness') }}

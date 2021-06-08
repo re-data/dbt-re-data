@@ -1,4 +1,4 @@
-name: 'dbt_re_data_integration_tests'
+name: 're_data_integration_tests'
 version: '1.0'
 config-version: 2
 
@@ -20,7 +20,7 @@ seeds:
   +schema: raw
   +quote_columns: false
 
-  dbt_re_data_integration_tests:
+  re_data_integration_tests:
     expected:
       +schema: expected
       

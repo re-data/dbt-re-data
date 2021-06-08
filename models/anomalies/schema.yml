@@ -1,12 +1,12 @@
 version: 2
 
 models:
-  - name: re_z_score
+  - name: re_data_z_score
     description: >
       Computed z_score for metric. `re_data` looks back on what where metrics values in last 30 days and compute z_score for newest value.
   
-  - name: re_alerting
+  - name: re_data_alerting
     description: >
-      View computed on top of `re_z_score` table to contain metrics which look alerting. Alerting threshold is controled by var `re_data:alerting_z_score`
+      View computed on top of `re_data_z_score` table to contain metrics which look alerting. Alerting threshold is controled by var `re_data:alerting_z_score`
       which is equal to 3 by default, but can be changed and adjusted.
          

@@ -19,36 +19,36 @@ vars:
 ## Models
 ### Information about monitored tables
 
-- [re_monitored_tables](#re_monitored_tables-source)
-- [re_monitored_columns](#re_monitored_columns-source)
+- [re_data_monitored_tables](#re_data_monitored_tables-source)
+- [re_data_monitored_columns](#re_data_monitored_columns-source)
 
 ### Metrics computed
 
 #### Table metrics
 Contain metrics for whole table changes.
 
-- [re_freshness](#re_freshness-source)
-- [re_row_count](#re_row_count-source)
+- [re_data_freshness](#re_data_freshness-source)
+- [re_data_row_count](#re_data_row_count-source)
 
 #### Column metrics
 Contain metrics for specifc column in the table.
 Currently stats are computed for numeric and text columns.
 
-- [re_count_nulls](#re_count_nulls-source)
-- [re_count_missing](#re_count_missing-source)
-- [re_min](#re_min-source)
-- [re_max](#re_max-source)
-- [re_avg](#re_avg-source)
-- [re_min_length](#re_min_length-source)
-- [re_max_length](#re_max_length-source)
-- [re_avg_length](#re_avg_length-source)
-- [re_base_metrics](#re_base_metrics-source)
+- [re_data_count_nulls](#re_data_count_nulls-source)
+- [re_data_count_missing](#re_data_count_missing-source)
+- [re_data_min](#re_data_min-source)
+- [re_data_max](#re_data_max-source)
+- [re_data_avg](#re_data_avg-source)
+- [re_data_min_length](#re_data_min_length-source)
+- [re_data_max_length](#re_data_max_length-source)
+- [re_data_avg_length](#re_data_avg_length-source)
+- [re_data_base_metrics](#re_data_base_metrics-source)
 
 ### Anomalies & Alerts
-- [re_z_score](#re_z_score-source)
-- [re_alerting](#re_alerting-source)
+- [re_data_z_score](#re_data_z_score-source)
+- [re_data_alerting](#re_data_alerting-source)
 
- #### re_monitored_tables ([source](models/meta/re_monitored_tables.sql))
+ #### re_data_monitored_tables ([source](models/meta/re_data_monitored_tables.sql))
  Information about all monitored tables. This is currently only table which is supposed to be edited (you can think of it as a configuration table) 
  2 columns can be changed there:
   - Change `actively_monitored` to `true`/`false` to start/stop monitoring table and computing stats for it, `(default: false)`
@@ -63,51 +63,51 @@ Currently stats are computed for numeric and text columns.
    You can obviously just update all `actively_monitored` parameters to true if you want to run it for all tables or even set `re_data:activey_monitored_by_default` to true.
  
  
- #### re_monitored_columns ([source](models/meta/re_monitored_columns.sql))
+ #### re_data_monitored_columns ([source](models/meta/re_data_monitored_columns.sql))
  Information about all monitored columns, this contains information about columns similar to this
  what you can find in `information_schema`. This table is not supposed to be edited and new columns will be added and old removed
  in case of schema changes for your tables.
  
- #### re_freshness ([source](models/metrics_queries/re_base_metrics.sql))
+ #### re_data_freshness ([source](models/metrics_queries/re_data_base_metrics.sql))
  Information about time (in seconds) since last data was added to each table. `time_filter` column is used to find about
  time record was added. If `time_filter` column is updated, update time will also be taken into account, but be warned that in this case
  all stats computed will also take into account updated time (This maybe good or bad thing depeneding on your use case).
  
- #### re_row_count ([source](models/final_metrics/re_row_count.sql))
+ #### re_data_row_count ([source](models/final_metrics/re_data_row_count.sql))
  Numbers of rows added to table in specific time range. `re_data` time range is currently one day period.
  
- #### re_count_nulls ([source](models/final_metrics/re_count_nulls.sql))
+ #### re_data_count_nulls ([source](models/final_metrics/re_data_count_nulls.sql))
  Number of nulls in a given column for specific time range.
  
- #### re_count_missing ([source](models/final_metrics/re_count_missing.sql))
+ #### re_data_count_missing ([source](models/final_metrics/re_data_count_missing.sql))
  Number of nulls and empty string values in a given column for specific time range.
  
- #### re_min ([source](models/final_metrics/re_min.sql))
+ #### re_data_min ([source](models/final_metrics/re_data_min.sql))
  Minimal value appearing in a given column for specific time range.
  
- #### re_max ([source](models/final_metrics/re_max.sql))
+ #### re_data_max ([source](models/final_metrics/re_data_max.sql))
  Maximal value appearing in a given column for specific time range.
  
- #### re_avg ([source](models/final_metrics/re_avg.sql))
+ #### re_data_avg ([source](models/final_metrics/re_data_avg.sql))
  Average of all values appearing in a given column for specific time range.
  
- #### re_min_length ([source](models/final_metrics/re_min_length.sql))
+ #### re_data_min_length ([source](models/final_metrics/re_data_min_length.sql))
  Minimal length of all strings appearing in a given column for specific time range.
  
- #### re_max_length ([source](models/final_metrics/re_max_length.sql))
+ #### re_data_max_length ([source](models/final_metrics/re_data_max_length.sql))
  Maximal length of all strings appearing in a given column for specific time range.
  
- #### re_avg_length ([source](models/final_metrics/re_avg_length.sql))
+ #### re_data_avg_length ([source](models/final_metrics/re_data_avg_length.sql))
  Average length of all strings appearing in a given column for specific time range.
  
- #### re_base_metrics ([source](models/metrics_queries/re_base_metrics.sql))
- Internal table containing most of described metrics (apart from `re_freshness`). To really access
+ #### re_data_base_metrics ([source](models/metrics_queries/re_data_base_metrics.sql))
+ Internal table containing most of described metrics (apart from `re_data_freshness`). To really access
  metrics it's usually better to use view for specific metric.
  
- #### re_z_score ([source](models/anomalies/re_z_score.sql))
+ #### re_data_z_score ([source](models/anomalies/re_data_z_score.sql))
  Computed z_score for metric. `re_data` looks back on what where metrics values in last 30 days and compute z_score for newest value.
  
- #### re_alerting ([source](models/final_metrics/re_alerting.sql))
- View computed on top of `re_z_score` table to contain metrics which look alerting. Alerting threshold is controled by var `re_data:alerting_z_score`
+ #### re_data_alerting ([source](models/final_metrics/re_data_alerting.sql))
+ View computed on top of `re_data_z_score` table to contain metrics which look alerting. Alerting threshold is controled by var `re_data:alerting_z_score`
  which is equal to 3 by default, but can be changed and adjusted.
  

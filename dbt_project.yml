@@ -1,7 +1,7 @@
 # Name your project! Project names should contain only lowercase characters
 # and underscores. A good package name should reflect your organization's
 # name or the intended use of these models
-name: 'dbt_re_data'
+name: 're_data'
 version: '0.1.0'
 config-version: 2
 
@@ -41,7 +41,7 @@ vars:
 # using the `{{ config(...) }}` macro.
 
 models:
-    dbt_re_data:
+    re_data:
         anomalies:
             materialized: incremental
 

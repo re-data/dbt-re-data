@@ -1,1 +1,0 @@
-select * from {{ ref('re_row_count') }}
