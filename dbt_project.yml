@@ -1,13 +1,12 @@
-
 # Name your project! Project names should contain only lowercase characters
 # and underscores. A good package name should reflect your organization's
 # name or the intended use of these models
-name: 'redata_dbt'
-version: '1.0.0'
+name: 'dbt_re_data'
+version: '0.1.0'
 config-version: 2
 
 # This setting configures which "profile" dbt uses for this project.
-profile: 'redata'
+profile: 're_data_postgres'
 
 # These configurations specify where dbt should look for different types of files.
 # The `source-paths` config, for example, states that models in this project can be
@@ -25,15 +24,14 @@ clean-targets:         # directories to be removed by `dbt clean`
     - "dbt_modules"
 
 vars:
-    re_data:time_window_end: null
-    re_data:time_window_start: null
-    re_data:anomaly_detection_window_start: null
-
+    re_data:time_window_end: '2021-06-03 00:00:00' #overwitten when running by re_data
+    re_data:time_window_start: '2021-06-02 00:00:00' #overwitten when running by re_data
+    re_data:anomaly_detection_window_start: '2021-05-02 00:00:00' #overwitten when running by re_data
     re_data:activey_monitored_by_default: false
 
     re_data:alerting_z_score: 3
-
-    dbt_date:time_zone: 'UTC'
+    re_data:schemas:
+        - your_schema_name #overwitten when running by re_data
 
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
@@ -42,16 +40,12 @@ vars:
 # as tables. These settings can be overridden in the individual model files
 # using the `{{ config(...) }}` macro.
 
-seeds:
-    redata_dbt:
-        schema: sample
-
 models:
-    redata_dbt:
+    dbt_re_data:
         anomalies:
             materialized: incremental
 
-        metrics_queries:
+        intermediate:
             materialized: incremental
 
         final_metrics:

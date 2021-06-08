@@ -2,8 +2,8 @@ name: 'dbt_re_data_integration_tests'
 version: '1.0'
 config-version: 2
 
-# Specify this when running tests
-profile: ''
+# Changed when running tests
+profile: 're_data_postgres'
 
 source-paths: ["models"]
 analysis-paths: ["analysis"]

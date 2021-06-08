@@ -49,4 +49,5 @@ def test_dbt(debug=True):
         print (f"Running tests completed for {db}")
 
 
-test_dbt()
+if __name__ == "__main__":
+    test_dbt()

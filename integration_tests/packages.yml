@@ -1,5 +1,5 @@
 packages:
-    - local: ../
+  - local: ../
 
-    - package: fishtown-analytics/dbt_utils
-      version: 0.6.4
+  - package: fishtown-analytics/dbt_utils
+    version: [">0.6.5", "<0.7.0"]

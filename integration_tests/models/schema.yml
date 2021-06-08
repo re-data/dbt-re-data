@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: re_row_count
+  - name: test_re_row_count
     tests:
       - dbt_utils.equality:
           compare_model: ref('expected_sample_data_row_count')
@@ -12,7 +12,7 @@ models:
             - time_window_start
             - time_window_end
 
-  - name: re_freshness
+  - name: test_re_freshness
     tests:
       - dbt_utils.equality:
           compare_model: ref('expected_sample_data_freshness')
@@ -21,7 +21,8 @@ models:
             - metric
             - value
             - time_window_end
-  - name: re_max
+
+  - name: test_re_max
     tests:
       - dbt_utils.equality:
           compare_model: ref('expected_sample_data_max')
@@ -32,7 +33,7 @@ models:
             - time_window_start
             - time_window_end
 
-  - name: re_max_length
+  - name: test_re_max_length
     tests:
       - dbt_utils.equality:
           compare_model: ref('expected_sample_data_max_length')

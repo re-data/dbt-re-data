@@ -1,0 +1,8 @@
+version: 2
+
+models:
+  - name: re_base_metrics
+    description: >
+      Internal table containing most of described metrics (apart from `re_freshness`). To really access
+      metrics it's usually better to use view for specific metric.
+     
