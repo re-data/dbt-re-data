@@ -21,7 +21,7 @@ def generate_docs():
 
     for file_name in file_names:
 
-        cp_cmd = 'cp {} docs'.format(os.path.join(files_dir, file_name))
+        cp_cmd = 'cp {} ../docs/'.format(os.path.join(files_dir, file_name))
         os.system(cp_cmd)
 
     
