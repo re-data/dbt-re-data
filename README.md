@@ -1,4 +1,4 @@
-# dbt_re_data
+# dbt-re-data
 
 dbt_re_data is dbt package for [re_data](https://github.com/redata-team/redata), data quality library build on top of dbt.
 
