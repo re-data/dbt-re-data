@@ -111,3 +111,10 @@ Currently stats are computed for numeric and text columns.
  View computed on top of `re_data_z_score` table to contain metrics which look alerting. Alerting threshold is controled by var `re_data:alerting_z_score`
  which is equal to 3 by default, but can be changed and adjusted.
  
+### Lineage
+
+This is how lineage graph for all created models looks like:
+
+<p align="center">
+<img src="./static/lineage_graph.png" width="80%"></img>
+</p>
