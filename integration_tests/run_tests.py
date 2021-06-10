@@ -28,7 +28,7 @@ def test_dbt(debug=True):
         profile_part = f' --profile re_data_{db}'
 
         print (f"Running init seed for {db}") 
-        init_seeds = 'dbt seed -x --full-refresh {} --vars "{}"'.format(profile_part, yaml.dump(dbt_vars))
+        init_seeds = 'dbt seed --full-refresh {} --vars "{}"'.format(profile_part, yaml.dump(dbt_vars))
         os.system(init_seeds)
         print (f"Init seed completed for {db}") 
         
