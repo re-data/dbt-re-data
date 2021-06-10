@@ -58,9 +58,9 @@ Currently stats are computed for numeric and text columns.
   
 **Important: default behaviour for newly discovered tables**
  
-   By default (assuming env variable `re_data:activey_monitored_by_default` hasn't been changed tables are not monitored. So first `re_data`
+   By default (assuming env variable `re_data:actively_monitored_by_default` hasn't been changed tables are not monitored. So first `re_data`
    run should just find tables to monitor but don't actually compute metrics. This is for you so that you can check confirmation and run it for tables you wish.
-   You can obviously just update all `actively_monitored` parameters to true if you want to run it for all tables or even set `re_data:activey_monitored_by_default` to true.
+   You can obviously just update all `actively_monitored` parameters to true if you want to run it for all tables or even set `re_data:actively_monitored_by_default` to true.
  
  
  #### re_data_monitored_columns ([source](models/meta/re_data_monitored_columns.sql))

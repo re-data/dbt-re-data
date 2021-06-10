@@ -44,7 +44,7 @@ without_types as (
 select
     table_name,
     time_filter,
-    {{var('re_data:activey_monitored_by_default')}} as actively_monitored,
+    {{var('re_data:actively_monitored_by_default')}} as actively_monitored,
     {{dbt_utils.current_timestamp_in_utc()}} as detected_time
 from
     order_by_rank

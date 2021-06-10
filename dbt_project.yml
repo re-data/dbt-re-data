@@ -28,7 +28,7 @@ vars:
     re_data:time_window_end: '2021-06-03 00:00:00' #overwitten when running by re_data
     re_data:time_window_start: '2021-06-02 00:00:00' #overwitten when running by re_data
     re_data:anomaly_detection_window_start: '2021-05-02 00:00:00' #overwitten when running by re_data
-    re_data:activey_monitored_by_default: false
+    re_data:actively_monitored_by_default: false
 
     re_data:alerting_z_score: 3
     re_data:schemas:

@@ -13,7 +13,7 @@ DBT_VARS = {
     're_data:time_window_start': (RUN_TIME - timedelta(days=1)).strftime("%Y-%m-%d %H:%M:%S"),
     're_data:time_window_end': RUN_TIME.strftime("%Y-%m-%d %H:%M:%S"),
     're_data:anomaly_detection_window_start': (RUN_TIME - timedelta(days=30)).strftime("%Y-%m-%d %H:%M:%S"),
-    're_data:activey_monitored_by_default': True
+    're_data:actively_monitored_by_default': True
 }
 
 def test_dbt(debug=True):
