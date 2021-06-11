@@ -23,7 +23,6 @@ target-path: "target"  # directory which will store compiled SQL files
 clean-targets:         # directories to be removed by `dbt clean`
     - "target"
     - "dbt_modules"
-
 vars:
     re_data:time_window_end: '2021-06-03 00:00:00' #overwitten when running by re_data
     re_data:time_window_start: '2021-06-02 00:00:00' #overwitten when running by re_data
@@ -40,6 +39,8 @@ vars:
 # In this example config, we tell dbt to build all models in the example/ directory
 # as tables. These settings can be overridden in the individual model files
 # using the `{{ config(...) }}` macro.
+
+require-dbt-version: [">=0.19.1", "<0.20.0"]
 
 models:
     re_data:
