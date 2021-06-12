@@ -44,6 +44,8 @@ require-dbt-version: [">=0.19.1", "<0.20.0"]
 
 models:
     re_data:
+        +schema: re
+        
         anomalies:
             materialized: incremental
 
