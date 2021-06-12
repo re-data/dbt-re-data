@@ -6,6 +6,9 @@ dbt_re_data is dbt package for [re_data](https://github.com/redata-team/redata),
 
 dbt_re_data is mostly intended to be used with `re_data` python package. But you can also add only dbt part to your project.
 
+# Schema
+All models created by re_data have custom schema with `re` suffix. First part of schema is taken as usual from your project profile configuration
+
 ## Variables
 The following variables need to be defined in your dbt_project.yml:
 
