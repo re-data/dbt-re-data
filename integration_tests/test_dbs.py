@@ -17,7 +17,7 @@ DBT_VARS = {
 def _test_generic(db, dbt_vars=None, debug=True):
 
     load_deps = 'dbt deps'
-    os.system(load_deps)
+    assert os.system(load_deps) == 0
 
     if not dbt_vars:
         dbt_vars = copy.deepcopy(DBT_VARS)
@@ -37,7 +37,7 @@ def _test_generic(db, dbt_vars=None, debug=True):
         run_re_data = 'DBT_MACRO_DEBUGGING=1 ' + run_re_data
 
     print (f"Running for first day of data")
-    os.system(run_re_data)
+    assert os.system(run_re_data) == 0
 
     # updat dbts_vars to run dbt for next day of data
     dbt_vars['re_data:time_window_start'] = dbt_vars['re_data:time_window_end']
@@ -48,11 +48,11 @@ def _test_generic(db, dbt_vars=None, debug=True):
         re_data_next_day = 'DBT_MACRO_DEBUGGING=1 ' + re_data_next_day
     
     print (f"Running for second day of data")
-    os.system(re_data_next_day)
+    assert os.system(re_data_next_day) == 0
 
     print (f"Running tests for {db}")
     test_re_data = 'dbt test -x {} --vars "{}"'.format(profile_part, yaml.dump(dbt_vars))
-    os.system(test_re_data)
+    assert os.system(test_re_data) == 0
 
     print (f"Running tests completed for {db}")
 
