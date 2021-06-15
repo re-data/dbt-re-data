@@ -39,3 +39,26 @@ models:
       what you can find in `information_schema`. This table is not supposed to be edited and new columns will be added and old removed
       in case of schema changes for your tables.
 
+    columns:
+      - name: table_name
+        tests:
+          - not_null
+          - relationships:
+              to: ref('re_data_monitored_tables')
+              field: table_name
+
+      - name: column_name
+        tests:
+          - not_null
+      
+      - name: data_type
+        tests:
+          - not_null
+
+      - name: is_nullable
+        tests:
+          - not_null
+
+      - name: is_datetime
+        tests:
+          - not_null
