@@ -1,4 +1,4 @@
 cd integration_tests
-python run_tests.py
+pytest
 cd ..
 python generate_docs.py
