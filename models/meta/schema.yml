@@ -2,7 +2,7 @@
 version: 2
 
 models:
-  - name: re_data_monitored_tables
+  - name: re_data_tables
     description: >
       Information about all monitored tables. This is currently only table which is supposed to be edited (you can think of it as a configuration table) 
       2 columns can be changed there:
@@ -33,7 +33,7 @@ models:
           Time filter is important thing in `re_data`, it's used in all filters computing metrics (to filter records added in a given day)
           One the start some educated guess :) is assigned as this field, but quite often it may require to be changed. `(default: first timestamp type column)`
 
-  - name: re_data_monitored_columns
+  - name: re_data_columns
     description: >
       Information about all monitored columns, this contains information about columns similar to this
       what you can find in `information_schema`. This table is not supposed to be edited and new columns will be added and old removed
@@ -44,7 +44,7 @@ models:
         tests:
           - not_null
           - relationships:
-              to: ref('re_data_monitored_tables')
+              to: ref('re_data_tables')
               field: table_name
 
       - name: column_name

@@ -4,8 +4,8 @@
     )
 }}
 
--- depends_on: {{ ref('re_data_monitored_columns') }}
--- depends_on: {{ ref('re_data_monitored_tables') }}
+-- depends_on: {{ ref('re_data_columns') }}
+-- depends_on: {{ ref('re_data_tables') }}
 {%- set tables =  run_query(get_tables()) %}
 
 {# /* in comple context we don't have access to tables */ #}
