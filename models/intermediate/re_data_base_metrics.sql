@@ -1,3 +1,9 @@
+{{
+    config(
+        materialized='incremental'
+    )
+}}
+
 -- depends_on: {{ ref('re_data_monitored_columns') }}
 -- depends_on: {{ ref('re_data_monitored_tables') }}
 {%- set tables =  run_query(get_tables()) %}

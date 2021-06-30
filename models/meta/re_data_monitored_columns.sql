@@ -1,3 +1,9 @@
+{{
+    config(
+        materialized='table'
+    )
+}}
+
 {% set schemas = var('re_data:schemas') %}
 with columns_froms_select as (
     {% for for_schema in schemas %}
