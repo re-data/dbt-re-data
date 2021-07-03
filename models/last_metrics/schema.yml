@@ -12,7 +12,7 @@ models:
         tests:
           - not_null
           - relationships:
-              to: ref('re_data_monitored_tables')
+              to: ref('re_data_tables')
               field: table_name
       
       - name: column_name
@@ -37,7 +37,7 @@ models:
         tests:
           - not_null
           - relationships:
-              to: ref('re_data_monitored_tables')
+              to: ref('re_data_tables')
               field: table_name
       
       - name: column_name

@@ -1,6 +1,6 @@
 {% macro get_tables() %}
     select table_name, time_filter
-    from {{ ref('re_data_monitored_tables') }}
+    from {{ ref('re_data_tables') }}
     where
         time_filter is not null and
         actively_monitored = true

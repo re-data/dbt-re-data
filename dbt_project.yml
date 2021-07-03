@@ -41,23 +41,3 @@ vars:
 # using the `{{ config(...) }}` macro.
 
 require-dbt-version: [">=0.19.1", "<0.20.0"]
-
-models:
-    re_data:
-        +schema: re
-        
-        anomalies:
-            materialized: incremental
-
-        intermediate:
-            materialized: incremental
-
-        final_metrics:
-            materialized: view
-
-        meta:
-            materialized: table
-    
-        last_metrics:
-            materialized: view
-    

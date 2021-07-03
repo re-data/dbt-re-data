@@ -22,8 +22,8 @@ vars:
 ## Models
 ### Information about monitored tables
 
-- [re_data_monitored_tables](#re_data_monitored_tables-source)
-- [re_data_monitored_columns](#re_data_monitored_columns-source)
+- [re_data_tables](#re_data_tables-source)
+- [re_data_columns](#re_data_columns-source)
 
 ### Metrics computed
 
@@ -51,7 +51,7 @@ Currently stats are computed for numeric and text columns.
 - [re_data_z_score](#re_data_z_score-source)
 - [re_data_alerting](#re_data_alerting-source)
 
- #### re_data_monitored_tables ([source](models/meta/re_data_monitored_tables.sql))
+ #### re_data_tables ([source](models/meta/re_data_tables.sql))
  Information about all monitored tables. This is currently only table which is supposed to be edited (you can think of it as a configuration table) 
  2 columns can be changed there:
   - Change `actively_monitored` to `true`/`false` to start/stop monitoring table and computing stats for it, `(default: false)`
@@ -66,7 +66,7 @@ Currently stats are computed for numeric and text columns.
    You can obviously just update all `actively_monitored` parameters to true if you want to run it for all tables or even set `re_data:actively_monitored_by_default` to true.
  
  
- #### re_data_monitored_columns ([source](models/meta/re_data_monitored_columns.sql))
+ #### re_data_columns ([source](models/meta/re_data_columns.sql))
  Information about all monitored columns, this contains information about columns similar to this
  what you can find in `information_schema`. This table is not supposed to be edited and new columns will be added and old removed
  in case of schema changes for your tables.
@@ -114,10 +114,3 @@ Currently stats are computed for numeric and text columns.
  View computed on top of `re_data_z_score` table to contain metrics which look alerting. Alerting threshold is controled by var `re_data:alerting_z_score`
  which is equal to 3 by default, but can be changed and adjusted.
  
-### Lineage
-
-This is how lineage graph for all created models looks like:
-
-<p align="center">
-<img src="./static/lineage_graph.png" width="80%"></img>
-</p>

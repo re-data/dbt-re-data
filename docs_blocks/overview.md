@@ -18,7 +18,7 @@ Specific model documentation also describes purpose for each models.
 
 # Docs getting started
 
-To learn more about `re_data` we recommand starting with docs for [re_data_monitored_tables](#!/model/model.re_data.re_data_monitored_tables) as this table which let's you control how `re_data` computes metrics.
+To learn more about `re_data` we recommand starting with docs for [re_data_tables](#!/model/model.re_data.re_data_tables) as this table which let's you control how `re_data` computes metrics.
 
 Also it's very good to look into Lineage Graph to get general
 idea how models are computed

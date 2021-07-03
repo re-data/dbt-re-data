@@ -7,7 +7,7 @@ RUN_TIME = datetime(2021, 5, 2, 0, 0, 0)
 
 DBT_VARS = {
     're_data:alerting_z_score': 3,
-    're_data:schemas': ['re_data_raw'],
+    're_data:schemas': ['dq_raw'],
     're_data:time_window_start': (RUN_TIME - timedelta(days=1)).strftime("%Y-%m-%d %H:%M:%S"),
     're_data:time_window_end': RUN_TIME.strftime("%Y-%m-%d %H:%M:%S"),
     're_data:anomaly_detection_window_start': (RUN_TIME - timedelta(days=30)).strftime("%Y-%m-%d %H:%M:%S"),
