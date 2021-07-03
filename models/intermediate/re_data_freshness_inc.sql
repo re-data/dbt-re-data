@@ -6,7 +6,7 @@
 
 {% set tables = run_query(get_tables()) %}
 
-{# /* in comple context we don't have access to tables */ #}
+{# /* in compile context we don't have access to tables */ #}
 {% if execute %}
     {% set table_values = tables.rows.values() %}
 {% else %}
