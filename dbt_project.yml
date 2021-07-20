@@ -40,7 +40,7 @@ vars:
 # as tables. These settings can be overridden in the individual model files
 # using the `{{ config(...) }}` macro.
 
-require-dbt-version: [">=0.19.1", "<0.20.0"]
+require-dbt-version: [">=0.20.0", "<0.21.0"]
 
 models:
   re_data:
