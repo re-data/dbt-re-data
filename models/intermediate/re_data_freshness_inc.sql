@@ -1,6 +1,7 @@
 {{
     config(
-        materialized='incremental'
+        materialized='incremental',
+        unique_key = 'id'
     )
 }}
 
@@ -38,6 +39,12 @@
     )
 
     select
+        {{ dbt_utils.surrogate_key([
+            'table_name',
+            'column_name',
+            'metric',
+            'time_window_end'
+        ]) }} as id,
         cast (table_name as {{ string_type() }} ) as table_name,
         cast (column_name as {{ string_type() }} ) as column_name,
         cast (metric as {{ string_type() }} ) as metric,
