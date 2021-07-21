@@ -9,6 +9,7 @@
             cast (null as {{ timestamp_type() }}) as some_time
     )
     select 
+        cast (some_string as {{ string_type() }} ) as id,
         cast (some_string as {{ string_type() }} ) as table_name,
         cast (some_string as {{ string_type() }} ) as column_name,
         cast (some_string as {{ string_type() }} ) as metric,
