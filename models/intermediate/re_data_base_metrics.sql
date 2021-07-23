@@ -46,12 +46,11 @@
             {%- set column_value = column.values()[0] %}
             {%- set column_name = column.name %}
             {%- set table_column_name, fun = column_name.split('___') %}
-
             select 
                 '{{table_name}}' as table_name,
                 '{{table_column_name}}' as column_name,
                 '{{fun}}' as metric,
-                {{column_value | replace(None, 'null::integer')}} as value,
+                cast({{column_value | replace(None, 'NULL')}} as {{ numeric_type() }})  as value,
                 {{- time_window_start() -}} as time_window_start,
                 {{- time_window_end() -}} as time_window_end,
                 {{- dbt_utils.current_timestamp_in_utc() -}} as computed_on

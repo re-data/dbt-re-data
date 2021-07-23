@@ -22,9 +22,20 @@
 
 
 {% macro anamaly_detection_time_window_start() %}
-   cast('{{- var('re_data:anomaly_detection_window_start') -}}' as timestamp)
+   {{ adapter.dispatch('anamaly_detection_time_window_start')() }}
 {% endmacro %}
 
+{% macro default__anamaly_detection_time_window_start() %}
+    {{ time_window_start() }} - interval '{{var('re_data:anomaly_detection_look_back_days')}} days'
+{% endmacro %}
+
+{% macro bigquery__anamaly_detection_time_window_start() %}
+    DATE_ADD({{ time_window_start() }}, INTERVAL -{{var('re_data:anomaly_detection_look_back_days')}} DAY)
+{% endmacro %}
+
+{% macro snowflake__anamaly_detection_time_window_start() %}
+    DATEADD('DAY', -{{-var('re_data:anomaly_detection_look_back_days')-}}, {{ time_window_start() }})
+{% endmacro %}
 
 {% macro freshness_expression(time_column) %}
     {{ adapter.dispatch('freshness_expression')(time_column) }}
