@@ -23,6 +23,11 @@ select
     {{ dbt_utils.surrogate_key([
       'table_name',
       'column_name',
-      'dte'
+      'detected_time'
     ]) }} as id,
-
+    table_name,
+    column_name,
+    data_type,
+    is_nullable,
+    detected_time
+from columns
