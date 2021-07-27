@@ -45,6 +45,7 @@ all_changes as (
         (
         select
             curr.table_name as table_name,
+            'type_change' as operation,
             curr.column_name as column_name,
             curr.data_type as data_type,
             curr.is_nullable as is_nullable,
@@ -65,6 +66,7 @@ all_changes as (
 
         select
             curr.table_name as table_name,
+            'column_added' as operation,
             curr.column_name as column_name,
             curr.data_type as data_type,
             curr.is_nullable as is_nullable,
@@ -84,6 +86,7 @@ all_changes as (
 
         select
             prev.table_name as table_name,
+            'column_removed' as operation,
             null as column_name,
             null as data_type,
             null as is_nullable,
@@ -118,6 +121,7 @@ select
       'detected_time'
     ]) }} as id,
     table_name,
+    operation,
     column_name,
     data_type,
     is_nullable,
@@ -126,7 +130,3 @@ select
     prev_is_nullable,
     detected_time
 from all_with_time
-
-
-
-
