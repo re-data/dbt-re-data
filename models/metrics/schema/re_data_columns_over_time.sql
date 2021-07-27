@@ -9,10 +9,10 @@
 with columns as (
 
 select
-    table_name,
-    column_name,
-    data_type,
-    is_nullable,
+    cols.table_name,
+    cols.column_name,
+    cols.data_type,
+    cols.is_nullable,
     cast ({{dbt_utils.current_timestamp_in_utc()}} as {{ timestamp_type() }} ) as detected_time
 from
     {{ ref('re_data_columns')}} cols, {{ ref('re_data_tables')}} tables

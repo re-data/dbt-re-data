@@ -60,7 +60,7 @@ all_changes as (
             curr.is_nullable != prev.is_nullable
         )
 
-    union
+    union all
 
     (
 
@@ -80,7 +80,7 @@ all_changes as (
     
     )
 
-    union
+    union all
 
     (
 
@@ -105,6 +105,7 @@ all_with_time as (
     select
         all_changes.table_name,
         all_changes.column_name,
+        all_changes.operation,
         all_changes.data_type,
         all_changes.is_nullable,
         all_changes.prev_column_name,
