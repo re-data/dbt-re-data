@@ -1,3 +1,10 @@
+{{
+    config(
+        materialized='incremental',
+        unique_key = 'id'
+    )
+}}
+
 
 {% set last_data_points %} 
 select
