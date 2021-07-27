@@ -116,7 +116,8 @@ select
     is_nullable,
     prev_column_name,
     prev_data_type,
-    prev_is_nullable
+    prev_is_nullable,
+    detected_time
 from all_with_time
 
 
