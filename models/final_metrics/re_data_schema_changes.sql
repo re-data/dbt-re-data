@@ -113,7 +113,10 @@ select
     table_name,
     column_name,
     data_type,
-    is_nullable
+    is_nullable,
+    prev_column_name,
+    prev_data_type,
+    prev_is_nullable
 from all_with_time
 
 
