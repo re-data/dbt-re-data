@@ -91,10 +91,16 @@ all_changes as (
     )
 ),
 
-all_with_time (
+all_with_time as (
     select
-        *,
-        cast (detected_time as {{ timestamp_type() }} ) as detected_time
+        all_changes.table_name,
+        all_changes.column_name,
+        all_changes.data_type,
+        all_changes.is_nullable,
+        all_changes.prev_column_name,
+        all_changes.prev_data_type,
+        all_changes.prev_is_nullable,
+        {{dbt_utils.current_timestamp_in_utc()}} as detected_time
     from all_changes
 )
 
@@ -107,7 +113,8 @@ select
     table_name,
     column_name,
     data_type,
-    is_nullable,
+    is_nullable
+from all_with_time
 
 
 
