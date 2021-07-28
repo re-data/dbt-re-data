@@ -26,8 +26,9 @@ order by
         {% set prev_most_recent = times_list[0] %}
     {% endif %}
 {% else %}
-    {% set most_recent_time = '' %}
-    {% set prev_most_recent = '' %}
+    {% set dummy_timestamp = '2021-06-03 00:00:00' %}
+    {% set most_recent_time = dummy_timestamp %}
+    {% set prev_most_recent = dummy_timestamp %}
 {% endif %}
 
 with curr_schema as (
