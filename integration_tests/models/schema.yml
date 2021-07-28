@@ -54,10 +54,10 @@ models:
           compare_columns:
             - upper(replace(replace(table_name, '"', ''), '`', '')) as table_name
             - metric
-            - ROUND(z_score_value, 3)
+            - ROUND(z_score_value, 3) as z_score_value
             - time_window_end
-            - ROUND(last_value, 3)
-            - ROUND(last_avg, 3)
-            - ROUND(last_stddev, 3)
+            - ROUND(last_value, 3) as last_value
+            - ROUND(last_avg, 3) as last_avg
+            - ROUND(last_stddev, 3) as last_stddev
             - interval_length_sec
 
