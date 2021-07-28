@@ -57,6 +57,27 @@
    DATEDIFF(second, max({{time_column}}), {{- time_window_end() -}})
 {% endmacro %}
 
+
+{% macro interval_length_sec(start_timestamp, end_timestamp) %}
+    {{ adapter.dispatch('interval_length_sec')(start_timestamp, end_timestamp) }}
+{% endmacro %}
+
+{% macro default__interval_length_sec(start_timestamp, end_timestamp) %}
+   EXTRACT(EPOCH FROM ({{ end_timestamp }} - {{ start_timestamp }} ))
+{% endmacro %}
+
+{% macro bigquery__interval_length_sec(start_timestamp, end_timestamp) %}
+    TIMESTAMP_DIFF ({{ end_timestamp }}, {{ start_timestamp }}, SECOND)
+{% endmacro %}
+
+{% macro snowflake__interval_length_sec(start_timestamp, end_timestamp) %}
+   timediff(second, {{ start_timestamp }}, {{ end_timestamp }})
+{% endmacro %}
+
+{% macro redshift__interval_length_sec(start_timestamp, end_timestamp) %}
+   DATEDIFF(second, {{ start_timestamp }}, {{ end_timestamp }})
+{% endmacro %}
+
 {% macro before_time_window_end(time_column) %}
     {{ adapter.dispatch('before_time_window_end')(time_column) }}
 {% endmacro %}

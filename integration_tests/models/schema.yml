@@ -11,6 +11,7 @@ models:
             - value
             - time_window_start
             - time_window_end
+            - interval_length_sec
 
   - name: test_re_data_freshness
     tests:
@@ -28,10 +29,12 @@ models:
           compare_model: ref('expected_sample_data_max')
           compare_columns:
             - upper(replace(replace(table_name, '"', ''), '`', '')) as table_name
+            - column_name
             - metric
             - value
             - time_window_start
             - time_window_end
+            - interval_length_sec
 
   - name: test_re_data_max_length
     tests:
@@ -39,7 +42,24 @@ models:
           compare_model: ref('expected_sample_data_max_length')
           compare_columns:
             - upper(replace(replace(table_name, '"', ''), '`', '')) as table_name
+            - column_name
             - metric
             - value
             - time_window_start
             - time_window_end
+            - interval_length_sec
+
+  - name: test_re_data_z_score
+    tests:
+      - dbt_utils.equality:
+          compare_model: ref('expected_sample_data_z_score')
+          compare_columns:
+            - upper(replace(replace(table_name, '"', ''), '`', '')) as table_name
+            - metric
+            - value
+            - time_window_end
+            - last_value
+            - last_avg
+            - last_stddev
+            - interval_length_sec
+

@@ -77,6 +77,7 @@
         cast (value as {{ numeric_type() }} ) as value,
         cast (time_window_start as {{ timestamp_type() }} ) as time_window_start,
         cast (time_window_end as {{ timestamp_type() }} ) as time_window_end,
+        {{ interval_length_sec('time_window_start', 'time_window_end') }} as interval_length_sec,
         cast (computed_on as {{ timestamp_type() }} ) as computed_on
     from without_forced_types
 {% endif %}
