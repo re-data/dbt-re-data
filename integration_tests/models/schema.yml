@@ -56,7 +56,7 @@ models:
           compare_columns:
             - upper(replace(replace(table_name, '"', ''), '`', '')) as table_name
             - metric
-            - value
+            - z_score_value
             - time_window_end
             - last_value
             - last_avg
