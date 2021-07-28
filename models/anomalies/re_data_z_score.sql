@@ -15,7 +15,7 @@ with z_score_without_id as (
         (last_metric.last_value - stats.last_avg) / (stats.last_stddev + 0.0000000001) as z_score_value,
         last_metric.last_value as last_value,
         stats.last_avg as last_avg,
-        stats.last_avg as last_stddev,
+        stats.last_stddev as last_stddev,
         {{ time_window_end() }} as time_window_end,
         {{dbt_utils.current_timestamp_in_utc()}} as computed_on
     from

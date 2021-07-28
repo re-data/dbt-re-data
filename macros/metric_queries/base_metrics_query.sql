@@ -25,6 +25,8 @@ numeric:
     - min
     - max
     - avg
+    - stddev
+    - variance
     - count_nulls
 text:
     - min_length

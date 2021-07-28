@@ -12,6 +12,14 @@
         avg({{column_name}})
     {% endif %}
 
+    {% if func == 'stddev' %}
+        stddev({{column_name}})
+    {% endif %}
+
+    {% if func == 'variance' %}
+        variance({{column_name}})
+    {% endif %}
+
     {% if func == 'max_length' %}
         max(length({{column_name}}))
     {% endif %}
