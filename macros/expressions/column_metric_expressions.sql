@@ -9,15 +9,15 @@
     {% endif %}
 
     {% if func == 'avg' %}
-        avg({{column_name}})
+        avg(cast ({{column_name}} as {{ numeric_type() }}))
     {% endif %}
 
     {% if func == 'stddev' %}
-        stddev({{column_name}})
+        stddev(cast ( {{column_name}} as {{ numeric_type() }}))
     {% endif %}
 
     {% if func == 'variance' %}
-        variance({{column_name}})
+        variance(cast ( {{column_name}} as {{ numeric_type() }}))
     {% endif %}
 
     {% if func == 'max_length' %}
@@ -29,7 +29,7 @@
     {% endif %}
 
     {% if func == 'avg_length' %}
-        avg(length({{column_name}}))
+        avg(cast (length( {{column_name}} ) as {{ numeric_type() }}))
     {% endif %}
 
     {% if func == 'count_nulls' %}
