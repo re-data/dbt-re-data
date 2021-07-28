@@ -18,6 +18,7 @@
             cast (some_time as {{ timestamp_type() }} ) as time_window_start,
         {% endif %}
         cast (some_time as {{ timestamp_type() }} ) as time_window_end,
+        cast (some_num as {{ integer_type() }} as interval_length_sec)
         cast (some_time as {{ timestamp_type() }} ) as computed_on 
     from dummy_table
     where some_num = 2

@@ -38,6 +38,10 @@
     STRING
 {% endmacro %}
 
+{% macro integer_type() %}
+    INTEGER
+{% endmacro %}
+
 
 {% macro boolean_type() %}
     {{ adapter.dispatch('boolean_type')() }}

@@ -50,7 +50,7 @@
         cast (metric as {{ string_type() }} ) as metric,
         cast (value as {{ numeric_type() }} ) as value,
         cast (time_window_end as {{ timestamp_type() }} ) as time_window_end,
-        cast (null as {{ numeric_type() }} ) as interval_length_sec,
+        cast (null as {{ integer_type() }} ) as interval_length_sec,
         cast (computed_on as {{ timestamp_type() }} ) as computed_on
     from without_forced_types
 
