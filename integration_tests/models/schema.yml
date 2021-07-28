@@ -29,7 +29,6 @@ models:
           compare_model: ref('expected_sample_data_max')
           compare_columns:
             - upper(replace(replace(table_name, '"', ''), '`', '')) as table_name
-            - column_name
             - metric
             - value
             - time_window_start
@@ -42,7 +41,6 @@ models:
           compare_model: ref('expected_sample_data_max_length')
           compare_columns:
             - upper(replace(replace(table_name, '"', ''), '`', '')) as table_name
-            - column_name
             - metric
             - value
             - time_window_start
@@ -56,10 +54,10 @@ models:
           compare_columns:
             - upper(replace(replace(table_name, '"', ''), '`', '')) as table_name
             - metric
-            - z_score_value
+            - ROUND(z_score_value, 3)
             - time_window_end
-            - last_value
-            - last_avg
-            - last_stddev
+            - ROUND(last_value, 3)
+            - ROUND(last_avg, 3)
+            - ROUND(last_stddev, 3)
             - interval_length_sec
 

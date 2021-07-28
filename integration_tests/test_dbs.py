@@ -51,7 +51,7 @@ def _test_generic(db, dbt_vars=None, debug=True):
     assert os.system(re_data_next_day) == 0
 
     print (f"Running tests for {db}")
-    test_re_data = 'dbt test -x {} --vars "{}"'.format(profile_part, yaml.dump(dbt_vars))
+    test_re_data = 'dbt test --store-failures -x {} --vars "{}"'.format(profile_part, yaml.dump(dbt_vars))
     assert os.system(test_re_data) == 0
 
     print (f"Running tests completed for {db}")
