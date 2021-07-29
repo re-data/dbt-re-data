@@ -63,7 +63,7 @@ order by
                 curr.is_nullable != prev.is_nullable
             )
 
-        union
+        union all
 
         (
 
@@ -83,7 +83,7 @@ order by
         
         )
 
-        union
+        union all
 
         (
 
