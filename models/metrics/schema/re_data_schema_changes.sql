@@ -107,6 +107,7 @@ order by
     all_with_time as (
         select
             all_changes.table_name,
+            all_changes.operation,
             all_changes.column_name,
             all_changes.data_type,
             all_changes.is_nullable,
