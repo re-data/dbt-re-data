@@ -27,12 +27,12 @@ def _test_generic(db, dbt_vars=None, debug=True):
     profile_part = f' --profile re_data_{db}'
 
     print (f"Running init seed for {db}") 
-    init_seeds = 'dbt seed --full-refresh {} --vars "{}"'.format(profile_part, yaml.dump(dbt_vars))
+    init_seeds = 'dbt seed --threads 4 --full-refresh {} --vars "{}"'.format(profile_part, yaml.dump(dbt_vars))
     os.system(init_seeds)
     print (f"Init seed completed for {db}") 
     print (f"Computing re_data metrics for {db}") 
 
-    run_re_data = 'dbt run -x --full-refresh {} --vars "{}"'.format(profile_part, yaml.dump(dbt_vars))
+    run_re_data = 'dbt run --threads 4 -x --full-refresh {} --vars "{}"'.format(profile_part, yaml.dump(dbt_vars))
     if debug:
         run_re_data = 'DBT_MACRO_DEBUGGING=1 ' + run_re_data
 
@@ -43,7 +43,7 @@ def _test_generic(db, dbt_vars=None, debug=True):
     dbt_vars['re_data:time_window_start'] = dbt_vars['re_data:time_window_end']
     dbt_vars['re_data:time_window_end'] = (RUN_TIME + timedelta(days=1)).strftime("%Y-%m-%d %H:%M:%S")
 
-    re_data_next_day = 'dbt run -x {} --vars "{}"'.format(profile_part, yaml.dump(dbt_vars))
+    re_data_next_day = 'dbt run --threads 4 -x {} --vars "{}"'.format(profile_part, yaml.dump(dbt_vars))
     if debug:
         re_data_next_day = 'DBT_MACRO_DEBUGGING=1 ' + re_data_next_day
     
@@ -51,7 +51,7 @@ def _test_generic(db, dbt_vars=None, debug=True):
     assert os.system(re_data_next_day) == 0
 
     print (f"Running tests for {db}")
-    test_re_data = 'dbt test -x {} --vars "{}"'.format(profile_part, yaml.dump(dbt_vars))
+    test_re_data = 'dbt test --threads 4 --store-failures -x {} --vars "{}"'.format(profile_part, yaml.dump(dbt_vars))
     assert os.system(test_re_data) == 0
 
     print (f"Running tests completed for {db}")

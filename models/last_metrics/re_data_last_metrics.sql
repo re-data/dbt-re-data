@@ -7,6 +7,7 @@
         column_name,
         metric,
         value as last_value,
+        interval_length_sec,
         computed_on
     from 
         {{ ref(table_name) }}

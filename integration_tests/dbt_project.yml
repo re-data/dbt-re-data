@@ -42,3 +42,7 @@ seeds:
         +column_types:
           time_window_start: 'TIMESTAMP'
           time_window_end: 'TIMESTAMP'
+
+      expected_sample_data_z_score:
+        +column_types:
+          time_window_end: 'TIMESTAMP'

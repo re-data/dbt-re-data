@@ -1,6 +1,7 @@
 {{
     config(
-        materialized='incremental'
+        materialized='incremental',
+        unique_key = 'id'
     )
 }}
 
@@ -63,12 +64,22 @@
     )
 
     select
+        {{ dbt_utils.surrogate_key([
+            'table_name',
+            'column_name',
+            'metric',
+            'time_window_start',
+            'time_window_end'
+        ]) }} as id,
         cast (table_name as {{ string_type() }} ) as table_name,
         cast (column_name as {{ string_type() }} ) as column_name,
         cast (metric as {{ string_type() }} ) as metric,
         cast (value as {{ numeric_type() }} ) as value,
         cast (time_window_start as {{ timestamp_type() }} ) as time_window_start,
         cast (time_window_end as {{ timestamp_type() }} ) as time_window_end,
+        cast (
+            {{ interval_length_sec('time_window_start', 'time_window_end') }} as {{ integer_type() }}
+        ) as interval_length_sec,
         cast (computed_on as {{ timestamp_type() }} ) as computed_on
     from without_forced_types
 {% endif %}

@@ -1,6 +1,6 @@
 {% macro test_values_between(model, column_name, table_name, low, high) %}
 
-    select count(*)
+    select *
     from {{ model }}
     where
         table_name = '{{ table_name}}' and

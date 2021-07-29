@@ -1,6 +1,7 @@
 {{
     config(
-        materialized='table'
+        materialized='table',
+        unique_key = 'id'
     )
 }}
 
@@ -13,6 +14,10 @@ with columns_froms_select as (
 )
 
 select
+    {{ dbt_utils.surrogate_key([
+      'table_name',
+      'column_name'
+    ]) }} as id,
     cast (table_name as {{ string_type() }} ) as table_name,
     cast (column_name as {{ string_type() }} ) as column_name,
     cast (data_type as {{ string_type() }} ) as data_type,

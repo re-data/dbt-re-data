@@ -1,6 +1,7 @@
 {{
     config(
-        materialized='incremental'
+        materialized='incremental',
+        unique_key = 'id'
     )
 }}
 
@@ -54,6 +55,9 @@ where
 )
 
 select
+    {{ dbt_utils.surrogate_key([
+      'table_name',
+    ]) }} as id,
     cast (table_name as {{ string_type() }} ) as table_name,
     cast (time_filter as {{ string_type() }} ) as time_filter,
     cast (actively_monitored as {{ boolean_type() }} ) as actively_monitored,
