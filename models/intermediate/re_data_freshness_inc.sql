@@ -5,6 +5,8 @@
     )
 }}
 
+-- depends_on: {{ ref('re_data_columns') }}
+-- depends_on: {{ ref('re_data_tables') }}
 {% set tables = run_query(get_tables()) %}
 
 {# /* in compile context we don't have access to tables */ #}
