@@ -16,6 +16,7 @@
     {% set table_values = () %}
 {% endif %}
 
+{{ debug() }}
 {% if table_values == () %}
     {{ dummy_empty_base_metrics_table() }}
 {% else %}
