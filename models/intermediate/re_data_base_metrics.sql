@@ -7,16 +7,15 @@
 
 -- depends_on: {{ ref('re_data_columns') }}
 -- depends_on: {{ ref('re_data_tables') }}
-{%- set tables =  run_query(get_tables()) %}
 
 {# /* in comple context we don't have access to tables */ #}
 {% if execute %}
+    {%- set tables =  run_query(get_tables()) %}
     {% set table_values = tables.rows.values() %}
 {% else %}
     {% set table_values = () %}
 {% endif %}
 
-{{ debug() }}
 {% if table_values == () %}
     {{ dummy_empty_base_metrics_table() }}
 {% else %}
