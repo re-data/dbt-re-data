@@ -1,5 +1,3 @@
--- depends_on: {{ ref('re_data_columns') }}
--- depends_on: {{ ref('re_data_tables') }}
 {{
     config(
         materialized='incremental',
@@ -7,6 +5,8 @@
     )
 }}
 
+-- depends_on: {{ ref('re_data_columns') }}
+-- depends_on: {{ ref('re_data_tables') }}
 {%- set tables =  run_query(get_tables()) %}
 
 {# /* in comple context we don't have access to tables */ #}
