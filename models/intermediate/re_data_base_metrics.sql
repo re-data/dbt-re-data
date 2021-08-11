@@ -34,14 +34,25 @@
 
         {{ log('processing for table name ' ~ table_name, True)}}
 
+        {% set columns_to_query = [] %}
+        {% set size = columns_to_query| length %}
+
         {% for column in columns %}
-            {%- set insert_stats_query = get_insert_metrics_query(table_name, time_filter, [column]) -%}
-            {% if insert_stats_query %}
-                {% do run_query(insert_stats_query) %}
+            {% do columns_to_query.append(column) %}
+            {% set columns_size = columns_to_query| length %}
+
+            {% if columns_size == 12 %}
+                {%- set insert_stats_query = get_insert_metrics_query(table_name, time_filter, columns_to_query) -%}
+
+                {% if insert_stats_query %}
+                    {% do run_query(insert_stats_query) %}
+                {% endif %}
+                {% do columns_to_query.clear() %}
             {% endif %}
+
         {% endfor %}
 
-        {%- set insert_stats_query = get_insert_metrics_query(table_name, time_filter, [], table_level=True) -%}
+        {%- set insert_stats_query = get_insert_metrics_query(table_name, time_filter, columns_to_query, table_level=True) -%}
         {% do run_query(insert_stats_query) %}
 
         {{ log('processing finished for table name ' ~ table_name, True)}}

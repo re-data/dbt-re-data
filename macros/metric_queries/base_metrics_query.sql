@@ -79,5 +79,5 @@ text:
 
 
 {% macro metrics_for_whole_table() %}
-    {{ return ([{'expr': 'count(*)', 'col_name': '', 'metric': 'row_count' }]) }}
+    {{ return ([{'expr': 'count(1)', 'col_name': '', 'metric': 'row_count' }]) }}
 {% endmacro %}
