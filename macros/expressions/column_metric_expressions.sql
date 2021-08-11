@@ -1,38 +1,38 @@
-{% macro column_expression(column_name, func) %}
+{%- macro column_expression(column_name, func) %}
 
-    {% if func == 'max' %}
+    {%- if func == 'max' %}
         max({{column_name}})
     {% endif %}
 
-    {% if func == 'min' %}
+    {%- if func == 'min' %}
         min({{column_name}})
     {% endif %}
 
-    {% if func == 'avg' %}
+    {%- if func == 'avg' %}
         avg(cast ({{column_name}} as {{ numeric_type() }}))
     {% endif %}
 
-    {% if func == 'stddev' %}
+    {%- if func == 'stddev' %}
         stddev(cast ( {{column_name}} as {{ numeric_type() }}))
     {% endif %}
 
-    {% if func == 'variance' %}
+    {%- if func == 'variance' %}
         variance(cast ( {{column_name}} as {{ numeric_type() }}))
     {% endif %}
 
-    {% if func == 'max_length' %}
+    {%- if func == 'max_length' %}
         max(length({{column_name}}))
     {% endif %}
 
-    {% if func == 'min_length' %}
+    {%- if func == 'min_length' %}
         min(length({{column_name}}))
     {% endif %}
 
-    {% if func == 'avg_length' %}
+    {%- if func == 'avg_length' %}
         avg(cast (length( {{column_name}} ) as {{ numeric_type() }}))
     {% endif %}
 
-    {% if func == 'count_nulls' %}
+    {%- if func == 'count_nulls' %}
         coalesce(
             sum(
                 case when {{column_name}} is null
@@ -43,7 +43,7 @@
         )
     {% endif %}
 
-    {% if func == 'count_missing' %}
+    {%- if func == 'count_missing' %}
         coalesce(
             sum(
                 case 

@@ -56,3 +56,14 @@
     where some_num = 2
 
 {% endmacro %}
+
+{% macro empty_last_base_metrics() %}
+    {{ dummy_to_select() }}
+    select 
+        cast (some_string as {{ string_type() }} ) as table_name,
+        cast (some_string as {{ string_type() }} ) as column_name,
+        cast (some_string as {{ string_type() }} ) as metric,
+        cast (some_num as {{ numeric_type() }} ) as value
+    from dummy_table
+    where some_num = 2
+{% endmacro %}

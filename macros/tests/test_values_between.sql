@@ -1,4 +1,4 @@
-{% macro test_values_between(model, column_name, table_name, low, high) %}
+{% test values_between(model, column_name, table_name, low, high) %}
 
     select *
     from {{ model }}
@@ -10,4 +10,4 @@
             {{ column_name }} > {{ high }}  
         )
 
-{% endmacro %}
+{% endtest %}
