@@ -1,11 +1,11 @@
-{% macro get_insert_metrics_query(table_name, time_filter, columns, table_level=False) %}
+{% macro get_insert_metrics_query(table_name, time_filter, ref_model, columns, table_level=False) %}
 
     {% set col_exprs = base_metrics_query(table_name, columns, table_level) %}
     {% if col_exprs == [] %}
         {{ return ('') }}
     {% endif %}
 
-    insert into {{ ref('re_data_last_base_metrics') }}
+    insert into {{ ref(ref_model) }}
     with temp_table_metrics as (
     select 
         {%- for col_expr in col_exprs %}

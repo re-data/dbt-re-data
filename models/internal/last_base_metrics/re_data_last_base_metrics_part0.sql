@@ -1,3 +1,5 @@
+-- depends_on: {{ ref('re_data_columns') }}
+
 {{
     config(
         materialized='table',
