@@ -1,7 +1,7 @@
 {% macro compute_metrics_for_tables(thread_value, ref_model) %}
-
     {%- set tables =  run_query(get_tables()) %}
     {%- for mtable in tables %}
+        -- we are splitting computing metrics to 4 different threads
         {% set for_loop_mod = (loop.index % 4) %}
         {% if for_loop_mod == thread_value %}
             {% set table_name = row_value(mtable, 'table_name') %}
@@ -24,6 +24,7 @@
                 {% set columns_size = columns_to_query| length %}
 
                 {% if columns_size == 12 %}
+                -- This seems to be size for which queries are small enough to be processed by DBs
                     {%- set insert_stats_query = get_insert_metrics_query(table_name, time_filter, ref_model, columns_to_query) -%}
 
                     {% if insert_stats_query %}
