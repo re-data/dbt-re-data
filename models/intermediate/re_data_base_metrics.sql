@@ -15,11 +15,10 @@
 -- depends_on: {{ ref('re_data_last_base_metrics_part1') }}
 -- depends_on: {{ ref('re_data_last_base_metrics_part2') }}
 -- depends_on: {{ ref('re_data_last_base_metrics_part3') }}
+-- depends_on: {{ ref('re_data_run_started_at') }}
 
-{%- set tables =  run_query(get_tables()) %}
-
-{# /* in comple context we don't have access to tables */ #}
-{% if execute %}
+{% if execute and not in_compile() %}
+    {%- set tables =  run_query(get_tables()) %}
     {% set table_values = tables.rows.values() %}
 {% else %}
     {% set table_values = () %}

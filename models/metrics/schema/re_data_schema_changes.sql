@@ -5,18 +5,20 @@
     )
 }}
 
+-- depends_on: {{ ref('re_data_run_started_at') }}
+-- depends_on: {{ ref('re_data_columns_over_time') }}
 
-{% set last_data_points %} 
-select
-    distinct detected_time
-from {{ ref('re_data_columns_over_time') }}
-order by
-    detected_time desc limit 2;
-{% endset %}
+{% if execute and not in_compile() %}
+    {% set last_data_points %} 
+        select
+            distinct detected_time
+        from {{ ref('re_data_columns_over_time') }}
+        order by
+        detected_time desc limit 2;
+    {% endset %}
 
-{% set detected_times = run_query(last_data_points) %}
+    {% set detected_times = run_query(last_data_points) %}
 
-{% if execute %}
     {% set times_list = detected_times.columns[0].values() %}
     {% set most_recent_time = times_list[0] %}
 
