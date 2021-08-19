@@ -45,3 +45,6 @@ require-dbt-version: [">=0.20.0", "<0.21.0"]
 models:
   re_data:
     +schema: re
+
+    internal:
+      +schema: re_internal

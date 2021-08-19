@@ -1,13 +1,13 @@
-{% macro table_name() %}
-    {{ adapter.dispatch('table_name')() }}
+{% macro full_table_name(table_name, table_schema, table_catalog) %}
+    {{ adapter.dispatch('full_table_name')(table_name, table_schema, table_catalog) }}
 {% endmacro %}
 
 
-{% macro default__table_name() %}
-    '"' || table_schema || '"' || '.' || '"' || table_name || '"'
+{% macro default__full_table_name(table_name, table_schema, table_catalog) %}
+    '"' || table_catalog || '"' || '.' || '"' || table_schema || '"' || '.' || '"' || table_name || '"'
 {% endmacro %}
 
 
-{% macro bigquery__table_name() %}
-    '`' || table_schema || '`' || '.' || '`' || table_name || '`'
+{% macro bigquery__full_table_name(table_name, table_schema, table_catalog) %}
+    '`' || table_catalog || '`' || '.' || '`' || table_schema || '`' || '.' || '`' || table_name || '`'
 {% endmacro %}

@@ -4,6 +4,7 @@
     where
         time_filter is not null and
         actively_monitored = true
+    order by id
 {% endmacro %}
 
 -- think about handling cases for null time_filter

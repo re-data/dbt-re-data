@@ -5,10 +5,11 @@
     )
 }}
 
-{% set tables = run_query(get_tables()) %}
+-- depends_on: {{ ref('re_data_run_started_at') }}
+-- depends_on: {{ ref('re_data_tables') }}
 
-{# /* in compile context we don't have access to tables */ #}
-{% if execute %}
+{% if execute and not in_compile() %}
+    {% set tables = run_query(get_tables()) %}
     {% set table_values = tables.rows.values() %}
 {% else %}
     {% set table_values = () %}

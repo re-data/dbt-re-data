@@ -6,7 +6,7 @@ models:
       - dbt_utils.equality:
           compare_model: ref('expected_sample_data_row_count')
           compare_columns:
-            - upper(replace(replace(table_name, '"', ''), '`', '')) as table_name
+            - right(upper(replace(replace(table_name, '"', ''), '`', '')), 10) as table_name
             - metric
             - value
             - time_window_start
@@ -18,7 +18,7 @@ models:
       - dbt_utils.equality:
           compare_model: ref('expected_sample_data_freshness')
           compare_columns:
-            - upper(replace(replace(table_name, '"', ''), '`', '')) as table_name
+            - right(upper(replace(replace(table_name, '"', ''), '`', '')), 10) as table_name
             - metric
             - value
             - time_window_end
@@ -28,7 +28,7 @@ models:
       - dbt_utils.equality:
           compare_model: ref('expected_sample_data_max')
           compare_columns:
-            - upper(replace(replace(table_name, '"', ''), '`', '')) as table_name
+            - right(upper(replace(replace(table_name, '"', ''), '`', '')), 10) as table_name
             - metric
             - value
             - time_window_start
@@ -40,7 +40,7 @@ models:
       - dbt_utils.equality:
           compare_model: ref('expected_sample_data_max_length')
           compare_columns:
-            - upper(replace(replace(table_name, '"', ''), '`', '')) as table_name
+            - right(upper(replace(replace(table_name, '"', ''), '`', '')), 10) as table_name
             - metric
             - value
             - time_window_start
@@ -52,7 +52,7 @@ models:
       - dbt_utils.equality:
           compare_model: ref('expected_sample_data_z_score')
           compare_columns:
-            - upper(replace(replace(table_name, '"', ''), '`', '')) as table_name
+            - right(upper(replace(replace(table_name, '"', ''), '`', '')), 10) as table_name
             - metric
             - cast (z_score_value * 1000 as integer) as z_score_value
             - time_window_end
