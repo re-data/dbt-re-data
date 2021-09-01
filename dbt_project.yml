@@ -24,8 +24,8 @@ clean-targets:         # directories to be removed by `dbt clean`
     - "target"
     - "dbt_modules"
 vars:
-    re_data:time_window_end: '2021-06-03 00:00:00' #overwitten when running by re_data
-    re_data:time_window_start: '2021-06-02 00:00:00' #overwitten when running by re_data
+    re_data:time_window_end: '{{ run_started_at.strftime("%Y-%m-%d 00:00:00") }}'
+    re_data:time_window_start: '{{ (run_started_at - modules.datetime.timedelta(1)).strftime("%Y-%m-%d 00:00:00") }}'
     re_data:anomaly_detection_look_back_days: 30
     re_data:actively_monitored_by_default: false
 
