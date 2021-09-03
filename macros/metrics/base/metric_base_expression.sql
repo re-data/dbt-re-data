@@ -1,4 +1,4 @@
-{%- macro column_expression(column_name, func) %}
+{%- macro metric_base_expression(column_name, func) %}
 
     {%- if func == 'max' %}
         max({{column_name}})

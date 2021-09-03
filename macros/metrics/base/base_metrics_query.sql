@@ -69,7 +69,7 @@ text:
 
     {% for metric in column_metrics[data_kind] %}
         {% set column_name = row_value(column, 'column_name') %}
-        {% set expression = column_expression(column_name, metric) %}
+        {% set expression = re_data.metric_base_expression(column_name, metric) %}
         {% do col_expr.append({ 'expr': expression, 'col_name': column_name, 'metric': metric}) %}
     {% endfor %}
 
