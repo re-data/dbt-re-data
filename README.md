@@ -32,6 +32,6 @@ Check out more information about python-package [here](https://github.com/re-dat
 
 Say, hi to us on! 🙂
 
-- [Slack](http://re-data.io/slack)
+- [Slack](https://www.getre.io/slack)
 - [Twitter](https://twitter.com/re_data_labs)
 
