@@ -1,1 +1,1 @@
-{{ final_metric('min_length')}}
+{{ re_data.final_metric('min_length')}}

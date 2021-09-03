@@ -1,1 +1,1 @@
-{{ final_metric('max')}}
+{{ re_data.final_metric('max')}}

@@ -14,8 +14,8 @@
         column_name,
         data_type,
         is_nullable,
-        {{- is_datetime('data_type') -}} as is_datetime,
-        {{- time_filter('column_name', 'data_type') -}} as time_filter
+        {{- re_data.is_datetime('data_type') -}} as is_datetime,
+        {{- re_data.time_filter('column_name', 'data_type') -}} as time_filter
     from
     {{ tables_in_schema(table_schema, db_name) }}
 {% endmacro %}
@@ -28,8 +28,8 @@
         column_name,
         data_type,
         is_nullable,
-        {{- is_datetime('data_type')}} as is_datetime,
-        {{- time_filter('column_name', 'data_type') -}} as time_filter
+        {{- re_data.is_datetime('data_type')}} as is_datetime,
+        {{- re_data.time_filter('column_name', 'data_type') -}} as time_filter
     from 
         {% if db_name %}{{db_name}}.{% endif %}information_schema.columns
     where

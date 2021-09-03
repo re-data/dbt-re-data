@@ -1,1 +1,1 @@
-{{ final_metric('max_length')}}
+{{ re_data.final_metric('max_length')}}

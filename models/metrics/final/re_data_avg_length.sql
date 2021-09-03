@@ -1,1 +1,1 @@
-{{ final_metric('avg_length')}}
+{{ re_data.final_metric('avg_length')}}

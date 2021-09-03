@@ -8,15 +8,15 @@
 -- depends_on: {{ ref('re_data_run_started_at') }}
 -- depends_on: {{ ref('re_data_tables') }}
 
-{% if execute and not in_compile() %}
-    {% set tables = run_query(get_tables()) %}
+{% if execute and not re_data.in_compile() %}
+    {% set tables = run_query(re_data.get_tables()) %}
     {% set table_values = tables.rows.values() %}
 {% else %}
     {% set table_values = () %}
 {% endif %}
 
 {% if table_values == () %}
-    {{ dummy_empty_fressness_table() }}
+    {{ re_data.dummy_empty_fressness_table() }}
 {% else %}
 
     with without_forced_types as (

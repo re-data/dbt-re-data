@@ -17,15 +17,15 @@
 -- depends_on: {{ ref('re_data_last_base_metrics_part3') }}
 -- depends_on: {{ ref('re_data_run_started_at') }}
 
-{% if execute and not in_compile() %}
-    {%- set tables =  run_query(get_tables()) %}
+{% if execute and not re_data.in_compile() %}
+    {%- set tables =  run_query(re_data.get_tables()) %}
     {% set table_values = tables.rows.values() %}
 {% else %}
     {% set table_values = () %}
 {% endif %}
 
 {% if table_values == () %}
-    {{ dummy_empty_base_metrics_table() }}
+    {{ re_data.dummy_empty_base_metrics_table() }}
 {% else %}
 
     with 

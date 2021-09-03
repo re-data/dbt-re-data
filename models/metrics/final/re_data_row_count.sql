@@ -1,1 +1,1 @@
-{{ final_metric('row_count')}}
+{{ re_data.final_metric('row_count')}}

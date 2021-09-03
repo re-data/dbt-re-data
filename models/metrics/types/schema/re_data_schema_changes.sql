@@ -8,7 +8,7 @@
 -- depends_on: {{ ref('re_data_run_started_at') }}
 -- depends_on: {{ ref('re_data_columns_over_time') }}
 
-{% if execute and not in_compile() %}
+{% if execute and not re_data.in_compile() %}
     {% set last_data_points %} 
         select
             distinct detected_time

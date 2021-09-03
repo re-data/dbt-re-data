@@ -12,7 +12,7 @@
 
 {% macro dummy_empty_table_generic(has_time_window_start) %}
 
-    {{ dummy_to_select() }}
+    {{ re_data.dummy_to_select() }}
     select 
         cast (some_string as {{ string_type() }} ) as id,
         cast (some_string as {{ string_type() }} ) as table_name,
@@ -31,16 +31,16 @@
 {% endmacro %}
 
 {% macro dummy_empty_fressness_table() %}
-    {{ dummy_empty_table_generic(false)}}
+    {{ re_data.dummy_empty_table_generic(false)}}
 {% endmacro %}
 
 
 {% macro dummy_empty_base_metrics_table() %}
-    {{ dummy_empty_table_generic(true)}}
+    {{ re_data.dummy_empty_table_generic(true)}}
 {% endmacro %}
 
 {% macro dummy_empty_schema_changes_table() %}
-    {{ dummy_to_select() }}
+    {{ re_data.dummy_to_select() }}
     select 
         cast (some_string as {{ string_type() }} ) as id,
         cast (some_string as {{ string_type() }} ) as table_name,
@@ -58,7 +58,7 @@
 {% endmacro %}
 
 {% macro empty_last_base_metrics() %}
-    {{ dummy_to_select() }}
+    {{ re_data.dummy_to_select() }}
     select 
         cast (some_string as {{ string_type() }} ) as table_name,
         cast (some_string as {{ string_type() }} ) as column_name,

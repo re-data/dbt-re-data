@@ -33,6 +33,21 @@ vars:
     re_data:schemas:
         - your_schema_name #overwitten when running by re_data
 
+    re_data:metrics_base:
+      numeric:
+        - min
+        - max
+        - avg
+        - stddev
+        - variance
+        - count_nulls
+      text:
+        - min_length
+        - max_length
+        - avg_length
+        - count_nulls
+        - count_missing
+
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
 
