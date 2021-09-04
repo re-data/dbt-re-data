@@ -21,8 +21,8 @@
 
     with without_forced_types as (
         {%- for mtable in tables %}
-            {% set table_name = row_value(mtable, 'table_name') %}
-            {% set time_filter = row_value(mtable, 'time_filter') %}
+            {% set table_name = re_data.row_value(mtable, 'table_name') %}
+            {% set time_filter = re_data.row_value(mtable, 'time_filter') %}
             select
                 cast ('{{table_name}}' as {{ string_type() }} ) as table_name,
                 cast ('' as {{ string_type() }}) as column_name,

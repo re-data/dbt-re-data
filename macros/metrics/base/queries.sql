@@ -4,8 +4,8 @@
         -- we are splitting computing metrics to 4 different threads
         {% set for_loop_mod = (loop.index % 4) %}
         {% if for_loop_mod == thread_value %}
-            {% set table_name = row_value(mtable, 'table_name') %}
-            {% set time_filter = row_value(mtable, 'time_filter') %}
+            {% set table_name = re_data.row_value(mtable, 'table_name') %}
+            {% set time_filter = re_data.row_value(mtable, 'time_filter') %}
 
             {% set columns_query %}
                 select * from {{ ref('re_data_columns') }}

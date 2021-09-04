@@ -21,7 +21,7 @@
     {% set data_kind = re_data.get_column_type(column) %}
 
     {% for metric in column_metrics[data_kind] %}
-        {% set column_name = row_value(column, 'column_name') %}
+        {% set column_name = re_data.row_value(column, 'column_name') %}
         {% set expression = re_data.metrics_base_expression_specific(column_name, metric) %}
         {% do col_expr.append({ 'expr': expression, 'col_name': column_name, 'metric': metric}) %}
     {% endfor %}
@@ -85,8 +85,8 @@
             ), 0
         )
     {%- else %}
-        {{ log('[re_data_log] - fatal unrecognized metric ' ~ func, True) }}
-
+        {{ context[project_name][func](column_name) }}
+        
     {% endif %}
 
 {% endmacro %}
