@@ -1,1 +1,1 @@
-select * from {{ ref('re_data_freshness_inc') }}
+{{ re_data.final_metric('freshness')}}

@@ -46,7 +46,7 @@
 
 {% macro metrics_base_insert(table_name, time_filter, ref_model, columns, table_level=False) %}
 
-    {% set col_exprs = re_data.metrics_base_expressions(table_name, columns, table_level) %}
+    {% set col_exprs = re_data.metrics_base_expressions(table_name, time_filter, columns, table_level) %}
     {% if col_exprs == [] %}
         {{ return ('') }}
     {% endif %}
