@@ -17,21 +17,35 @@ clean-targets:
     - "dbt_modules"
 
 vars:
-    
-  re_data:tables:
-    - name: sample_table
-      actively_monitored: true
-      time_filter: creation_time
+  re_data:schemas:
+    - dq_raw
+  
+  re_data:monitored:
 
-    - name: sample_with_anomaly
+    - schema: dq_raw
+      database: postgres
+      tables:
+        - name: sample_table
+          time_filter: creation_time
+          
+          metrics:
+            table:
+              - my_custom_table_metric # my own custom metric
+
+            column:
+              event_type:
+                - distinct_count
+
+        - name: sample_with_anomaly
+          time_filter: creation_time
+
       actively_monitored: true
-      time_filter: creation_time
 
   re_data:metrics_base:
     table:
       - row_count
       - freshness
-      - buy_count
+      - buy_count # my own custom metric
       
     column:
       numeric:
@@ -41,7 +55,7 @@ vars:
         - stddev
         - variance
         - count_nulls
-        - diff
+        - diff # my own custom metric
         
       text:
         - min_length

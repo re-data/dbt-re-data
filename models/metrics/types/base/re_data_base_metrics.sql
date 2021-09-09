@@ -43,7 +43,6 @@
             {%- if not loop.last %} union all {%- endif %}
         {% endfor %}
     )
-
     select
         {{ dbt_utils.surrogate_key([
             'table_name',

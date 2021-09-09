@@ -6,6 +6,7 @@
         {% if for_loop_mod == thread_value %}
             {% set table_name = re_data.row_value(mtable, 'table_name') %}
             {% set time_filter = re_data.row_value(mtable, 'time_filter') %}
+            {% set metrics = fromjson(re_data.row_value(mtable, 'metrics')) %}
 
             {% set columns_query %}
                 select * from {{ ref('re_data_columns') }}
@@ -23,9 +24,9 @@
                 {% do columns_to_query.append(column) %}
                 {% set columns_size = columns_to_query| length %}
 
-                {% if columns_size == 12 %}
-                -- This seems to be size for which queries are small enough to be processed by DBs
-                    {%- set insert_stats_query = re_data.metrics_base_insert(table_name, time_filter, ref_model, columns_to_query) -%}
+                {% if columns_size == var('re_data:actively_monitored_by_default') %}
+                {# /* Some balance size between making sure query will not crash &  */ #}
+                    {%- set insert_stats_query = re_data.metrics_base_insert(table_name, metrics, time_filter, ref_model, columns_to_query) -%}
 
                     {% if insert_stats_query %}
                         {% do run_query(insert_stats_query) %}
@@ -35,7 +36,7 @@
 
             {% endfor %}
 
-            {%- set insert_stats_query = re_data.metrics_base_insert(table_name, time_filter, ref_model, columns_to_query, table_level=True) -%}
+            {%- set insert_stats_query = re_data.metrics_base_insert(table_name, time_filter, metrics, ref_model, columns_to_query, table_level=True) -%}
             {% do run_query(insert_stats_query) %}
 
             {% set finish_timestamp = dbt_utils.current_timestamp() %} 
@@ -44,9 +45,9 @@
     {% endfor %}
 {% endmacro %}
 
-{% macro metrics_base_insert(table_name, time_filter, ref_model, columns, table_level=False) %}
+{% macro metrics_base_insert(table_name, time_filter, metrics, ref_model, columns, table_level=False) %}
 
-    {% set col_exprs = re_data.metrics_base_expressions(table_name, time_filter, columns, table_level) %}
+    {% set col_exprs = re_data.metrics_base_expressions(table_name, time_filter, metrics, columns, table_level) %}
     {% if col_exprs == [] %}
         {{ return ('') }}
     {% endif %}
