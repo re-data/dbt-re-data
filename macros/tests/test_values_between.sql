@@ -1,13 +1,13 @@
-{% test values_between(model, column_name, table_name, low, high) %}
 
-    select *
-    from {{ model }}
+{% test metric_expression_is_true(model, table, column_name, metric, expression) %}
+    select * from {{ref('re_data_base_metrics')}}
     where
-        table_name = '{{ table_name}}' and
-        {{ column_name }} is not null and
-        (
-            {{ column_name }} < {{ low }}  or 
-            {{ column_name }} > {{ high }}  
-        )
+        metric = {{ metric }} and
+        {% if column_name is none %}
+        not ( {{ expression }} )
+        {%- else %}
+        column_name = {{ column_name }} and
+        not ( {{ expression }} )
+        {%- endif %}
 
 {% endtest %}

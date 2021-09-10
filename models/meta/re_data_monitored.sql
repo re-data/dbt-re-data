@@ -18,7 +18,6 @@ with db_monitored as (
 , code_monitored as (
     {% set code_list = [] %}
 
-    {% set my_context = context[project_name] %}
     {% for group in var('re_data:monitored') %}
         {% for table in group['tables'] %}
             {% do code_list.extend(re_data.monitoring_spec(table, group)) %}

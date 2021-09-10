@@ -19,6 +19,7 @@ clean-targets:
 vars:
   re_data:schemas:
     - dq_raw
+    - dq
   
   re_data:monitored:
 
@@ -40,6 +41,13 @@ vars:
           time_filter: creation_time
 
       actively_monitored: true
+
+    - schema: dq
+      database: postgres
+      tables:
+        - name: buy_events
+          time_filter: creation_time
+          actively_monitored: true
 
   re_data:metrics_base:
     table:

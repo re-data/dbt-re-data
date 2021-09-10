@@ -18,14 +18,13 @@
 {% macro metrics_base_expression_column_all(table_name, metrics, column) %}
 
     {%- set col_expr = [] %}
+    {%- set metrics_to_compute = [] %}
     {% set data_kind = re_data.get_column_type(column) %}
     {% set column_name = re_data.row_value(column, 'column_name') %}
-    {% set all_metrics = var('re_data:metrics_base')['column'].get(data_kind, []) %}
-    {% set spec = metrics.get('column', {}) %}
-    {% set custom_metrics = spec.get(column_name, {}) %}
-    {% do all_metrics.extend(custom_metrics) %}
+    {% do metrics_to_compute.extend(var('re_data:metrics_base')['column'].get(data_kind, [])) %}
+    {% do metrics_to_compute.extend(metrics.get('column', {}).get(column_name, [])) %}    
 
-    {% for metric in all_metrics %}
+    {% for metric in metrics_to_compute %}
         {% set expression = re_data.metrics_base_expression_column(column_name, metric) %}
         {% do col_expr.append({ 'expr': expression, 'col_name': column_name, 'metric': metric}) %}
     {% endfor %}
@@ -37,10 +36,11 @@
 
 {% macro metrics_base_expresion_table_all(table_name, time_filter, metrics) %}
     {%- set table_expr = [] %}
-    {% set table_metrics = var('re_data:metrics_base')['table'] %}
-    {% do table_metrics.extend(metrics.get('table', [])) %}
+    {%- set metrics_to_compute = [] %}
+    {% do metrics_to_compute.extend(var('re_data:metrics_base')['table']) %}
+    {% do metrics_to_compute.extend(metrics.get('table', [])) %}
 
-    {% for metric in table_metrics %}
+    {% for metric in metrics_to_compute %}
         {% set expression = re_data.metrics_base_expression_table(time_filter, metric) %}
         {% do table_expr.append({ 'expr': expression, 'col_name': '', 'metric': metric}) %}
     {% endfor %}
