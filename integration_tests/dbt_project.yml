@@ -17,15 +17,9 @@ clean-targets:
     - "dbt_modules"
 
 vars:
-  re_data:schemas:
-    - dq_raw
-    - dq
-  
   re_data:monitored:
 
-    - schema: dq_raw
-      database: postgres
-      tables:
+    - tables:
         - name: sample_table
           time_filter: creation_time
           
@@ -42,9 +36,7 @@ vars:
 
       actively_monitored: true
 
-    - schema: dq
-      database: postgres
-      tables:
+    - tables:
         - name: buy_events
           time_filter: creation_time
           actively_monitored: true
@@ -62,15 +54,15 @@ vars:
         - avg
         - stddev
         - variance
-        - count_nulls
+        - nulls_count
         - diff # my own custom metric
         
       text:
         - min_length
         - max_length
         - avg_length
-        - count_nulls
-        - count_missing
+        - nulls_count
+        - missing_count
 
 seeds:
   +schema: raw

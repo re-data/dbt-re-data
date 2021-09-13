@@ -8,7 +8,7 @@
 {% endmacro %}
 
 {% macro freshness_expression(time_column) %}
-    {{ adapter.dispatch('freshness_expression')(time_column) }}
+    {{ adapter.dispatch('freshness_expression', 're_data')(time_column) }}
 {% endmacro %}
 
 {% macro default__freshness_expression(time_column) %}

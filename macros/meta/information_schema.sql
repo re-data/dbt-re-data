@@ -2,9 +2,9 @@
     {% set splitted = for_schema.split('.') %}
     {% set splitted_length = splitted | length %}
     {% if splitted_length == 2 %}
-        {{ adapter.dispatch('get_monitored_columns')(splitted[1], splitted[0]) }}
+        {{ adapter.dispatch('get_monitored_columns', 're_data')(splitted[1], splitted[0]) }}
     {% else %}
-        {{ adapter.dispatch('get_monitored_columns')(splitted[0], None) }}
+        {{ adapter.dispatch('get_monitored_columns', 're_data')(splitted[0], None) }}
     {% endif %}
 {% endmacro %}
 
@@ -52,7 +52,7 @@
 {% endmacro %}
 
 {% macro tables_in_schema(schema_name, db_name) %}
-    {{ adapter.dispatch('tables_in_schema')(schema_name, db_name) }}
+    {{ adapter.dispatch('tables_in_schema', 're_data')(schema_name, db_name) }}
 {% endmacro %}
 
 {% macro default__tables_in_schema(schema_name, db_name) %}

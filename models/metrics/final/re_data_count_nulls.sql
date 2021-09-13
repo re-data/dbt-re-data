@@ -1,1 +1,1 @@
-{{ re_data.final_metric('count_nulls')}}
+{{ re_data.final_metric('nulls_count')}}

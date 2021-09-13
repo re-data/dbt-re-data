@@ -22,7 +22,7 @@
 
 
 {% macro anamaly_detection_time_window_start() %}
-   {{ adapter.dispatch('anamaly_detection_time_window_start')() }}
+   {{ adapter.dispatch('anamaly_detection_time_window_start', 're_data')() }}
 {% endmacro %}
 
 {% macro default__anamaly_detection_time_window_start() %}
@@ -39,7 +39,7 @@
 
 
 {% macro interval_length_sec(start_timestamp, end_timestamp) %}
-    {{ adapter.dispatch('interval_length_sec')(start_timestamp, end_timestamp) }}
+    {{ adapter.dispatch('interval_length_sec', 're_data')(start_timestamp, end_timestamp) }}
 {% endmacro %}
 
 {% macro default__interval_length_sec(start_timestamp, end_timestamp) %}
@@ -59,7 +59,7 @@
 {% endmacro %}
 
 {% macro before_time_window_end(time_column) %}
-    {{ adapter.dispatch('before_time_window_end')(time_column) }}
+    {{ adapter.dispatch('before_time_window_end', 're_data')(time_column) }}
 {% endmacro %}
 
 {% macro default__before_time_window_end(time_column) %}
@@ -72,7 +72,7 @@
 
 
 {% macro in_time_window(time_column) %}
-    {{ adapter.dispatch('in_time_window')(time_column) }}
+    {{ adapter.dispatch('in_time_window', 're_data')(time_column) }}
 {% endmacro %}
 
 {% macro default__in_time_window(time_column) %}

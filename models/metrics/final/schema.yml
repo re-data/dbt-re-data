@@ -11,11 +11,11 @@ models:
     description: >
       Numbers of rows added to table in specific time range. `re_data` time range is currently one day period.
 
-  - name: re_data_count_nulls
+  - name: re_data_nulls_count
     description: >
       Number of nulls in a given column for specific time range.
     
-  - name: re_data_count_missing
+  - name: re_data_missing_count
     description: >
       Number of nulls and empty string values in a given column for specific time range.
 

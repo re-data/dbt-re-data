@@ -1,4 +1,4 @@
-{% set metrics_tables = ['re_data_base_metrics', 're_data_freshness'] %}
+{% set metrics_tables = ['re_data_base_metrics'] %}
 
 {%- for table_name in metrics_tables %}
     select

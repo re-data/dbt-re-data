@@ -1,5 +1,5 @@
 {% macro is_datetime(column) %}
-    {{ adapter.dispatch('is_datetime')(column) }}
+    {{ adapter.dispatch('is_datetime', 're_data')(column) }}
 {% endmacro %}
 
 {% macro default__is_datetime(column) %}
@@ -46,7 +46,7 @@
 
 
 {% macro get_column_type(column) %}
-    {% set result = adapter.dispatch('get_column_type')(column) %}
+    {% set result = adapter.dispatch('get_column_type', 're_data')(column) %}
     {{ return(result) }}
 {% endmacro %}
 

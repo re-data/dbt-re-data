@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 RUN_TIME = datetime(2021, 5, 2, 0, 0, 0)
 
 DBT_VARS = {
+    're_data:schemas': ['dq_raw', 'dq'],
     're_data:time_window_start': (RUN_TIME - timedelta(days=1)).strftime("%Y-%m-%d %H:%M:%S"),
     're_data:time_window_end': RUN_TIME.strftime("%Y-%m-%d %H:%M:%S"),
     're_data:anomaly_detection_window_start': (RUN_TIME - timedelta(days=30)).strftime("%Y-%m-%d %H:%M:%S"),
@@ -27,9 +28,13 @@ def _test_generic(db, dbt_vars=None, debug=True):
     init_seeds = 'dbt seed --threads 4 --full-refresh {} --vars "{}"'.format(profile_part, yaml.dump(dbt_vars))
     os.system(init_seeds)
     print (f"Init seed completed for {db}") 
-    print (f"Computing re_data metrics for {db}") 
+    
+    re_dq_project = 'dbt run --models transformed --threads 4 -x --full-refresh {}'.format(profile_part)
+    os.system(re_dq_project)
+    print (f"Run dq_project expect re_data completed for {db}") 
 
-    run_re_data = 'dbt run --threads 4 -x --full-refresh {} --vars "{}"'.format(profile_part, yaml.dump(dbt_vars))
+    print (f"Computing re_data metrics for {db}") 
+    run_re_data = 'dbt run --exclude transformed --threads 4 -x --full-refresh {} --vars "{}"'.format(profile_part, yaml.dump(dbt_vars))
     if debug:
         run_re_data = 'DBT_MACRO_DEBUGGING=1 ' + run_re_data
 
@@ -40,7 +45,7 @@ def _test_generic(db, dbt_vars=None, debug=True):
     dbt_vars['re_data:time_window_start'] = dbt_vars['re_data:time_window_end']
     dbt_vars['re_data:time_window_end'] = (RUN_TIME + timedelta(days=1)).strftime("%Y-%m-%d %H:%M:%S")
 
-    re_data_next_day = 'dbt run --threads 4 -x {} --vars "{}"'.format(profile_part, yaml.dump(dbt_vars))
+    re_data_next_day = 'dbt run --exclude transformed --threads 4 -x {} --vars "{}"'.format(profile_part, yaml.dump(dbt_vars))
     if debug:
         re_data_next_day = 'DBT_MACRO_DEBUGGING=1 ' + re_data_next_day
     

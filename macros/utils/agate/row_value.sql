@@ -1,5 +1,5 @@
 {% macro row_value(agate_row, column) %}
-    {% set result = adapter.dispatch('row_value')(agate_row, column) %}
+    {% set result = adapter.dispatch('row_value', 're_data')(agate_row, column) %}
     {{ return(result) }}
 {% endmacro %}
 

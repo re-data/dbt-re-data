@@ -1,5 +1,5 @@
 {% macro full_table_name(table_name, table_schema, table_catalog) %}
-    {{ adapter.dispatch('full_table_name')(table_name, table_schema, table_catalog) }}
+    {{ adapter.dispatch('full_table_name', 're_data')(table_name, table_schema, table_catalog) }}
 {% endmacro %}
 
 
@@ -14,7 +14,7 @@
 
 
 {% macro full_table_name_values(table_name, table_schema, table_catalog) %}
-    {{ adapter.dispatch('full_table_name_values')(table_name, table_schema, table_catalog) }}
+    {{ adapter.dispatch('full_table_name_values', 're_data')(table_name, table_schema, table_catalog) }}
 {% endmacro %}
 
 

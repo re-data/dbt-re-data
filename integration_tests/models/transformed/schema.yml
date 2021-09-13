@@ -1,9 +1,0 @@
-
-version: 2
-
-models:
-  - name: buy_events
-    tests:
-      - metric_expression_is_true:
-          metric: row_count
-          expression: value >= 0

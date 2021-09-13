@@ -1,5 +1,5 @@
 {% macro timestamp_type() %}
-    {{ adapter.dispatch('timestamp_type')() }}
+    {{ adapter.dispatch('timestamp_type', 're_data')() }}
 {% endmacro %}
 
 {% macro default__timestamp_type() %}
@@ -19,7 +19,7 @@
 {% endmacro %}
 
 {% macro string_type() %}
-    {{ adapter.dispatch('string_type')() }}
+    {{ adapter.dispatch('string_type', 're_data')() }}
 {% endmacro %}
 
 {% macro default__string_type() %}
@@ -44,7 +44,7 @@
 
 
 {% macro boolean_type() %}
-    {{ adapter.dispatch('boolean_type')() }}
+    {{ adapter.dispatch('boolean_type', 're_data')() }}
 {% endmacro %}
 
 {% macro default__boolean_type() %}
@@ -65,7 +65,7 @@
 
 
 {% macro numeric_type() %}
-    {{ adapter.dispatch('numeric_type')() }}
+    {{ adapter.dispatch('numeric_type', 're_data')() }}
 {% endmacro %}
 
 {% macro default__numeric_type() %}

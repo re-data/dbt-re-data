@@ -31,7 +31,7 @@
     avg(cast (length( {{column_name}} ) as {{ numeric_type() }}))
 {% endmacro %}
 
-{% macro metric_count_nulls(column_name) %}
+{% macro metric_nulls_count(column_name) %}
     coalesce(
         sum(
             case when {{column_name}} is null
@@ -42,7 +42,7 @@
     )
 {% endmacro %}
 
-{% macro metric_count_missing(column_name) %}
+{% macro metric_missing_count(column_name) %}
     coalesce(
         sum(
             case 
