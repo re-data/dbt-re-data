@@ -37,17 +37,33 @@
     {% endcall %}
 
     {%- set columns = load_result('columns')['data'] -%}
+    {% set temp_table_name = 're_data_temporary_monitored_columns_for_' + table_schema %}
 
-    {% for query_row in columns %}
-        select 
-            '{{query_row[0]}}'::text as table_name,
-            '{{query_row[1]}}'::text as column_name,
-            '{{query_row[2]}}'::text as data_type,
-            '{{query_row[3]}}' as is_nullable,
-            {{query_row[4]}} as is_datetime,
-            {% if query_row[5] %} '{{query_row[5]}}'::text {% else %} null {% endif %} as time_filter
-    {%- if not loop.last %} union all {%- endif %}
-    {% endfor %}
+    {% set create_temp_table_query %}
+        create temp table {{ temp_table_name }} (
+            table_name {{ string_type()}},
+            column_name {{ string_type()}},
+            data_type {{ string_type() }},
+            is_nullable {{ boolean_type() }},
+            is_datetime {{ boolean_type() }},
+            time_filter {{ string_type() }}
+        );
+        insert into {{ temp_table_name }}  values
+        {% for col in columns %} (
+            '{{col[0]}}'::text,
+            '{{col[1]}}'::text,
+            '{{col[2]}}'::text,
+            '{{col[3]}}',
+            {{col[4]}},
+            {% if col[5] %} '{{col[5]}}'::text {% else %} null {% endif %}
+            ) {%- if not loop.last %}, {%- endif %}
+        {% endfor %}
+
+    {% endset %}
+    {% do run_query(create_temp_table_query) %}
+
+    select table_name, column_name, data_type, is_nullable, is_datetime, time_filter
+    from {{ temp_table_name }} 
 
 {% endmacro %}
 
