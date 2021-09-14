@@ -9,10 +9,10 @@
         {% endif %}
         {% if column_name is none %}
         not ( {{ expression }} )
-        {%- else %}
+        {% else %}
         column_name = '{{ column_name }}' and
         not ( {{ expression }} )
-        {%- endif %}
+        {% endif %}
 
 {% endmacro %}
 
@@ -23,10 +23,10 @@
 
 
 {% test metric_equal_to(model, table, metric, value, column_name=None, condition=None) %}
-    {{ re_data.metric_expression(model, table, metric, 'value =' ~ value, column_name, condition) }}
+    {{ re_data.metric_expression(model, table, metric, 'value = ' ~ value, column_name, condition) }}
 {% endtest %}
 
 
 {% test metric_in_range(model, table, metric, min_value, max_value, column_name=None, condition=None) %}
-    {{ re_data.metric_expression(model, table, metric, 'value >= ' ~ min_value ~ 'and value <= ' ~ max_value, column_name, condition) }}
+    {{ re_data.metric_expression(model, table, metric, 'value >= ' ~ min_value ~ ' and value <= ' ~ max_value, column_name, condition) }}
 {% endtest %}

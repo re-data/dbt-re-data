@@ -18,7 +18,6 @@ clean-targets:
 
 vars:
   re_data:monitored:
-
     - tables:
         - name: sample_table
           time_filter: creation_time
@@ -26,10 +25,6 @@ vars:
           metrics:
             table:
               - my_custom_table_metric # my own custom metric
-
-            column:
-              event_type:
-                - distinct_count
 
         - name: sample_with_anomaly
           time_filter: creation_time
