@@ -50,7 +50,7 @@
 {% endmacro %}
 
 {% macro metrics_base_expression_table(time_filter, metric) %}
-    {% set macro_name = 'metric' + '_' + metric %}
+    {% set macro_name = 're_data_metric' + '_' + metric %}
 
     {% if context['re_data'].get(macro_name) %}
         {{ context['re_data'][macro_name](time_filter) }}
@@ -62,7 +62,7 @@
 
 
 {%- macro metrics_base_expression_column(column_name, metric) %}
-    {% set macro_name = 'metric' + '_' + metric %}
+    {% set macro_name = 're_data_metric' + '_' + metric %}
 
     {% if context['re_data'].get(macro_name) %}
         {{ context['re_data'][macro_name](column_name) }}

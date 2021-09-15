@@ -1,9 +1,9 @@
 
-{% macro metric_row_count(time_filter) %}
+{% macro re_data_metric_row_count(time_filter) %}
     count(1)
 {% endmacro %}
 
-{% macro metric_freshness(time_filter) %}
+{% macro re_data_metric_freshness(time_filter) %}
     {{ freshness_expression(time_filter) }}
 {% endmacro %}
 
