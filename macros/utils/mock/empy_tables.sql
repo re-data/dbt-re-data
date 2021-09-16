@@ -73,7 +73,8 @@
     select 
         cast (some_string as {{ string_type() }} ) as table_name,
         cast (some_string as {{ string_type() }} ) as time_filter,
-        cast (some_string as {{ boolean_type() }} ) as actively_monitored
+        cast (some_string as {{ boolean_type() }} ) as actively_monitored,
+        cast (some_string as {{ string_type() }} ) as metrics
     from dummy_table
     where some_num = 2
 {% endmacro %}

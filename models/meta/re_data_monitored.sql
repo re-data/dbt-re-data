@@ -31,7 +31,12 @@ select
                 then cm.actively_monitored
              else dm.actively_monitored
     end as actively_monitored,
-    cm.metrics as metrics
+    case
+        when cm.metrics is not null
+            then cm.metrics
+        else '{}'
+    end as metrics
+        
 from
     db_monitored dm left join code_monitored cm
     on dm.table_name = cm.table_name

@@ -24,9 +24,9 @@
                 {% do columns_to_query.append(column) %}
                 {% set columns_size = columns_to_query| length %}
 
-                {% if columns_size == var('re_data:actively_monitored_by_default') %}
+                {% if columns_size == var('re_data:max_columns_in_query') %}
                 {# /* Some balance size between making sure query will not crash &  */ #}
-                    {%- set insert_stats_query = re_data.metrics_base_insert(table_name, metrics, time_filter, ref_model, columns_to_query) -%}
+                    {%- set insert_stats_query = re_data.metrics_base_insert(table_name, time_filter, metrics, ref_model, columns_to_query) -%}
 
                     {% if insert_stats_query %}
                         {% do run_query(insert_stats_query) %}
