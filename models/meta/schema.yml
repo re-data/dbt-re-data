@@ -43,9 +43,6 @@ models:
       - name: table_name
         tests:
           - not_null
-          - relationships:
-              to: ref('re_data_tables')
-              field: table_name
 
       - name: column_name
         tests:

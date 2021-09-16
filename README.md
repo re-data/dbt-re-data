@@ -1,28 +1,17 @@
 # re_data
 
-re_data is data quality framework. It lets you do queries similar to those:
+re_data lets data teams compute various data quality metrics about their datasets and later on:
+  - test
+  - visualize
+  - find anomalies in those
 
-```sql title="Your Data Warehouse"
-select * from anomalies_in_row_counts;
+re_data is meant to help data teams find, debug data problems and sleep well knowing they you will know if something unexpected happens.
 
-select * from recent_schema_changes;
-
-select * from all_tables_freshness order by last_update_time;
-
-select * from daily_null_percent where table = 'X' and col = 'Y';
-```
-
-in your Snowflake, Redshift, BigQuery, Postgres DB.
-
-Build as dbt-package & optional python lib. 
-
-It let's you know what's happening in your data.
-
-And you can visualize it, any way you want in your favorite BI tool.
+re_data works strictly inside your data warehouse - by doing transformations on your tables. It let's you improve your data without it needing to leave your data warehouse.
 
 # Getting stated
 
-Check out [docs :notebook_with_decorative_cover:  :notebook_with_decorative_cover:](https://re-data.github.io/re-data/docs/introduction/whatis)
+Check out our [docs](https://re-data.github.io/re-data/docs/introduction/whatis)
 
 # Python package
 

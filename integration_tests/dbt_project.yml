@@ -16,6 +16,49 @@ clean-targets:
     - "target"
     - "dbt_modules"
 
+vars:
+  re_data:monitored:
+    - tables:
+        - name: sample_table
+          time_filter: creation_time
+          
+          metrics:
+            table:
+              - my_custom_table_metric # my own custom metric
+
+        - name: sample_with_anomaly
+          time_filter: creation_time
+
+      actively_monitored: true
+
+    - tables:
+        - name: buy_events
+          time_filter: creation_time
+          actively_monitored: true
+
+  re_data:metrics_base:
+    table:
+      - row_count
+      - freshness
+      - buy_count # my own custom metric
+      
+    column:
+      numeric:
+        - min
+        - max
+        - avg
+        - stddev
+        - variance
+        - nulls_count
+        - diff # my own custom metric
+        
+      text:
+        - min_length
+        - max_length
+        - avg_length
+        - nulls_count
+        - missing_count
+
 seeds:
   +schema: raw
   +quote_columns: false

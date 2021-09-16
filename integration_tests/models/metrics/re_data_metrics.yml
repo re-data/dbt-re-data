@@ -1,0 +1,30 @@
+
+version: 2
+
+models:
+  - name: re_data_metrics
+    tests:
+      - re_data.metric_expression_is_true:
+          table: ref('buy_events')
+          metric: max_length
+          column_name: event_type
+          expression: value = 3
+
+      - re_data.metric_equal_to:
+          table: ref('buy_events')
+          metric: max_length
+          column_name: event_type
+          value: 3
+
+      - re_data.metric_in_range:
+          table: ref('buy_events')
+          metric: max_length
+          column_name: event_type
+          min_value: 3
+          max_value: 3
+
+      - re_data.metric_expression_is_true:
+          table: ref('buy_events')
+          metric: row_count
+          expression: value > 0 and value < 10
+          condition: time_window_start >= '2021-05-02'
