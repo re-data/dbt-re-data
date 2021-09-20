@@ -1,6 +1,6 @@
 # re_data
 
-re_data lets data teams compute various data quality metrics about their datasets and later on:
+re_data lets data teams compute various metrics about their datasets and later on:
   - test
   - visualize
   - find anomalies in those
