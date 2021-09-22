@@ -21,7 +21,11 @@ vars:
     - tables:
         - name: sample_table
           time_filter: creation_time
-
+          columns: 
+            - col1
+            - col2
+            - col3
+          
           metrics:
             table:
               - my_custom_table_metric # my own custom metric
@@ -42,6 +46,7 @@ vars:
                 - duplicate_values
                 - duplicate_count
                 - distinct_count
+
 
         - name: sample_with_anomaly
           time_filter: creation_time
