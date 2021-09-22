@@ -9,7 +9,6 @@ DBT_VARS = {
     're_data:schemas': ['dq_raw', 'dq'],
     're_data:time_window_start': (RUN_TIME - timedelta(days=1)).strftime("%Y-%m-%d %H:%M:%S"),
     're_data:time_window_end': RUN_TIME.strftime("%Y-%m-%d %H:%M:%S"),
-    're_data:anomaly_detection_window_start': (RUN_TIME - timedelta(days=30)).strftime("%Y-%m-%d %H:%M:%S"),
 }
 
 def _test_generic(db, dbt_vars=None, debug=True):

@@ -30,7 +30,7 @@
         {{ return (graph.nodes.get(obj_graph_name('source', name))[par_name]) }}
     
     {% else %}
-        {{ retrun (None) }}
+        {{ return (None) }}
     {% endif %}
 {% endmacro %}
 
