@@ -1,9 +1,9 @@
-name: 're_data_integration_tests'
-version: '1.0'
+name: "re_data_integration_tests"
+version: "1.0"
 config-version: 2
 
 # Changed when running tests
-profile: 're_data_postgres'
+profile: "re_data_postgres"
 
 source-paths: ["models"]
 analysis-paths: ["analysis"]
@@ -13,15 +13,15 @@ macro-paths: ["macros"]
 
 target-path: "target"
 clean-targets:
-    - "target"
-    - "dbt_modules"
+  - "target"
+  - "dbt_modules"
 
 vars:
   re_data:monitored:
     - tables:
         - name: sample_table
           time_filter: creation_time
-          
+
           metrics:
             table:
               - my_custom_table_metric # my own custom metric
@@ -41,7 +41,7 @@ vars:
       - row_count
       - freshness
       - buy_count # my own custom metric
-      
+
     column:
       numeric:
         - min
@@ -50,13 +50,16 @@ vars:
         - stddev
         - variance
         - nulls_count
+        - nulls_percent
         - diff # my own custom metric
-        
+
       text:
         - min_length
         - max_length
         - avg_length
         - nulls_count
+        - nulls_percent
+        - missing_percent
         - missing_count
 
 seeds:
@@ -66,26 +69,26 @@ seeds:
   re_data_integration_tests:
     expected:
       +schema: expected
-      
+
       expected_sample_data_row_count:
         +column_types:
-          time_window_start: 'TIMESTAMP'
-          time_window_end: 'TIMESTAMP'
+          time_window_start: "TIMESTAMP"
+          time_window_end: "TIMESTAMP"
 
       expected_sample_data_freshness:
         +column_types:
-          time_window_end: 'TIMESTAMP'
-    
+          time_window_end: "TIMESTAMP"
+
       expected_sample_data_max:
         +column_types:
-          time_window_start: 'TIMESTAMP'
-          time_window_end: 'TIMESTAMP'
+          time_window_start: "TIMESTAMP"
+          time_window_end: "TIMESTAMP"
 
       expected_sample_data_max_length:
         +column_types:
-          time_window_start: 'TIMESTAMP'
-          time_window_end: 'TIMESTAMP'
+          time_window_start: "TIMESTAMP"
+          time_window_end: "TIMESTAMP"
 
       expected_sample_data_z_score:
         +column_types:
-          time_window_end: 'TIMESTAMP'
+          time_window_end: "TIMESTAMP"

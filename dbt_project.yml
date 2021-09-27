@@ -1,12 +1,12 @@
 # Name your project! Project names should contain only lowercase characters
 # and underscores. A good package name should reflect your organization's
 # name or the intended use of these models
-name: 're_data'
-version: '0.3.0'
+name: "re_data"
+version: "0.3.0"
 config-version: 2
 
 # This setting configures which "profile" dbt uses for this project.
-profile: 're_data_postgres'
+profile: "re_data_postgres"
 
 # These configurations specify where dbt should look for different types of files.
 # The `source-paths` config, for example, states that models in this project can be
@@ -19,42 +19,45 @@ macro-paths: ["macros"]
 snapshot-paths: ["snapshots"]
 docs-paths: ["docs_blocks"]
 
-target-path: "target"  # directory which will store compiled SQL files
-clean-targets:         # directories to be removed by `dbt clean`
-    - "target"
-    - "dbt_modules"
+target-path: "target" # directory which will store compiled SQL files
+clean-targets: # directories to be removed by `dbt clean`
+  - "target"
+  - "dbt_modules"
 vars:
-    re_data:max_columns_in_query: 12
-    re_data:time_window_end: '{{ run_started_at.strftime("%Y-%m-%d 00:00:00") }}'
-    re_data:time_window_start: '{{ (run_started_at - modules.datetime.timedelta(1)).strftime("%Y-%m-%d 00:00:00") }}'
-    re_data:anomaly_detection_look_back_days: 30
-    re_data:actively_monitored_by_default: false
+  re_data:max_columns_in_query: 12
+  re_data:time_window_end: '{{ run_started_at.strftime("%Y-%m-%d 00:00:00") }}'
+  re_data:time_window_start: '{{ (run_started_at - modules.datetime.timedelta(1)).strftime("%Y-%m-%d 00:00:00") }}'
+  re_data:anomaly_detection_look_back_days: 30
+  re_data:actively_monitored_by_default: false
 
-    re_data:alerting_z_score: 3
-    re_data:schemas:
-        - your_schema_name #overwritten when running by re_data
+  re_data:alerting_z_score: 3
+  re_data:schemas:
+    - your_schema_name #overwritten when running by re_data
 
-    re_data:monitored: [] # overwritten by user config
+  re_data:monitored: [] # overwritten by user config
 
-    re_data:metrics_base:
-      table:
-        - row_count
-        - freshness
-        
-      column:
-        numeric:
-          - min
-          - max
-          - avg
-          - stddev
-          - variance
-          - nulls_count
-        text:
-          - min_length
-          - max_length
-          - avg_length
-          - nulls_count
-          - missing_count
+  re_data:metrics_base:
+    table:
+      - row_count
+      - freshness
+
+    column:
+      numeric:
+        - min
+        - max
+        - avg
+        - stddev
+        - variance
+        - nulls_count
+        - nulls_percent
+      text:
+        - min_length
+        - max_length
+        - avg_length
+        - nulls_count
+        - missing_count
+        - nulls_percent
+        - missing_percennt
 
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models

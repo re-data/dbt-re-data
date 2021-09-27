@@ -59,3 +59,16 @@ table_name,column_name,metric,z_score_value,last_value,last_avg,last_stddev,time
 """postgres"".""dq_raw"".""sample_with_anomaly""",event_type,nulls_count,0,0,0,0,2021-05-03 00:00:00,86400
 """postgres"".""dq_raw"".""sample_with_anomaly""",value1,nulls_count,0,0,0,0,2021-05-03 00:00:00,86400
 """postgres"".""dq_raw"".""sample_with_anomaly""","",row_count,0,1,1,0,2021-05-03 00:00:00,86400
+"""postgres"".""dq"".""buy_events""","event_type","nulls_percent",0,0,0,0,"2021-05-03 00:00:00",86400
+"""postgres"".""dq"".""buy_events""","event_type","missing_percent",0,0,0,0,"2021-05-03 00:00:00",86400
+"""postgres"".""dq"".""buy_events""","value1","nulls_percent",0,0,0,0,"2021-05-03 00:00:00",86400
+"""postgres"".""dq"".""buy_events""","value2","nulls_percent",0,0,0,0,"2021-05-03 00:00:00",86400
+"""postgres"".""dq_raw"".""sample_table""","event_type","nulls_percent",0,0,0,0,"2021-05-03 00:00:00",86400
+"""postgres"".""dq_raw"".""sample_table""","event_type","missing_percent",0,0,0,0,"2021-05-03 00:00:00",86400
+"""postgres"".""dq_raw"".""sample_table""","value1","nulls_percent",0,0,0,0,"2021-05-03 00:00:00",86400
+"""postgres"".""dq_raw"".""sample_table""","value2","nulls_percent",0,0,0,0,"2021-05-03 00:00:00",86400
+"""postgres"".""dq_raw"".""sample_table""","null_value","nulls_percent",0,100,100,0,"2021-05-03 00:00:00",86400
+"""postgres"".""dq_raw"".""sample_with_anomaly""","event_type","nulls_percent",0,0,0,0,"2021-05-03 00:00:00",86400
+"""postgres"".""dq_raw"".""sample_with_anomaly""","event_type","missing_percent",0,0,0,0,"2021-05-03 00:00:00",86400
+"""postgres"".""dq_raw"".""sample_with_anomaly""","value1","nulls_percent",0,0,0,0,"2021-05-03 00:00:00",86400
+"""postgres"".""dq_raw"".""sample_with_anomaly""","value2","nulls_percent",0,0,0,0,"2021-05-03 00:00:00",86400
