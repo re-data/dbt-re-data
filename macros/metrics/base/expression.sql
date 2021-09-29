@@ -47,8 +47,14 @@
     {% do metrics_to_compute.extend(var('re_data:metrics_base')['table']) %}
     {% do metrics_to_compute.extend(metrics.get('table', [])) %}
 
-    {% for metric in metrics_to_compute %}
-        {% set expression = re_data.metrics_base_expression_table(time_filter, metric) %}
+    {% for metric_value in metrics_to_compute %}
+        {% if metric_value is mapping %}
+            {% set metric = metric_value.keys() | first %}
+            {% set config = metric_value[metric] %}
+        {%- else %}
+            {% set metric = metric_value %}
+        {% endif %}
+        {% set expression = re_data.metrics_base_expression_table(time_filter, metric, config) %}
         {% do table_expr.append({ 'expr': expression, 'col_name': '', 'metric': metric}) %}
     {% endfor %}
 
@@ -56,13 +62,13 @@
 
 {% endmacro %}
 
-{% macro metrics_base_expression_table(time_filter, metric) %}
+{% macro metrics_base_expression_table(time_filter, metric, config) %}
     {% set macro_name = 're_data_metric' + '_' + metric %}
 
     {% if context['re_data'].get(macro_name) %}
-        {{ context['re_data'][macro_name](time_filter) }}
+        {{ context['re_data'][macro_name](time_filter, config) }}
     {%- else %}
-        {{ context[project_name][macro_name](time_filter) }}
+        {{ context[project_name][macro_name](time_filter, config) }}
     {% endif %}
 
 {% endmacro %}

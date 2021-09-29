@@ -3,7 +3,7 @@
 {% endmacro %}
 
 
-{% macro re_data_metric_buy_count(time_column) %}
+{% macro re_data_metric_buy_count(time_column, config) %}
     coalesce(
         sum(
             case when event_type = 'buy'
@@ -14,7 +14,7 @@
     )
 {% endmacro %}
 
-{% macro re_data_metric_my_custom_table_metric(time_column) %}
+{% macro re_data_metric_my_custom_table_metric(time_column, config) %}
     1000
 {% endmacro %}
 
