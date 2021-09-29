@@ -55,3 +55,11 @@
         ), 0
     )
 {% endmacro %}
+
+{% macro re_data_metric_nulls_percent(column_name, config) %}
+    {{ re_data_metric_nulls_count(column_name) }} / nullif({{ re_data_metric_row_count() }}, 0) * 100
+{% endmacro %}
+
+{% macro re_data_metric_missing_percent(column_name, config) %}
+    {{ re_data_metric_missing_count(column_name) }} / nullif({{ re_data_metric_row_count() }}, 0) * 100
+{% endmacro %}
