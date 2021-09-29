@@ -53,11 +53,12 @@
 
 {% macro metrics_base_expression_table(time_filter, metric, config) %}
     {% set macro_name = 're_data_metric' + '_' + metric %}
+    {% set project_context = re_data.get_project_context(macro_name, metric) %}
 
-    {% if context['re_data'].get(macro_name) %}
-        {{ context['re_data'][macro_name](time_filter, config) }}
+    {% if config is not none %}
+        {{ project_context[macro_name](time_filter, config) }}
     {%- else %}
-        {{ context[project_name][macro_name](time_filter, config) }}
+        {{ project_context[macro_name](time_filter) }}
     {% endif %}
 
 {% endmacro %}
@@ -65,11 +66,12 @@
 
 {%- macro metrics_base_expression_column(column_name, metric, config) %}
     {% set macro_name = 're_data_metric' + '_' + metric %}
+    {% set project_context = re_data.get_project_context(macro_name, metric) %}
 
-    {% if context['re_data'].get(macro_name) %}
-        {{ context['re_data'][macro_name](column_name, config) }}
+    {% if config is not none %}
+        {{ project_context[macro_name](column_name, config) }}
     {%- else %}
-        {{ context[project_name][macro_name](column_name, config) }}
+        {{ project_context[macro_name](column_name) }}
     {% endif %}
 
 {% endmacro %}
@@ -81,7 +83,7 @@
     {% if metric_value is mapping %}
         {% set metric = metric_value.keys() | first %}
         {% if metric_value[metric] is none %}
-            {{ exceptions.raise_compiler_error("Empty configuration passed for metric: " ~ metric ~ ". If the metric doesn't use a config, please use the column name alone.") }}
+            {{ exceptions.raise_compiler_error("Empty configuration passed for metric: " ~ metric ~ ". If the metric doesn't use a config, please use the column name as a string.") }}
         {% endif %}
 
         {% set config = metric_value[metric] %}
@@ -93,4 +95,16 @@
 
 {% endmacro %}
 
+{%- macro get_project_context(macro_name, metric) %}
+    {% set macro_name = 're_data_metric' + '_' + metric %}
+
+    {% if context['re_data'].get(macro_name) %}
+        {% set project_context = context['re_data'] %}
+    {%- else %}
+        {% set project_context = context[project_name] %}
+    {% endif %}
+
+    {{ return (project_context) }}
+
+{% endmacro %}
 
