@@ -25,6 +25,10 @@ vars:
           metrics:
             table:
               - my_custom_table_metric # my own custom metric
+            column:
+              event_type:
+                - regexp_test:
+                    regexp: ([A-Za-z0-9]+)
 
         - name: sample_with_anomaly
           time_filter: creation_time

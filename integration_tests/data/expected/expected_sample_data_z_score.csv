@@ -59,3 +59,4 @@ table_name,column_name,metric,z_score_value,last_value,last_avg,last_stddev,time
 """postgres"".""dq_raw"".""sample_with_anomaly""",event_type,nulls_count,0,0,0,0,2021-05-03 00:00:00,86400
 """postgres"".""dq_raw"".""sample_with_anomaly""",value1,nulls_count,0,0,0,0,2021-05-03 00:00:00,86400
 """postgres"".""dq_raw"".""sample_with_anomaly""","",row_count,0,1,1,0,2021-05-03 00:00:00,86400
+"""postgres"".""dq_raw"".""sample_table""","event_type","regexp_test",0,4,4,0,"2021-05-03 00:00:00",86400

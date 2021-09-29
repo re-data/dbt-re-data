@@ -24,8 +24,15 @@
     {% do metrics_to_compute.extend(var('re_data:metrics_base')['column'].get(data_kind, [])) %}
     {% do metrics_to_compute.extend(metrics.get('column', {}).get(column_name, [])) %}    
 
-    {% for metric in metrics_to_compute %}
-        {% set expression = re_data.metrics_base_expression_column(column_name, metric) %}
+    {% for metric_value in metrics_to_compute %}
+        {% set config = dict() %}
+        {% if metric_value is mapping %}
+            {% set metric = metric_value.keys() | first %}
+            {% set config = metric_value[metric] %}
+        {%- else %}
+            {% set metric = metric_value %}
+        {% endif %}
+        {% set expression = re_data.metrics_base_expression_column(column_name, metric, config) %}
         {% do col_expr.append({ 'expr': expression, 'col_name': column_name, 'metric': metric}) %}
     {% endfor %}
 
@@ -61,13 +68,13 @@
 {% endmacro %}
 
 
-{%- macro metrics_base_expression_column(column_name, metric) %}
+{%- macro metrics_base_expression_column(column_name, metric, config) %}
     {% set macro_name = 're_data_metric' + '_' + metric %}
 
     {% if context['re_data'].get(macro_name) %}
-        {{ context['re_data'][macro_name](column_name) }}
+        {{ context['re_data'][macro_name](column_name, config) }}
     {%- else %}
-        {{ context[project_name][macro_name](column_name) }}
+        {{ context[project_name][macro_name](column_name, config) }}
     {% endif %}
 
 {% endmacro %}
