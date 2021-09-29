@@ -25,15 +25,9 @@
     {% do metrics_to_compute.extend(metrics.get('column', {}).get(column_name, [])) %}    
 
     {% for metric_value in metrics_to_compute %}
-        {% set config = dict() %}
-        {% if metric_value is mapping %}
-            {% set metric = metric_value.keys() | first %}
-            {% set config = metric_value[metric] %}
-        {%- else %}
-            {% set metric = metric_value %}
-        {% endif %}
-        {% set expression = re_data.metrics_base_expression_column(column_name, metric, config) %}
-        {% do col_expr.append({ 'expr': expression, 'col_name': column_name, 'metric': metric}) %}
+        {% set metric_obj = re_data.extract_metric_config(metric_value) %}
+        {% set expression = re_data.metrics_base_expression_column(column_name, metric_obj['metric'], metric_obj['config']) %}
+        {% do col_expr.append({ 'expr': expression, 'col_name': column_name, 'metric': metric_obj['metric']}) %}
     {% endfor %}
 
     {{ return (col_expr) }}
@@ -48,14 +42,9 @@
     {% do metrics_to_compute.extend(metrics.get('table', [])) %}
 
     {% for metric_value in metrics_to_compute %}
-        {% if metric_value is mapping %}
-            {% set metric = metric_value.keys() | first %}
-            {% set config = metric_value[metric] %}
-        {%- else %}
-            {% set metric = metric_value %}
-        {% endif %}
-        {% set expression = re_data.metrics_base_expression_table(time_filter, metric, config) %}
-        {% do table_expr.append({ 'expr': expression, 'col_name': '', 'metric': metric}) %}
+        {% set metric_obj = re_data.extract_metric_config(metric_value) %}
+        {% set expression = re_data.metrics_base_expression_table(time_filter, metric_obj['metric'], metric_obj['config']) %}
+        {% do table_expr.append({ 'expr': expression, 'col_name': '', 'metric': metric_obj['metric']}) %}
     {% endfor %}
 
     {{ return (table_expr) }}
@@ -82,6 +71,25 @@
     {%- else %}
         {{ context[project_name][macro_name](column_name, config) }}
     {% endif %}
+
+{% endmacro %}
+
+{% macro extract_metric_config(metric_value) %}
+
+    {% set config = none %}
+
+    {% if metric_value is mapping %}
+        {% set metric = metric_value.keys() | first %}
+        {% if metric_value[metric] is none %}
+            {{ exceptions.raise_compiler_error("Empty configuration passed for metric: " ~ metric ~ ". If the metric doesn't use a config, please use the column name alone.") }}
+        {% endif %}
+
+        {% set config = metric_value[metric] %}
+    {%- else %}
+        {% set metric = metric_value %}
+    {% endif %}
+
+    {{ return ({'metric': metric, 'config': config}) }}
 
 {% endmacro %}
 
