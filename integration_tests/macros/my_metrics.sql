@@ -29,14 +29,10 @@
 {% endmacro %}
 
 {% macro regexp_test(column_name, config) %}
-    {{ adapter.dispatch('regexp_test', project_name)(column_name, config) }}
-{% endmacro %}
-
-{% macro default__regexp_test(column_name, config) %}
     {% set pattern = config.get('regexp') %}
     coalesce(
         sum(
-            case when {{column_name}} ~ '{{pattern}}'
+            case when {{ re_data.regexp_match_expression(column_name, pattern) }}
                 then 1
             else 0
             end
@@ -44,26 +40,3 @@
     )
 {% endmacro %}
 
-{% macro bigquery__regexp_test(column_name, config) %}
-    {% set pattern = config.get('regexp') %}
-    coalesce(
-        sum(
-            case when regexp_contains({{column_name}}, '{{pattern}}')
-                then 1
-            else 0
-            end
-        ), 0
-    )
-{% endmacro %}
-
-{% macro snowflake__regexp_test(column_name, config) %}
-    {% set pattern = config.get('regexp') %}
-    coalesce(
-        sum(
-            case when regexp_like({{column_name | upper}}, '{{pattern}}')
-                then 1
-            else 0
-            end
-        ), 0
-    )
-{% endmacro %}
