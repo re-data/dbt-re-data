@@ -53,12 +53,12 @@
 
 {% macro metrics_base_expression_table(time_filter, metric, config) %}
     {% set macro_name = 're_data_metric' + '_' + metric %}
-    {% set project_context = re_data.get_project_context(macro_name, metric) %}
+    {% set macro = re_data.get_metric_macro(macro_name, metric) %}
 
     {% if config is not none %}
-        {{ project_context[macro_name](time_filter, config) }}
+        {{ macro(time_filter, config) }}
     {%- else %}
-        {{ project_context[macro_name](time_filter) }}
+        {{ macro(time_filter) }}
     {% endif %}
 
 {% endmacro %}
@@ -66,12 +66,12 @@
 
 {%- macro metrics_base_expression_column(column_name, metric, config) %}
     {% set macro_name = 're_data_metric' + '_' + metric %}
-    {% set project_context = re_data.get_project_context(macro_name, metric) %}
+    {% set macro = re_data.get_metric_macro(macro_name, metric) %}
 
     {% if config is not none %}
-        {{ project_context[macro_name](column_name, config) }}
+        {{ macro(column_name, config) }}
     {%- else %}
-        {{ project_context[macro_name](column_name) }}
+        {{ macro(column_name) }}
     {% endif %}
 
 {% endmacro %}
@@ -95,16 +95,16 @@
 
 {% endmacro %}
 
-{%- macro get_project_context(macro_name, metric) %}
+{%- macro get_metric_macro(macro_name, metric) %}
     {% set macro_name = 're_data_metric' + '_' + metric %}
 
     {% if context['re_data'].get(macro_name) %}
-        {% set project_context = context['re_data'] %}
+        {% set macro = context['re_data'][macro_name] %}
     {%- else %}
-        {% set project_context = context[project_name] %}
+        {% set macro = context[project_name][macro_name] %}
     {% endif %}
 
-    {{ return (project_context) }}
+    {{ return (macro) }}
 
 {% endmacro %}
 
