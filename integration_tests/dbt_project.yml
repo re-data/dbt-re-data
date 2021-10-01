@@ -21,10 +21,12 @@ vars:
     - tables:
         - name: sample_table
           time_filter: creation_time
+          
           columns: 
-            - col1
-            - col2
-            - col3
+            - event_type
+            - value1
+            - value2
+            - null_value
           
           metrics:
             table:

@@ -1,5 +1,5 @@
 {% macro get_tables() %}
-    select table_name, time_filter, metrics
+    select *
     from {{ ref('re_data_monitored') }}
     order by table_name, time_filter
 {% endmacro %}

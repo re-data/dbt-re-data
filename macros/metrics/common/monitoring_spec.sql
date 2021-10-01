@@ -42,8 +42,9 @@
     {% set actively_monitored = get_monitoring_spec('actively_monitored', table, group) %}
     {% set time_filter = get_monitoring_spec('time_filter', table, group) %}
     {% set metrics = table.get('metrics', {}) %}
+    {% set columns = table.get('columns', []) %}
     
 
-    {{ return ([{'table': name, 'schema': schema, 'database': database, 'time_filter': time_filter, 'actively_monitored': actively_monitored, 'metrics': metrics}]) }}
+    {{ return ([{'table': name, 'schema': schema, 'database': database, 'time_filter': time_filter, 'actively_monitored': actively_monitored, 'metrics': metrics, 'columns': columns}]) }}
 
 {% endmacro %}
