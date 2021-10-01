@@ -29,6 +29,14 @@ vars:
               event_type:
                 - regexp_test:
                     regexp: ([A-Za-z0-9]+)
+                - correct_count:
+                    regexp: ^sell
+                - correct_percent:
+                    regexp: ^sell
+                - incorrect_count:
+                    regexp: ^buy
+                - incorrect_percent:
+                    regexp: ^buy
 
         - name: sample_with_anomaly
           time_filter: creation_time

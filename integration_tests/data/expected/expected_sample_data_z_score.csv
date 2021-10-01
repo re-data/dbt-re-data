@@ -73,3 +73,7 @@ table_name,column_name,metric,z_score_value,last_value,last_avg,last_stddev,time
 """postgres"".""dq_raw"".""sample_with_anomaly""","value1","nulls_percent",0,0,0,0,"2021-05-03 00:00:00",86400
 """postgres"".""dq_raw"".""sample_with_anomaly""","value2","nulls_percent",0,0,0,0,"2021-05-03 00:00:00",86400
 """postgres"".""dq_raw"".""sample_table""","event_type","regexp_test",0,4,4,0,"2021-05-03 00:00:00",86400
+"""postgres"".""dq_raw"".""sample_table""","event_type","correct_count",-0.707106781086547,0,0.5,0.707106781186548,"2021-05-03 00:00:00",86400
+"""postgres"".""dq_raw"".""sample_table""","event_type","correct_percent",-0.707106781182548,0,12.5,17.6776695296637,"2021-05-03 00:00:00",86400
+"""postgres"".""dq_raw"".""sample_table""","event_type","incorrect_count",0.707106781086547,4,3.5,0.707106781186548,"2021-05-03 00:00:00",86400
+"""postgres"".""dq_raw"".""sample_table""","event_type","incorrect_percent",0.707106781182548,100,87.5,17.6776695296637,"2021-05-03 00:00:00",86400
