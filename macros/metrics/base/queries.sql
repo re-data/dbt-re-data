@@ -9,7 +9,6 @@
             {% set metrics = fromjson(re_data.row_value(mtable, 'metrics')) %}
             {% set for_cols = fromjson(re_data.row_value(mtable, 'columns')) %}
             {% set for_cols_dict = re_data.dict_from_list(for_cols) %}
-            {{ log(for_cols_dict ~ "AAAA", True) }}
  
             {% set columns_query %}
                 select * from {{ ref('re_data_columns') }}
