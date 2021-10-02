@@ -25,6 +25,18 @@ vars:
           metrics:
             table:
               - my_custom_table_metric # my own custom metric
+            column:
+              event_type:
+                - regex_test:
+                    regex: ([A-Za-z0-9]+)
+                - match_regex:
+                    regex: ^sell
+                - match_regex_percent:
+                    regex: ^sell
+                - not_match_regex:
+                    regex: ^buy
+                - not_match_regex_percent:
+                    regex: ^buy
 
         - name: sample_with_anomaly
           time_filter: creation_time

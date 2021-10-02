@@ -57,9 +57,38 @@
 {% endmacro %}
 
 {% macro re_data_metric_nulls_percent(column_name) %}
-    {{ re_data_metric_nulls_count(column_name) }} / nullif({{ re_data_metric_row_count() }}, 0) * 100
+    {{ percentage_formula(re_data_metric_nulls_count(column_name), re_data_metric_row_count()) }}
 {% endmacro %}
 
 {% macro re_data_metric_missing_percent(column_name) %}
-    {{ re_data_metric_missing_count(column_name) }} / nullif({{ re_data_metric_row_count() }}, 0) * 100
+    {{ percentage_formula(re_data_metric_missing_count(column_name), re_data_metric_row_count()) }}
+{% endmacro %}
+
+{% macro re_data_metric_regex_count(column_name, pattern) %}
+    coalesce(
+        sum(
+            case when {{ regex_match_expression(column_name, pattern) }}
+                then 1
+            else 0
+            end
+        ), 0
+    )
+{% endmacro %}
+
+{% macro re_data_metric_match_regex(column_name, config) %}
+    {% set pattern = config.get('regex') %}
+    {{ re_data_metric_regex_count(column_name, pattern) }}
+{% endmacro %}
+
+{% macro re_data_metric_match_regex_percent(column_name, config) %}
+    {{ percentage_formula(re_data_metric_match_regex(column_name, config), re_data_metric_row_count()) }}
+{% endmacro %}
+
+{% macro re_data_metric_not_match_regex(column_name, config) %}
+    {% set pattern = config.get('regex') %}
+    {{ re_data_metric_regex_count(column_name, pattern) }}
+{% endmacro %}
+
+{% macro re_data_metric_not_match_regex_percent(column_name, config) %}
+    {{ percentage_formula(re_data_metric_not_match_regex(column_name, config), re_data_metric_row_count()) }}
 {% endmacro %}

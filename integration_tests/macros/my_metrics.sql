@@ -23,3 +23,20 @@
     count(distinct( {{column_name}} ))
 
 {% endmacro %}
+
+{% macro re_data_metric_regex_test(column_name, config) %}
+    {{ regex_test(column_name, config) }}
+{% endmacro %}
+
+{% macro regex_test(column_name, config) %}
+    {% set pattern = config.get('regex') %}
+    coalesce(
+        sum(
+            case when {{ re_data.regex_match_expression(column_name, pattern) }}
+                then 1
+            else 0
+            end
+        ), 0
+    )
+{% endmacro %}
+
