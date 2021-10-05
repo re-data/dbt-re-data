@@ -92,3 +92,31 @@
 {% macro re_data_metric_not_match_regex_percent(column_name, config) %}
     {{ percentage_formula(re_data_metric_not_match_regex(column_name, config), re_data_metric_row_count()) }}
 {% endmacro %}
+
+{% macro re_data_metric_distinct_values(column_name) %}
+    count(distinct {{ column_name }} )
+{% endmacro %}
+
+{% macro re_data_metric_approx_distinct_values(column_name) %}
+    {{ approx_distinct_values(column_name) }}
+{% endmacro %}
+
+{% macro approx_distinct_values(column_name) %}
+    {{ adapter.dispatch('approx_distinct_values', 're_data')(column_name) }}
+{% endmacro %}
+
+{% macro default__approx_distinct_values(column_name) %}
+   {{ re_data_metric_distinct_values(column_name) }}
+{% endmacro %}
+
+{% macro redshift__approx_distinct_values(column_name) %}
+    approximate {{ re_data_metric_distinct_values(column_name) }}
+{% endmacro %}
+
+{% macro bigquery__approx_distinct_values(column_name) %}
+    approx_count_distinct({{ column_name }})
+{% endmacro %}
+
+{% macro snowflake__approx_distinct_values(column_name) %}
+   approx_count_distinct({{ column_name }})
+{% endmacro %}

@@ -37,6 +37,7 @@ vars:
                     regex: ^buy
                 - not_match_regex_percent:
                     regex: ^buy
+                - distinct_values
 
         - name: sample_with_anomaly
           time_filter: creation_time
