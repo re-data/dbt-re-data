@@ -1,9 +1,10 @@
-{% macro re_data_metric_diff(column_name) %}
+{% macro re_data_metric_diff(context) %}
+    {% set column_name = context.get('column_name') %}
     max({{column_name}}) - min({{column_name}})
 {% endmacro %}
 
 
-{% macro re_data_metric_buy_count(time_column) %}
+{% macro re_data_metric_buy_count(context) %}
     coalesce(
         sum(
             case when event_type = 'buy'
@@ -14,17 +15,20 @@
     )
 {% endmacro %}
 
-{% macro re_data_metric_my_custom_table_metric(time_column) %}
+{% macro re_data_metric_my_custom_table_metric(context) %}
     1000
 {% endmacro %}
 
 
-{% macro re_data_metric_distinct_count(column_name) %}
+{% macro re_data_metric_distinct_count(context) %}
+    {% set column_name = context.get('column_name') %}
     count(distinct( {{column_name}} ))
 
 {% endmacro %}
 
-{% macro re_data_metric_regex_test(column_name, config) %}
+{% macro re_data_metric_regex_test(context) %}
+    {% set column_name = context.get('column_name') %}
+    {% set config = context.get('config') %}
     {{ regex_test(column_name, config) }}
 {% endmacro %}
 
