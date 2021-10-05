@@ -44,3 +44,27 @@
 {% macro snowflake__approx_distinct_values(context) %}
     approx_count_distinct({{ context.column_name }})
 {% endmacro %}
+
+{% macro re_data_metric_duplicate_values(context) %}
+    (   
+        with temp_table as (
+            select {{ context.column_name }} from {{ context.table_name }}
+            where {{ in_time_window(context.time_filter) }}
+            group by {{ context.column_name }}
+            having count(1) > 1
+        )
+        select count(*) from temp_table
+    )
+{% endmacro %}
+
+{% macro re_data_metric_duplicate_count(context) %}
+    (   
+        with temp_table as (
+            select {{ context.column_name }}, count(1) as row_count from {{ context.table_name }}
+            where {{ in_time_window(context.time_filter) }}
+            group by {{ context.column_name }}
+            having count(1) > 1
+        )
+        select sum(row_count) from temp_table
+    )
+{% endmacro %}

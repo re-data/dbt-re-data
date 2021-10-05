@@ -39,6 +39,8 @@ vars:
                 - not_match_regex_percent:
                     regex: ^buy
                 - distinct_values
+                - duplicate_values
+                - duplicate_count
 
         - name: sample_with_anomaly
           time_filter: creation_time

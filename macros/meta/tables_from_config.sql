@@ -60,6 +60,7 @@
 
 {% macro tables_from_config_values(tables_def) %}
     {% for el in tables_def %}
+        {% do format_metrics_from_config(el.metrics) %}
         (
                 {{- full_table_name_values(el.table, el.schema, el.database) -}},
                 {{- str_or_null(el.time_filter) -}},
@@ -67,4 +68,22 @@
                 '{{ tojson(el.metrics) }}'
         ) {% if not loop.last %},{% endif %}
     {% endfor %}
+{% endmacro %}
+
+{% macro format_metrics_from_config(metrics) %}
+    {{ adapter.dispatch('format_metrics_from_config', 're_data')(metrics) }}
+{% endmacro %}
+
+{% macro default__format_metrics_from_config(metrics) %}
+    
+{% endmacro %}
+
+{% macro snowflake__format_metrics_from_config(metrics) %}
+    {# /* Convert column names to upper case so it's detected by snowflake */ #}
+    {% set column_metrics = {} %}
+    {% for column in metrics.column %}
+        {% set snowflake_column = column | upper %}
+        {% do column_metrics.update({snowflake_column: metrics.column[column]}) %}
+    {% endfor %}
+    {% do metrics.update({'column': column_metrics}) %}
 {% endmacro %}
