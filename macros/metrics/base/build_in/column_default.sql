@@ -86,7 +86,7 @@
 
 {% macro re_data_metric_not_match_regex(column_name, config) %}
     {% set pattern = config.get('regex') %}
-    {{ re_data_metric_regex_count(column_name, pattern) }}
+    {{ re_data_metric_row_count() }} - {{ re_data_metric_regex_count(column_name, pattern) }}
 {% endmacro %}
 
 {% macro re_data_metric_not_match_regex_percent(column_name, config) %}
