@@ -1,49 +1,40 @@
 
 {% macro re_data_metric_max(context) %}
-    {% set column_name = context.get('column_name') %}
-    max({{column_name}})
+    max({{context.column_name}})
 {% endmacro %}
 
 {% macro re_data_metric_min(context) %}
-    {% set column_name = context.get('column_name') %}
-    min({{column_name}})
+    min({{context.column_name}})
 {% endmacro %}
 
 {% macro re_data_metric_avg(context) %}
-    {% set column_name = context.get('column_name') %}
-    avg(cast ({{column_name}} as {{ numeric_type() }}))
+    avg(cast ({{context.column_name}} as {{ numeric_type() }}))
 {% endmacro %}
 
 {% macro re_data_metric_stddev(context) %}
-    {% set column_name = context.get('column_name') %}
-    stddev(cast ( {{column_name}} as {{ numeric_type() }}))
+    stddev(cast ( {{context.column_name}} as {{ numeric_type() }}))
 {% endmacro %}
 
 {% macro re_data_metric_variance(context) %}
-    {% set column_name = context.get('column_name') %}
-    variance(cast ( {{column_name}} as {{ numeric_type() }}))
+    variance(cast ( {{context.column_name}} as {{ numeric_type() }}))
 {% endmacro %}
 
 {% macro re_data_metric_max_length(context) %}
-    {% set column_name = context.get('column_name') %}
-    max(length({{column_name}}))
+    max(length({{context.column_name}}))
 {% endmacro %}
 
 {% macro re_data_metric_min_length(context) %}
-    {% set column_name = context.get('column_name') %}
-    min(length({{column_name}}))
+    min(length({{context.column_name}}))
 {% endmacro %}
 
 {% macro re_data_metric_avg_length(context) %}
-    {% set column_name = context.get('column_name') %}
-    avg(cast (length( {{column_name}} ) as {{ numeric_type() }}))
+    avg(cast (length( {{context.column_name}} ) as {{ numeric_type() }}))
 {% endmacro %}
 
 {% macro re_data_metric_nulls_count(context) %}
-    {% set column_name = context.get('column_name') %}
     coalesce(
         sum(
-            case when {{column_name}} is null
+            case when {{context.column_name}} is null
                 then 1
             else 0
             end
@@ -52,13 +43,12 @@
 {% endmacro %}
 
 {% macro re_data_metric_missing_count(context) %}
-    {% set column_name = context.get('column_name') %}
     coalesce(
         sum(
             case 
-            when {{column_name}} is null
+            when {{context.column_name}} is null
                 then 1
-            when {{column_name}} = ''
+            when {{context.column_name}} = ''
                 then 1
             else 0
             end
@@ -86,9 +76,7 @@
 {% endmacro %}
 
 {% macro re_data_metric_match_regex(context) %}
-    {% set column_name = context.get('column_name') %}
-    {% set pattern = context.get('config', {}).get('regex') %}
-    {{ re_data_metric_regex_count(column_name, pattern) }}
+    {{ re_data_metric_regex_count(context.column_name, context.config.regex) }}
 {% endmacro %}
 
 {% macro re_data_metric_match_regex_percent(context) %}
@@ -96,9 +84,7 @@
 {% endmacro %}
 
 {% macro re_data_metric_not_match_regex(context) %}
-    {% set column_name = context.get('column_name') %}
-    {% set pattern = context.get('config', {}).get('regex') %}
-    {{ re_data_metric_regex_count(column_name, pattern) }}
+    {{ re_data_metric_regex_count(context.column_name, context.config.regex) }}
 {% endmacro %}
 
 {% macro re_data_metric_not_match_regex_percent(context) %}

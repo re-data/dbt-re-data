@@ -4,8 +4,7 @@
 {% endmacro %}
 
 {% macro re_data_metric_freshness(context) %}
-    {% set time_filter = context.get('time_filter') %}
-    {{ freshness_expression(time_filter) }}
+    {{ freshness_expression(context.time_filter) }}
 {% endmacro %}
 
 {% macro freshness_expression(time_filter) %}
