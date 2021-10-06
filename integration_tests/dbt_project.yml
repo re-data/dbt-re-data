@@ -41,6 +41,7 @@ vars:
                 - distinct_values
                 - duplicate_values
                 - duplicate_count
+                - distinct_count
 
         - name: sample_with_anomaly
           time_filter: creation_time

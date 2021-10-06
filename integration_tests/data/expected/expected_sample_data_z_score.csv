@@ -81,3 +81,4 @@ table_name,column_name,metric,z_score_value,last_value,last_avg,last_stddev,time
 """postgres"".""dq_raw"".""sample_table""","","distinct_rows",0,4,4,0,"2021-05-03 00:00:00",86400
 """postgres"".""dq_raw"".""sample_table""","event_type","duplicate_values",0,1,1,0,"2021-05-03 00:00:00",86400
 """postgres"".""dq_raw"".""sample_table""","event_type","duplicate_count",0.707106781086547,4,3.5,0.707106781186548,"2021-05-03 00:00:00",86400
+"""postgres"".""dq_raw"".""sample_table""","event_type","distinct_count",-0.707106781086547,0,0.5,0.707106781186548,"2021-05-03 00:00:00",86400

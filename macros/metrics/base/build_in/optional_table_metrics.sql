@@ -3,6 +3,6 @@
             select distinct * from {{ context.table_name }}
             where {{ in_time_window(context.time_filter) }}
         )
-        select count(*) FROM temp_table
+        select coalesce(count(*), 0) FROM temp_table
     )
 {% endmacro %}
