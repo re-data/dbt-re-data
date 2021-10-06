@@ -1,3 +1,30 @@
+{% macro re_data_metric_regex_count(column_name, pattern) %}
+    coalesce(
+        sum(
+            case when {{ regex_match_expression(column_name, pattern) }}
+                then 1
+            else 0
+            end
+        ), 0
+    )
+{% endmacro %}
+
+{% macro re_data_metric_match_regex(context) %}
+    {{ re_data_metric_regex_count(context.column_name, context.config.regex) }}
+{% endmacro %}
+
+{% macro re_data_metric_match_regex_percent(context) %}
+    {{ percentage_formula(re_data_metric_match_regex(context), re_data_metric_row_count()) }}
+{% endmacro %}
+
+{% macro re_data_metric_not_match_regex(context) %}
+    {{ re_data_metric_regex_count(context.column_name, context.config.regex) }}
+{% endmacro %}
+
+{% macro re_data_metric_not_match_regex_percent(context) %}
+    {{ percentage_formula(re_data_metric_not_match_regex(context), re_data_metric_row_count()) }}
+{% endmacro %}
+
 {% macro re_data_metric_distinct_values(context) %}
     {{ distinct_values(context) }}
 {% endmacro %}
