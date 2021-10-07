@@ -17,6 +17,7 @@ clean-targets:
   - "dbt_modules"
 
 vars:
+  re_data:max_columns_in_query: 1
   re_data:monitored:
     - tables:
         - name: sample_table
