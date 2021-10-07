@@ -4,7 +4,7 @@
 
     {% for col in columns %}
         {% set column_name = re_data.row_value(col, 'column_name') %}
-        {% do col_expr.extend(re_data.metrics_base_expression_column_all(table_name, metrics, col)) %}
+        {% do col_expr.extend(re_data.metrics_base_expression_column_all(table_name, metrics, col, time_filter)) %}
     {% endfor %}
 
     {% if table_level %}
@@ -15,7 +15,7 @@
 
 {% endmacro %}
 
-{% macro metrics_base_expression_column_all(table_name, metrics, column) %}
+{% macro metrics_base_expression_column_all(table_name, metrics, column, time_filter) %}
 
     {%- set col_expr = [] %}
     {%- set metrics_to_compute = [] %}
@@ -26,7 +26,7 @@
 
     {% for metric_value in metrics_to_compute %}
         {% set metric_obj = re_data.extract_metric_config(metric_value) %}
-        {% set expression = re_data.metrics_base_expression_column(column_name, metric_obj['metric'], metric_obj['config']) %}
+        {% set expression = re_data.metrics_base_expression_column(column_name, metric_obj['metric'], metric_obj['config'], table_name, time_filter) %}
         {% do col_expr.append({ 'expr': expression, 'col_name': column_name, 'metric': metric_obj['metric']}) %}
     {% endfor %}
 
@@ -43,7 +43,7 @@
 
     {% for metric_value in metrics_to_compute %}
         {% set metric_obj = re_data.extract_metric_config(metric_value) %}
-        {% set expression = re_data.metrics_base_expression_table(time_filter, metric_obj['metric'], metric_obj['config']) %}
+        {% set expression = re_data.metrics_base_expression_table(time_filter, metric_obj['metric'], metric_obj['config'], table_name) %}
         {% do table_expr.append({ 'expr': expression, 'col_name': '', 'metric': metric_obj['metric']}) %}
     {% endfor %}
 
@@ -51,28 +51,20 @@
 
 {% endmacro %}
 
-{% macro metrics_base_expression_table(time_filter, metric, config) %}
-    {% set macro_name = 're_data_metric' + '_' + metric %}
-    {% set metric_macro = re_data.get_metric_macro(macro_name, metric) %}
+{% macro metrics_base_expression_table(time_filter, metric_name, config, table_name) %}
+    {% set metric_macro = re_data.get_metric_macro(metric_name) %}
+    {% set context = {'time_filter': time_filter, 'metric_name': metric_name, 'config': config, 'table_name': table_name, 'column_name': none} %}
 
-    {% if config is not none %}
-        {{ metric_macro(time_filter, config) }}
-    {%- else %}
-        {{ metric_macro(time_filter) }}
-    {% endif %}
+    {{ metric_macro(context) }}
 
 {% endmacro %}
 
 
-{%- macro metrics_base_expression_column(column_name, metric, config) %}
-    {% set macro_name = 're_data_metric' + '_' + metric %}
-    {% set metric_macro = re_data.get_metric_macro(macro_name, metric) %}
+{%- macro metrics_base_expression_column(column_name, metric_name, config, table_name, time_filter) %}
+    {% set metric_macro = re_data.get_metric_macro(metric_name) %}
+    {% set context = {'time_filter': time_filter, 'metric_name': metric_name, 'config': config, 'table_name': table_name, 'column_name': column_name} %}
 
-    {% if config is not none %}
-        {{ metric_macro(column_name, config) }}
-    {%- else %}
-        {{ metric_macro(column_name) }}
-    {% endif %}
+    {{ metric_macro(context) }}
 
 {% endmacro %}
 
@@ -95,8 +87,8 @@
 
 {% endmacro %}
 
-{%- macro get_metric_macro(macro_name, metric) %}
-    {% set macro_name = 're_data_metric' + '_' + metric %}
+{%- macro get_metric_macro(metric_name) %}
+    {% set macro_name = 're_data_metric' + '_' + metric_name %}
 
     {% if context['re_data'].get(macro_name) %}
         {% set metric_macro = context['re_data'][macro_name] %}
