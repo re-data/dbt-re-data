@@ -18,7 +18,7 @@
 {% endmacro %}
 
 {% macro re_data_metric_not_match_regex(context) %}
-    {{ re_data_metric_regex_count(context.column_name, context.config.regex) }}
+    {{ re_data_metric_row_count() }} - {{ re_data_metric_regex_count(context.column_name, context.config.regex) }}
 {% endmacro %}
 
 {% macro re_data_metric_not_match_regex_percent(context) %}
