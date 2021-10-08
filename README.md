@@ -11,11 +11,11 @@ re_data works strictly inside your data warehouse - by doing transformations on 
 
 # Getting stated
 
-Check out our [docs](https://re-data.github.io/re-data/docs/introduction/whatis)
+[Check our docs!](https://re-data.github.io/re-data/docs/introduction/whatis)
 
-# Python package
+[Join re_data community on Slack](https://join.slack.com/t/re-data/shared_invite/zt-vkauq1y8-tL4R4_H5nZoVvyXyy0hdug) (we are very responsive there)
 
-Check out more information about python-package [here](https://github.com/re-data/re-data)
+[Check out more info in the master repo](https://github.com/re-data/re-data)
 
 # Community
 
