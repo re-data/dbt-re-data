@@ -15,10 +15,9 @@ select
     cols.is_nullable,
     cast ({{dbt_utils.current_timestamp_in_utc()}} as {{ timestamp_type() }} ) as detected_time
 from
-    {{ ref('re_data_columns')}} cols, {{ ref('re_data_tables')}} tables
+    {{ ref('re_data_columns')}} cols, {{ ref('re_data_monitored')}} tables
 where
-    cols.table_name = tables.table_name and
-    tables.actively_monitored = true
+    cols.table_name = tables.table_name
 )
 
 select
