@@ -35,14 +35,18 @@ select
         when cm.metrics is not null
             then cm.metrics
         else '{}'
-    end as metrics
-        
+    end as metrics,
+    case 
+    when cm.columns is not null
+            then cm.columns
+        else '[]'
+    end as columns
 from
     db_monitored dm left join code_monitored cm
     on dm.table_name = cm.table_name
 )
 
-select table_name, time_filter, metrics
+select *
 from all_status where
     actively_monitored = true
     and time_filter is not null

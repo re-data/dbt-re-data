@@ -17,11 +17,18 @@ clean-targets:
   - "dbt_modules"
 
 vars:
+  re_data:max_columns_in_query: 1
   re_data:monitored:
     - tables:
         - name: sample_table
           time_filter: creation_time
-
+          
+          columns: 
+            - event_type
+            - value1
+            - value2
+            - null_value
+          
           metrics:
             table:
               - my_custom_table_metric # my own custom metric
@@ -42,6 +49,7 @@ vars:
                 - duplicate_values
                 - duplicate_count
                 - distinct_count
+
 
         - name: sample_with_anomaly
           time_filter: creation_time

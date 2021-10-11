@@ -7,7 +7,9 @@
             {% set table_name = re_data.row_value(mtable, 'table_name') %}
             {% set time_filter = re_data.row_value(mtable, 'time_filter') %}
             {% set metrics = fromjson(re_data.row_value(mtable, 'metrics')) %}
-
+            {% set for_cols = fromjson(re_data.row_value(mtable, 'columns')) %}
+            {% set for_cols_dict = re_data.dict_from_list(for_cols) %}
+ 
             {% set columns_query %}
                 select * from {{ ref('re_data_columns') }}
                 where table_name = '{{ table_name }}'
@@ -21,7 +23,13 @@
             {% set size = columns_to_query| length %}
 
             {% for column in columns %}
-                {% do columns_to_query.append(column) %}
+                {% set column_name = re_data.row_value(column, 'column_name') %}
+                
+
+                {% if not for_cols_dict or (for_cols_dict.get(column_name)) %}
+                    {% do columns_to_query.append(column) %}
+                {% endif %}
+
                 {% set columns_size = columns_to_query| length %}
 
                 {% if columns_size == var('re_data:max_columns_in_query') %}
