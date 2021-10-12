@@ -1,0 +1,44 @@
+name: github pages
+
+on:
+  push:
+    branches:
+      - main
+      - feature/setup-ci
+
+env:
+  DBT_PROFILES_DIR: ./
+
+  DBT_POSTGRES_HOST_DEV: ${{ secrets.DBT_POSTGRES_HOST_DEV }}
+  DBT_POSTGRES_USER_DEV: ${{ secrets.DBT_POSTGRES_USER_DEV }}
+  DBT_POSTGRES_PASSWORD_DEV: ${{ secrets.DBT_POSTGRES_PASSWORD_DEV }}
+  DBT_POSTGRES_DBNAME_DEV: ${{ secrets.DBT_POSTGRES_DBNAME_DEV }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-18.04
+    steps:        
+      - name: Check out
+        uses: actions/checkout@main
+
+      - uses: actions/setup-python@v1
+        with:
+          python-version: "3.7.x"
+
+      - name: Install dependencies
+        run: |
+          pip install dbt==0.20.0
+          dbt deps
+
+      - name: Generate Documentation
+        run: dbt docs generate
+
+      - name: Copy files
+        run: 'cp target/{catalog.json,index.html,manifest.json,run_results.json} docs/'
+        shell: bash
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./
