@@ -78,7 +78,7 @@ table_name,column_name,metric,z_score_value,last_value,last_avg,last_stddev,time
 """postgres"".""dq_raw"".""sample_table""","event_type","not_match_regex",-0.707106781086547,0,0.5,0.707106781186548,"2021-05-03 00:00:00",86400
 """postgres"".""dq_raw"".""sample_table""","event_type","not_match_regex_percent",-0.707106781182548,0,12.5,17.6776695296637,"2021-05-03 00:00:00",86400
 """postgres"".""dq_raw"".""sample_table""","event_type","distinct_values",-0.707106781086547,1,1.5,0.707106781186548,"2021-05-03 00:00:00",86400
-"""postgres"".""dq_raw"".""sample_table""","","distinct_rows",0,4,4,0,"2021-05-03 00:00:00",86400
+"""postgres"".""dq_raw"".""sample_table""","","distinct_table_rows",0,4,4,0,"2021-05-03 00:00:00",86400
 """postgres"".""dq_raw"".""sample_table""","event_type","duplicate_values",0,1,1,0,"2021-05-03 00:00:00",86400
-"""postgres"".""dq_raw"".""sample_table""","event_type","duplicate_count",0.707106781086547,4,3.5,0.707106781186548,"2021-05-03 00:00:00",86400
-"""postgres"".""dq_raw"".""sample_table""","event_type","distinct_count",-0.707106781086547,0,0.5,0.707106781186548,"2021-05-03 00:00:00",86400
+"""postgres"".""dq_raw"".""sample_table""","event_type","duplicate_rows",0.707106781086547,4,3.5,0.707106781186548,"2021-05-03 00:00:00",86400
+"""postgres"".""dq_raw"".""sample_table""","event_type","unique_rows",-0.707106781086547,0,0.5,0.707106781186548,"2021-05-03 00:00:00",86400
