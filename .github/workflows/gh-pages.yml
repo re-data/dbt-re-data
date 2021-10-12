@@ -25,10 +25,11 @@ jobs:
         with:
           python-version: "3.7.x"
 
-      - name: Install dependencies
+      - name: Install dependencies and run
         run: |
           pip install dbt==0.20.0
           dbt deps
+          dbt run
 
       - name: Generate Documentation
         run: dbt docs generate
