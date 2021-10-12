@@ -32,7 +32,7 @@ vars:
           metrics:
             table:
               - my_custom_table_metric # my own custom metric
-              - distinct_rows
+              - distinct_table_rows
             column:
               event_type:
                 - regex_test:
@@ -47,8 +47,8 @@ vars:
                     regex: ^buy
                 - distinct_values
                 - duplicate_values
-                - duplicate_count
-                - distinct_count
+                - duplicate_rows
+                - unique_rows
 
 
         - name: sample_with_anomaly
