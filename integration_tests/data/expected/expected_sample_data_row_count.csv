@@ -1,0 +1,7 @@
+table_name,column_name,metric,value,time_window_start,time_window_end,interval_length_sec
+"""postgres"".""dq"".""buy_events""","",row_count,1,2021-05-01 00:00:00,2021-05-02 00:00:00,86400
+"""postgres"".""dq_raw"".""sample_table""","",row_count,4,2021-05-01 00:00:00,2021-05-02 00:00:00,86400
+"""postgres"".""dq_raw"".""sample_with_anomaly""","",row_count,1,2021-05-01 00:00:00,2021-05-02 00:00:00,86400
+"""postgres"".""dq"".""buy_events""","",row_count,1,2021-05-02 00:00:00,2021-05-03 00:00:00,86400
+"""postgres"".""dq_raw"".""sample_table""","",row_count,4,2021-05-02 00:00:00,2021-05-03 00:00:00,86400
+"""postgres"".""dq_raw"".""sample_with_anomaly""","",row_count,1,2021-05-02 00:00:00,2021-05-03 00:00:00,86400

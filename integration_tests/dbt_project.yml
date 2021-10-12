@@ -1,0 +1,119 @@
+name: "re_data_integration_tests"
+version: "1.0"
+config-version: 2
+
+# Changed when running tests
+profile: "re_data_postgres"
+
+source-paths: ["models"]
+analysis-paths: ["analysis"]
+test-paths: ["tests"]
+data-paths: ["data"]
+macro-paths: ["macros"]
+
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_modules"
+
+vars:
+  re_data:max_columns_in_query: 1
+  re_data:monitored:
+    - tables:
+        - name: sample_table
+          time_filter: creation_time
+          
+          columns: 
+            - event_type
+            - value1
+            - value2
+            - null_value
+          
+          metrics:
+            table:
+              - my_custom_table_metric # my own custom metric
+              - distinct_table_rows
+            column:
+              event_type:
+                - regex_test:
+                    regex: ([A-Za-z0-9]+)
+                - match_regex:
+                    regex: ^sell
+                - match_regex_percent:
+                    regex: ^sell
+                - not_match_regex:
+                    regex: ^buy
+                - not_match_regex_percent:
+                    regex: ^buy
+                - distinct_values
+                - duplicate_values
+                - duplicate_rows
+                - unique_rows
+
+
+        - name: sample_with_anomaly
+          time_filter: creation_time
+
+      actively_monitored: true
+
+    - tables:
+        - name: buy_events
+          time_filter: creation_time
+          actively_monitored: true
+
+  re_data:metrics_base:
+    table:
+      - row_count
+      - freshness
+      - buy_count # my own custom metric
+
+    column:
+      numeric:
+        - min
+        - max
+        - avg
+        - stddev
+        - variance
+        - nulls_count
+        - nulls_percent
+        - diff # my own custom metric
+
+      text:
+        - min_length
+        - max_length
+        - avg_length
+        - nulls_count
+        - nulls_percent
+        - missing_percent
+        - missing_count
+
+seeds:
+  +schema: raw
+  +quote_columns: false
+
+  re_data_integration_tests:
+    expected:
+      +schema: expected
+
+      expected_sample_data_row_count:
+        +column_types:
+          time_window_start: "TIMESTAMP"
+          time_window_end: "TIMESTAMP"
+
+      expected_sample_data_freshness:
+        +column_types:
+          time_window_end: "TIMESTAMP"
+
+      expected_sample_data_max:
+        +column_types:
+          time_window_start: "TIMESTAMP"
+          time_window_end: "TIMESTAMP"
+
+      expected_sample_data_max_length:
+        +column_types:
+          time_window_start: "TIMESTAMP"
+          time_window_end: "TIMESTAMP"
+
+      expected_sample_data_z_score:
+        +column_types:
+          time_window_end: "TIMESTAMP"
