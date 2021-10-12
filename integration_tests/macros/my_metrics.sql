@@ -18,12 +18,6 @@
     1000
 {% endmacro %}
 
-
-{% macro re_data_metric_distinct_count(context) %}
-    count(distinct( {{context.column_name}} ))
-
-{% endmacro %}
-
 {% macro re_data_metric_regex_test(context) %}
     {{ regex_test(context.column_name, context.config.regex) }}
 {% endmacro %}

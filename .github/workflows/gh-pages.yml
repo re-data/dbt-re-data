@@ -12,7 +12,6 @@ env:
   DBT_POSTGRES_HOST_DEV: ${{ secrets.DBT_POSTGRES_HOST_DEV }}
   DBT_POSTGRES_USER_DEV: ${{ secrets.DBT_POSTGRES_USER_DEV }}
   DBT_POSTGRES_PASSWORD_DEV: ${{ secrets.DBT_POSTGRES_PASSWORD_DEV }}
-  DBT_POSTGRES_DBNAME_DEV: ${{ secrets.DBT_POSTGRES_DBNAME_DEV }}
 
 jobs:
   deploy:
@@ -25,10 +24,11 @@ jobs:
         with:
           python-version: "3.7.x"
 
-      - name: Install dependencies
+      - name: Install dependencies and run
         run: |
           pip install dbt==0.20.0
           dbt deps
+          dbt run
 
       - name: Generate Documentation
         run: dbt docs generate
