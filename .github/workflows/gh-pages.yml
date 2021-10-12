@@ -34,7 +34,7 @@ jobs:
         run: dbt docs generate
 
       - name: Copy files
-        run: 'cp target/{catalog.json,index.html,manifest.json,run_results.json} docs/'
+        run: 'mkdir docs && cp target/{catalog.json,index.html,manifest.json,run_results.json} docs/'
         shell: bash
 
       - name: Deploy
