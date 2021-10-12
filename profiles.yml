@@ -1,0 +1,12 @@
+re_data_postgres:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: "{{ env_var('DBT_POSTGRES_HOST_DEV') }}" 
+      user: "{{ env_var('DBT_POSTGRES_USER_DEV') }}" 
+      password: "{{ env_var('DBT_POSTGRES_PASSWORD_DEV') }}" 
+      port: 5432
+      dbname: "{{ env_var('DBT_POSTGRES_DBNAME_DEV') }}" 
+      schema: dq
+      threads: 4
