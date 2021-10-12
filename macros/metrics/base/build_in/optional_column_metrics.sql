@@ -86,7 +86,7 @@
     )
 {% endmacro %}
 
-{% macro re_data_metric_duplicate_count(context) %}
+{% macro re_data_metric_duplicate_rows(context) %}
     (   
         with temp_table as (
             select {{ context.column_name }}, count(1) as row_count from {{ context.table_name }}
@@ -98,7 +98,7 @@
     )
 {% endmacro %}
 
-{% macro re_data_metric_distinct_count(context) %}
+{% macro re_data_metric_unique_rows(context) %}
     (   
         with temp_table as (
             select {{ context.column_name }}, count(1) as row_count from {{ context.table_name }}

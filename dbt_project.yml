@@ -57,7 +57,7 @@ vars:
         - nulls_count
         - missing_count
         - nulls_percent
-        - missing_percennt
+        - missing_percent
 
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
