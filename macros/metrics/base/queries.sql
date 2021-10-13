@@ -64,7 +64,7 @@
     with temp_table_metrics as (
     select 
         {%- for col_expr in col_exprs %}
-            {{ col_expr.expr }} as {{ col_expr.col_name + '___' + col_expr.metric }}
+            ( {{ col_expr.expr }} ) as {{ col_expr.col_name + '___' + col_expr.metric }}
             {%- if not loop.last %},{%- endif %}
         {% endfor %}
     from 

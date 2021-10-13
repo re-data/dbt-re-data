@@ -41,12 +41,11 @@
 
 {% macro postgres__distinct_values(context) %}
     {# /* In postgres, its faster to count distinct values in a column by selecting then counting in separate steps */ #}
-    (   with temp_table as (
+    with temp_table as (
             select distinct {{ context.column_name }} from {{ context.table_name }}
             where {{ in_time_window(context.time_filter) }}
         )
-        select coalesce(count(*), 0) from temp_table
-    )
+    select coalesce(count(*), 0) from temp_table
 {% endmacro %}
 
 {% macro re_data_metric_approx_distinct_values(context) %}
@@ -75,7 +74,6 @@
 {% endmacro %}
 
 {% macro re_data_metric_duplicate_values(context) %}
-    (   
         with temp_table as (
             select {{ context.column_name }} from {{ context.table_name }}
             where {{ in_time_window(context.time_filter) }}
@@ -83,11 +81,9 @@
             having count(1) > 1
         )
         select coalesce(count(*), 0) from temp_table
-    )
 {% endmacro %}
 
 {% macro re_data_metric_duplicate_rows(context) %}
-    (   
         with temp_table as (
             select {{ context.column_name }}, count(1) as row_count from {{ context.table_name }}
             where {{ in_time_window(context.time_filter) }}
@@ -95,11 +91,9 @@
             having count(1) > 1
         )
         select coalesce(sum(row_count), 0) from temp_table
-    )
 {% endmacro %}
 
 {% macro re_data_metric_unique_rows(context) %}
-    (   
         with temp_table as (
             select {{ context.column_name }}, count(1) as row_count from {{ context.table_name }}
             where {{ in_time_window(context.time_filter) }}
@@ -107,5 +101,4 @@
             having count(1) = 1
         )
         select coalesce(sum(row_count), 0) from temp_table
-    )
 {% endmacro %}
