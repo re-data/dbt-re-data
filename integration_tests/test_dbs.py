@@ -62,11 +62,7 @@ def test_postgres():
     _test_generic('postgres')
 
 def test_snowflake():
-    dbt_vars = copy.deepcopy(DBT_VARS)
-    schemas = dbt_vars['re_data:schemas']
-    schemas = [el.upper() for el in schemas]
-    dbt_vars['re_data:schemas'] = schemas
-    _test_generic('snowflake', dbt_vars)
+    _test_generic('snowflake')
 
 def test_redshift():
     _test_generic('redshift')

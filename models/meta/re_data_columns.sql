@@ -8,7 +8,8 @@
 {% set schemas = var('re_data:schemas') %}
 with columns_froms_select as (
     {% for for_schema in schemas %}
-        {{ get_monitored_columns(for_schema) }}
+        {% set schema_name = re_data.schema_name(for_schema) %}
+        {{ get_monitored_columns(schema_name) }}
     {%- if not loop.last %} union all {%- endif %}
     {% endfor %}
 )
