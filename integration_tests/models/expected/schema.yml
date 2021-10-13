@@ -29,6 +29,7 @@ models:
           compare_model: ref('expected_sample_data_max')
           compare_columns:
             - right(upper(replace(replace(table_name, '"', ''), '`', '')), 10) as table_name
+            - coalesce(upper(column_name), '') as column_name
             - metric
             - value
             - time_window_start
@@ -41,6 +42,7 @@ models:
           compare_model: ref('expected_sample_data_max_length')
           compare_columns:
             - right(upper(replace(replace(table_name, '"', ''), '`', '')), 10) as table_name
+            - coalesce(upper(column_name), '') as column_name
             - metric
             - value
             - time_window_start
@@ -53,6 +55,7 @@ models:
           compare_model: ref('expected_sample_data_z_score')
           compare_columns:
             - right(upper(replace(replace(table_name, '"', ''), '`', '')), 10) as table_name
+            - coalesce(upper(column_name), '') as column_name
             - metric
             - cast (z_score_value * 1000 as integer) as z_score_value
             - time_window_end
@@ -61,3 +64,15 @@ models:
             - cast (last_stddev * 1000 as integer) as last_stddev
             - interval_length_sec
 
+  - name: test_re_data_metrics
+    tests:
+      - dbt_utils.equality:
+          compare_model: ref('expected_sample_data_metrics')
+          compare_columns:
+            - right(upper(replace(replace(table_name, '"', ''), '`', '')), 10) as table_name
+            - coalesce(upper(column_name), '') as column_name
+            - metric
+            - cast (value * 1000 as integer) as value
+            - time_window_start
+            - time_window_end
+            - interval_length_sec
