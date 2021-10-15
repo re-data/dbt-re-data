@@ -22,8 +22,7 @@ all_status as (
 select 
     dm.table_name as table_name,
     case 
-        when cm.time_filter is not null
-                then cm.time_filter
+        when cm.table_name is not null then cm.time_filter
              else dm.time_filter
     end as time_filter,
     case 
@@ -49,7 +48,6 @@ from
 select *
 from all_status where
     actively_monitored = true
-    and time_filter is not null
 
 {% endif %}
 

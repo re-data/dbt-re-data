@@ -52,7 +52,7 @@ vars:
 
 
         - name: sample_with_anomaly
-          time_filter: creation_time
+          time_filter: null
 
       actively_monitored: true
 
