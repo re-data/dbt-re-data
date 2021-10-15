@@ -1,11 +1,5 @@
-{% macro get_monitored_columns(for_schema) %}
-    {% set splitted = for_schema.split('.') %}
-    {% set splitted_length = splitted | length %}
-    {% if splitted_length == 2 %}
-        {{ adapter.dispatch('get_monitored_columns', 're_data')(splitted[1], splitted[0]) }}
-    {% else %}
-        {{ adapter.dispatch('get_monitored_columns', 're_data')(splitted[0], None) }}
-    {% endif %}
+{% macro get_monitored_columns(schema, database) %}
+    {{ adapter.dispatch('get_monitored_columns', 're_data')(schema, database) }}
 {% endmacro %}
 
 {% macro default__get_monitored_columns(table_schema, db_name) %}
