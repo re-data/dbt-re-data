@@ -8,9 +8,9 @@
 {% endmacro %}
 
 {% macro freshness_expression(time_filter) %}
-    {# /* If time_filter is none, we are computing the metric globally. so we can assume the table is always in its latest state */ #}
+    {# /* If time_filter is none, we are computing the metric globally. we set the value as null since a table without use of a time filter doesn't really have a freshness metric */ #}
     {% if time_filter is none %}
-        0
+        cast(null as {{ numeric_type() }})
     {% else %}
         {{ adapter.dispatch('freshness_expression', 're_data')(time_filter) }}
     {% endif %}

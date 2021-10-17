@@ -2,18 +2,6 @@
     max({{context.column_name}}) - min({{context.column_name}})
 {% endmacro %}
 
-
-{% macro re_data_metric_buy_count(context) %}
-    coalesce(
-        sum(
-            case when event_type = 'buy'
-                then 1
-            else 0
-            end
-        ), 0
-    )
-{% endmacro %}
-
 {% macro re_data_metric_my_custom_table_metric(context) %}
     1000
 {% endmacro %}

@@ -28,8 +28,7 @@ new_time_columns as (
         new_tables,
         {{ref('re_data_columns')}} as columns
     where
-        columns.table_name = new_tables.table_name and
-        columns.time_filter is not null
+        columns.table_name = new_tables.table_name
 ),
 
 order_by_rank as (

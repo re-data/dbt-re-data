@@ -31,8 +31,6 @@ vars:
   re_data:actively_monitored_by_default: false
 
   re_data:alerting_z_score: 3
-  re_data:schemas:
-    - your_schema_name #overwritten when running by re_data
 
   re_data:monitored: [] # overwritten by user config
 
