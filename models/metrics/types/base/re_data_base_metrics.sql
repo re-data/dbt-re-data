@@ -6,7 +6,6 @@
 }}
 
 -- depends_on: {{ ref('re_data_columns') }}
--- depends_on: {{ ref('re_data_tables') }}
 -- depends_on: {{ ref('re_data_last_base_metrics_thread0') }}
 -- depends_on: {{ ref('re_data_last_base_metrics_thread1') }}
 -- depends_on: {{ ref('re_data_last_base_metrics_thread2') }}

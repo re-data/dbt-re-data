@@ -5,7 +5,7 @@
         {% set for_loop_mod = (loop.index % 4) %}
         {% if for_loop_mod == thread_value %}
             {% set table_name = re_data.row_value(mtable, 'table_name') %}
-            {% set time_filter = re_data.row_value(mtable, 'time_filter') %}          
+            {% set time_filter = re_data.row_value(mtable, 'time_filter') %}    
             {% set metrics = fromjson(re_data.row_value(mtable, 'metrics')) %}
             {% set for_cols = fromjson(re_data.row_value(mtable, 'columns')) %}
             {% set for_cols_dict = re_data.dict_from_list(for_cols) %}
