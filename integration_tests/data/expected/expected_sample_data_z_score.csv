@@ -102,3 +102,7 @@ table_name,column_name,metric,z_score_value,last_value,last_avg,last_stddev,time
 """postgres"".""dq_raw"".""sample_without_time_filter""","rating","missing_percent_global",0,0,0,0,"2021-05-03 00:00:00",86400
 """postgres"".""dq_raw"".""sample_without_time_filter""","rating","missing_count_global",0,0,0,0,"2021-05-03 00:00:00",86400
 """postgres"".""dq_raw"".""sample_without_time_filter""","","row_count_global",0,19,19,0,"2021-05-03 00:00:00",86400
+"""postgres"".""dq_raw"".""sample_without_time_filter""","","global_distinct_table_rows_global",0,19,19,0,"2021-05-03 00:00:00",86400
+"""postgres"".""dq"".""buy_events""","","global_distinct_table_rows",0,10,10,0,"2021-05-03 00:00:00",86400
+"""postgres"".""dq_raw"".""sample_table""","","global_distinct_table_rows",0,9,9,0,"2021-05-03 00:00:00",86400
+"""postgres"".""dq_raw"".""sample_with_anomaly""","","global_distinct_table_rows",0,12,12,0,"2021-05-03 00:00:00",86400

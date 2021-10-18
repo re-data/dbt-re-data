@@ -4,7 +4,7 @@
     {% set tables_def = get_monitored_definition() %}
     {% set schema_db_map = {} %}
     {% for item in tables_def %}
-        {% set key = item.schema + '_' + item.database %}
+        {% set key = item.schema + '___' + item.database %}
         {% if key not in schema_db_map %}
             {% do schemas.append({'schema': item.schema, 'database': item.database}) %}
             {% do schema_db_map.update({key: true})  %}

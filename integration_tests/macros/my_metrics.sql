@@ -21,3 +21,9 @@
     )
 {% endmacro %}
 
+{% macro re_data_metric_global_distinct_table_rows(context) %}
+    with temp_table AS (
+            select distinct * from {{ context.table_name }}
+        )
+    select coalesce(count(*), 0) FROM temp_table
+{% endmacro %}

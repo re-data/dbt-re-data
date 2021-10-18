@@ -67,6 +67,7 @@ vars:
     table:
       - row_count
       - freshness
+      - global_distinct_table_rows
 
     column:
       numeric:
