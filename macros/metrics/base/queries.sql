@@ -90,7 +90,7 @@
 
 {% macro get_final_metric_name(metric_name, time_filter) %}
     {% if time_filter is none %}
-        {{ return (metric_name + '_global') }}
+        {{ return ('global__' + metric_name) }}
     {% else %}
         {{ return (metric_name) }}
     {% endif %}

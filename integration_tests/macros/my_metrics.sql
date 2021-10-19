@@ -21,7 +21,7 @@
     )
 {% endmacro %}
 
-{% macro re_data_metric_global_distinct_table_rows(context) %}
+{% macro re_data_metric_my_distinct_table_rows(context) %}
     with temp_table AS (
             select distinct * from {{ context.table_name }}
         )
