@@ -1,9 +1,6 @@
 name: github pages
 
-on:
-  push:
-    branches:
-      - main
+on: [push, pull_request]
 
 env:
   DBT_PROFILES_DIR: ./
@@ -33,11 +30,13 @@ jobs:
         run: dbt docs generate
 
       - name: Copy files
+        if: github.ref == 'refs/heads/main'
         run: 'mkdir docs && cp target/{catalog.json,index.html,manifest.json,run_results.json} docs/'
         shell: bash
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
+        if: github.ref == 'refs/heads/main'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs
