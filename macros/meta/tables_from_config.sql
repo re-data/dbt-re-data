@@ -1,12 +1,32 @@
-{% macro get_tables_from_config() %}
+{% macro get_schemas_from_monitored_config() %}
+    {# Return a list containing a unique mapping of schema and database #}
+    {% set schemas = [] %}
+    {% set tables_def = get_monitored_definition() %}
+    {% set schema_db_map = {} %}
+    {% for item in tables_def %}
+        {% set key = item.schema + '___' + item.database %}
+        {% if key not in schema_db_map %}
+            {% do schemas.append({'schema': item.schema, 'database': item.database}) %}
+            {% do schema_db_map.update({key: true})  %}
+        {% endif %}
+    {% endfor %}
+    {{ return(schemas) }}
+{% endmacro %}
 
+{% macro get_monitored_definition() %}
     {% set tables_def = [] %}
-
     {% for group in var('re_data:monitored') %}
         {% for table in group['tables'] %}
             {% do tables_def.extend(re_data.monitoring_spec(table, group)) %}
         {% endfor %}
     {% endfor %}
+
+    {{ return(tables_def) }}
+{% endmacro %}
+
+{% macro get_tables_from_config() %}
+
+    {% set tables_def = get_monitored_definition() %}
 
     {% if tables_def != [] %}
         {{ adapter.dispatch('get_tables_from_config', 're_data')(tables_def) }}

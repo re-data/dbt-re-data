@@ -2,37 +2,6 @@
 version: 2
 
 models:
-  - name: re_data_tables
-    description: >
-      Information about all monitored tables. This is currently only table which is supposed to be edited (you can think of it as a configuration table) 
-      2 columns can be changed there:
-        - Change `actively_monitored` to `true`/`false` to start/stop monitoring table and computing stats for it, `(default: false)`
-        - Change `time_filter` to name of column you would like to use as time filter
-          Time filter is important thing in `re_data`, it's used in all filters computing metrics (to filter records added in a given day)
-          One the start some educated guess :) is assigned as this field, but quite often it may require to be changed. `(default: first timestamp type column)`
-          
-      **Important: default behaviour for newly discovered tables**
-
-      By default (assuming env variable `re_data:actively_monitored_by_default` hasn't been changed tables are not monitored. So first `re_data`
-      run should just find tables to monitor but don't actually compute metrics. This is for you so that you can check confirmation and run it for tables you wish.
-      You can obviously just update all `actively_monitored` parameters to true if you want to run it for all tables or even set `re_data:actively_monitored_by_default` to true.
-      
-    columns:
-      - name: table_name
-        description: "Full name schema + table name of a monitored table"
-        tests:
-          - unique
-          - not_null
-
-      - name: actively_monitored
-        description: >
-          Change `actively_monitored` to `true`/`false` to start/stop monitoring table and computing stats for it, `(default: false)`
-      
-      - name: time_filter
-        description: >
-          Time filter is important thing in `re_data`, it's used in all filters computing metrics (to filter records added in a given day)
-          One the start some educated guess :) is assigned as this field, but quite often it may require to be changed. `(default: first timestamp type column)`
-
   - name: re_data_columns
     description: >
       Information about all monitored columns, this contains information about columns similar to this

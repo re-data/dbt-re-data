@@ -54,6 +54,8 @@ vars:
         - name: sample_with_anomaly
           time_filter: creation_time
 
+        - name: sample_without_time_filter
+
       actively_monitored: true
 
     - tables:
@@ -65,7 +67,7 @@ vars:
     table:
       - row_count
       - freshness
-      - buy_count # my own custom metric
+      - my_distinct_table_rows
 
     column:
       numeric:

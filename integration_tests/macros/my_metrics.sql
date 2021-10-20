@@ -2,18 +2,6 @@
     max({{context.column_name}}) - min({{context.column_name}})
 {% endmacro %}
 
-
-{% macro re_data_metric_buy_count(context) %}
-    coalesce(
-        sum(
-            case when event_type = 'buy'
-                then 1
-            else 0
-            end
-        ), 0
-    )
-{% endmacro %}
-
 {% macro re_data_metric_my_custom_table_metric(context) %}
     1000
 {% endmacro %}
@@ -33,3 +21,9 @@
     )
 {% endmacro %}
 
+{% macro re_data_metric_my_distinct_table_rows(context) %}
+    with temp_table AS (
+            select distinct * from {{ context.table_name }}
+        )
+    select coalesce(count(*), 0) FROM temp_table
+{% endmacro %}

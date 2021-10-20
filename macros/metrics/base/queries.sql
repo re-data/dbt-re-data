@@ -5,7 +5,7 @@
         {% set for_loop_mod = (loop.index % 4) %}
         {% if for_loop_mod == thread_value %}
             {% set table_name = re_data.row_value(mtable, 'table_name') %}
-            {% set time_filter = re_data.row_value(mtable, 'time_filter') %}
+            {% set time_filter = re_data.row_value(mtable, 'time_filter') %}    
             {% set metrics = fromjson(re_data.row_value(mtable, 'metrics')) %}
             {% set for_cols = fromjson(re_data.row_value(mtable, 'columns')) %}
             {% set for_cols_dict = re_data.dict_from_list(for_cols) %}
@@ -70,15 +70,28 @@
     from 
         {{ table_name }}
     where
-        {{ in_time_window(time_filter) }}
+        {# /* If not time_filter is specified, we compute the metric over the entire table else we filter for the time frame */ #}
+        {% if time_filter is none %}
+            true
+        {% else %}
+            {{ in_time_window(time_filter) }}
+        {% endif %}
     )
 
     {%- for col_expr in col_exprs %}
-        select '{{table_name}}' as table_name, '{{ col_expr.col_name }}' as column_name, '{{ col_expr.metric }}' as metric, {{ col_expr.col_name + '___' + col_expr.metric }} as value
+        {% set final_metric_name = get_final_metric_name(col_expr.metric, time_filter) %}
+        
+        select '{{table_name}}' as table_name, '{{ col_expr.col_name }}' as column_name, '{{ final_metric_name }}' as metric, {{ col_expr.col_name + '___' + col_expr.metric }} as value
         from temp_table_metrics
         {% if not loop.last %}union all{% endif %}
     {% endfor %}
 
 {% endmacro %}
 
-
+{% macro get_final_metric_name(metric_name, time_filter) %}
+    {% if time_filter is none %}
+        {{ return ('global__' + metric_name) }}
+    {% else %}
+        {{ return (metric_name) }}
+    {% endif %}
+{% endmacro %}

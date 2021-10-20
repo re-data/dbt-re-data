@@ -18,7 +18,7 @@ Specific model documentation also describes purpose for each models.
 
 # Docs getting started
 
-To learn more about `re_data` we recommand starting with docs for [re_data_tables](#!/model/model.re_data.re_data_tables) as this table which let's you control how `re_data` computes metrics.
+To learn more about `re_data` we recommand starting with docs for [example project](https://re-data.github.io/re-data/docs/getting_started/example_project/toy_shop_data) after completing the installation for either [existing dbt projects](https://re-data.github.io/re-data/docs/getting_started/installation/for_dbt_users) or [starters](https://re-data.github.io/re-data/docs/getting_started/installation/new_to_dbt).
 
 Also it's very good to look into Lineage Graph to get general
 idea how models are computed

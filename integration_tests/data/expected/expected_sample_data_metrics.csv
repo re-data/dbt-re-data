@@ -41,7 +41,6 @@ table_name,column_name,metric,value,time_window_start,time_window_end,interval_l
 """postgres"".""dq_raw"".""sample_table""",event_type,unique_rows,1,2021-05-01 00:00:00,2021-05-02 00:00:00,86400
 """postgres"".""dq_raw"".""sample_table""","",row_count,4,2021-05-01 00:00:00,2021-05-02 00:00:00,86400
 """postgres"".""dq_raw"".""sample_table""","",freshness,40765,2021-05-01 00:00:00,2021-05-02 00:00:00,86400
-"""postgres"".""dq_raw"".""sample_table""","",buy_count,3,2021-05-01 00:00:00,2021-05-02 00:00:00,86400
 """postgres"".""dq_raw"".""sample_table""","",my_custom_table_metric,1000,2021-05-01 00:00:00,2021-05-02 00:00:00,86400
 """postgres"".""dq_raw"".""sample_table""","",distinct_table_rows,4,2021-05-01 00:00:00,2021-05-02 00:00:00,86400
 """postgres"".""dq_raw"".""sample_table""",value1,min,100,2021-05-02 00:00:00,2021-05-03 00:00:00,86400
@@ -86,6 +85,7 @@ table_name,column_name,metric,value,time_window_start,time_window_end,interval_l
 """postgres"".""dq_raw"".""sample_table""",event_type,unique_rows,0,2021-05-02 00:00:00,2021-05-03 00:00:00,86400
 """postgres"".""dq_raw"".""sample_table""","",row_count,4,2021-05-02 00:00:00,2021-05-03 00:00:00,86400
 """postgres"".""dq_raw"".""sample_table""","",freshness,40765,2021-05-02 00:00:00,2021-05-03 00:00:00,86400
-"""postgres"".""dq_raw"".""sample_table""","",buy_count,4,2021-05-02 00:00:00,2021-05-03 00:00:00,86400
 """postgres"".""dq_raw"".""sample_table""","",my_custom_table_metric,1000,2021-05-02 00:00:00,2021-05-03 00:00:00,86400
 """postgres"".""dq_raw"".""sample_table""","",distinct_table_rows,4,2021-05-02 00:00:00,2021-05-03 00:00:00,86400
+"""postgres"".""dq_raw"".""sample_table""","","my_distinct_table_rows",9,"2021-05-01 00:00:00","2021-05-02 00:00:00",86400
+"""postgres"".""dq_raw"".""sample_table""","","my_distinct_table_rows",9,"2021-05-02 00:00:00","2021-05-03 00:00:00",86400
