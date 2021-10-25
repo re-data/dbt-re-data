@@ -1,6 +1,6 @@
 name: github pages
 
-on: [push]
+on: [push, pull_request]
 
 env:
   DBT_PROFILES_DIR: ./
