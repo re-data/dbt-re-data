@@ -4,10 +4,8 @@
 
 {% macro normalize_expression_cte(reference_table) %}
     with target_table as (
-        {% if re_data.is_dbt_relation(reference_table) %}
+        {% if re_data.is_dbt_relation(reference_table) or reference_table is string %}
             select * from {{ reference_table }}
-        {% elif reference_table is string %}
-            select * from ( {{ reference_table }} ) r
         {% elif reference_table is mapping %}
             {% for key, value in reference_table.items() %}
                 select '{{key}}' as incorrect, '{{value}}' as correct
