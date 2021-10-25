@@ -12,13 +12,9 @@ env:
 jobs:
   deploy:
     runs-on: ubuntu-18.04
-    # Service containers to run with `runner-job`
     services:
-      # Label used to access the service container
       postgres:
-        # Docker Hub image
         image: postgres
-        # Provide the password for postgres
         env:
           POSTGRES_PASSWORD: postgres
         # Set health checks to wait until postgres has started
@@ -32,7 +28,7 @@ jobs:
           - 5432:5432
     steps:        
       - name: Check out
-        uses: actions/checkout@main
+        uses: actions/checkout@v2
 
       - uses: actions/setup-python@v1
         with:
