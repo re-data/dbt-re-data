@@ -7,6 +7,6 @@ re_data_postgres:
       user: postgres
       password: postgres
       port: 5432
-      dbname: dbtdev
+      dbname: postgres
       schema: dq
       threads: 4
