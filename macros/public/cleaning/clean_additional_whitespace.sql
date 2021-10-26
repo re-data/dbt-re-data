@@ -11,5 +11,9 @@
 {% endmacro %}
 
 {% macro bigquery__clean_additional_whitespaces(column_name) %}
-    trim(regexp_replace( {{ column_name }}, r'\s\s+', ' ', 'g'))
+    trim(regexp_replace( {{ column_name }}, r'\s\s+', ' '))
+{% endmacro %}
+
+{% macro snowflake__clean_additional_whitespaces(column_name) %}
+    trim(regexp_replace( {{ column_name }}, '\\s\\s+', ' '))
 {% endmacro %}
