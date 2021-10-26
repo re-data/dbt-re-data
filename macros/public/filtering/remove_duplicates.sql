@@ -9,7 +9,7 @@
     (
         with with_row_num as (
             select *, row_number() over (
-                partition by {{ re_data.comma_delimited_list(unique_cols) }} order by {{ re_data.comma_delimited_list(sort_columns) }}
+                partition by {{ re_data.comma_delimited_list(unique_cols) }} {% if sort_columns %} order by {{ re_data.comma_delimited_list(sort_columns) }} {% endif %}
             ) as re_data_row_num
             from {{ relation }}
         ),

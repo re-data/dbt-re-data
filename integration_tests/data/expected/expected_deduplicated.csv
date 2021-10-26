@@ -1,0 +1,18 @@
+transaction_id,creation_time,status,value,use_case
+1,2021-05-01 12:31:32,pending,100,take_first
+2,2021-05-01 12:35:35,pending,200,take_first
+3,2021-05-01 12:40:35,pending,300,take_first
+4,2021-05-02 12:35:35,completed,10,take_first
+5,2021-05-02 12:40:35,pending,100,take_first
+1,2021-05-01 12:40:35,completed,100,take_last
+2,2021-05-01 12:35:35,pending,200,take_last
+3,2021-05-02 12:31:32,completed,300,take_last
+4,2021-05-02 12:40:35,completed,40,take_last
+5,2021-05-02 12:40:35,pending,100,take_last
+1,2021-05-01 12:40:35,completed,100,take_all_statuses
+1,2021-05-01 12:31:32,pending,100,take_all_statuses
+2,2021-05-01 12:35:35,pending,200,take_all_statuses
+3,2021-05-02 12:31:32,completed,300,take_all_statuses
+3,2021-05-01 12:40:35,pending,300,take_all_statuses
+4,2021-05-02 12:40:35,completed,40,take_all_statuses
+5,2021-05-02 12:40:35,pending,100,take_all_statuses
