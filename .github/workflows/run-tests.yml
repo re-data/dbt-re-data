@@ -1,9 +1,9 @@
-name: github pages
+name: Run package tests
 
 on: [push, pull_request]
 
 env:
-  DBT_PROFILES_DIR: ./integration_tests
+  DBT_PROFILES_DIR: ./
 
 jobs:
   run-tests:
