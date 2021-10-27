@@ -40,17 +40,17 @@ jobs:
         working-directory: ./integration_tests
         run: pytest test_dbs.py -k 'test_postgres'
 
-      - name: Test Snowflake
-        working-directory: ./integration_tests
-        run: pytest test_dbs.py -k 'test_snowflake'
-        if: github.event_name != 'pull_request'
+      # - name: Test Snowflake
+      #   working-directory: ./integration_tests
+      #   run: pytest test_dbs.py -k 'test_snowflake'
+      #   if: github.event_name != 'pull_request'
       
-      - name: Test BigQuery
-        working-directory: ./integration_tests
-        run: pytest test_dbs.py -k 'test_bigquery'
-        if: github.event_name != 'pull_request'
+      # - name: Test BigQuery
+      #   working-directory: ./integration_tests
+      #   run: pytest test_dbs.py -k 'test_bigquery'
+      #   if: github.event_name != 'pull_request'
       
-      - name: Test Redshift
-        working-directory: ./integration_tests
-        run: pytest test_dbs.py -k 'test_redshift'
-        if: github.event_name != 'pull_request'
+      # - name: Test Redshift
+      #   working-directory: ./integration_tests
+      #   run: pytest test_dbs.py -k 'test_redshift'
+      #   if: github.event_name != 'pull_request'
