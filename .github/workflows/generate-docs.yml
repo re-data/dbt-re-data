@@ -1,4 +1,4 @@
-name: github pages
+name: Generate Documentation
 
 on: [push, pull_request]
 
@@ -6,7 +6,7 @@ env:
   DBT_PROFILES_DIR: ./
 
 jobs:
-  deploy:
+  generate-docs:
     runs-on: ubuntu-18.04
     services:
       postgres:
