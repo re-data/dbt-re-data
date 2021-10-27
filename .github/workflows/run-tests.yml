@@ -3,7 +3,7 @@ name: Run package tests
 on: [push, pull_request]
 
 env:
-  DBT_PROFILES_DIR: ./
+  DBT_PROFILES_DIR: $GITHUB_WORKSPACE/
 
 jobs:
   run-tests:
