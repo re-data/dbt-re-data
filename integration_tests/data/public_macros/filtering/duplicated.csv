@@ -1,0 +1,9 @@
+transaction_id,creation_time,status,value
+1,2021-05-01 12:31:32,pending,100
+2,2021-05-01 12:35:35,pending,200
+1,2021-05-01 12:40:35,completed,100
+3,2021-05-01 12:40:35,pending,300
+3,2021-05-02 12:31:32,completed,300
+4,2021-05-02 12:35:35,completed,10
+5,2021-05-02 12:40:35,pending,100
+4,2021-05-02 12:40:35,completed,40
