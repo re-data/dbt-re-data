@@ -3,7 +3,7 @@ name: Run package tests
 on: [push, pull_request]
 
 env:
-  DBT_PROFILES_DIR: $GITHUB_WORKSPACE/
+  DBT_PROFILES_DIR: ${{ github.workspace }}/
 
 jobs:
   run-tests:
@@ -35,7 +35,6 @@ jobs:
         run: |
           pip install -r requirements.txt
           dbt deps
-          echo $DBT_PROFILES_DIR
           dbt run
 
       - name: Test Postgres
