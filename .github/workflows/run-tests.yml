@@ -6,7 +6,7 @@ env:
   DBT_PROFILES_DIR: ${{ github.workspace }}/
 
 jobs:
-  run-tests:
+  test-postgres:
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -36,21 +36,10 @@ jobs:
           pip install -r requirements.txt
           dbt deps
 
-      - name: Test Postgres
+      - name: Test DBs
         working-directory: ./integration_tests
-        run: pytest test_dbs.py -k 'test_postgres'
+        run: pytest python_tests/test_dbs.py -k 'test_database' --db postgres
 
-      # - name: Test Snowflake
-      #   working-directory: ./integration_tests
-      #   run: pytest test_dbs.py -k 'test_snowflake'
-      #   if: github.event_name != 'pull_request'
-      
-      # - name: Test BigQuery
-      #   working-directory: ./integration_tests
-      #   run: pytest test_dbs.py -k 'test_bigquery'
-      #   if: github.event_name != 'pull_request'
-      
-      # - name: Test Redshift
-      #   working-directory: ./integration_tests
-      #   run: pytest test_dbs.py -k 'test_redshift'
-      #   if: github.event_name != 'pull_request'
+      - name: Test Filters
+        working-directory: ./integration_tests
+        run: pytest python_tests/test_filters.py -k 'test_filters' --db postgres
