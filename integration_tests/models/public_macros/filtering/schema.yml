@@ -1,0 +1,7 @@
+version: 2
+
+models:
+  - name: deduplicated
+    tests:
+      - dbt_utils.equality:
+          compare_model: ref('expected_deduplicated')
