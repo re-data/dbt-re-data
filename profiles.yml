@@ -3,10 +3,10 @@ re_data_postgres:
   outputs:
     dev:
       type: postgres
-      host: "{{ env_var('DBT_POSTGRES_HOST_DEV') }}" 
-      user: "{{ env_var('DBT_POSTGRES_USER_DEV') }}" 
-      password: "{{ env_var('DBT_POSTGRES_PASSWORD_DEV') }}" 
+      host: localhost
+      user: postgres
+      password: postgres
       port: 5432
-      dbname: dbtdev
+      dbname: postgres
       schema: dq
       threads: 4
