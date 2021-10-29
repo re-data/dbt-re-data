@@ -10,7 +10,7 @@ DBT_VARS = {
     're_data:time_window_end': RUN_TIME.strftime("%Y-%m-%d %H:%M:%S"),
 }
 
-def test_database(db, dbt_vars=None, debug=True):
+def test_monitoring(db, dbt_vars=None, debug=True):
 
     load_deps = 'dbt deps'
     assert os.system(load_deps) == 0
