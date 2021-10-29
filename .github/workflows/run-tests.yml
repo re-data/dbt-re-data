@@ -1,13 +1,13 @@
-name: github pages
+name: Run package tests
 
 on: [push, pull_request]
 
 env:
-  DBT_PROFILES_DIR: ./
+  DBT_PROFILES_DIR: ${{ github.workspace }}/
 
 jobs:
-  deploy:
-    runs-on: ubuntu-18.04
+  test-postgres:
+    runs-on: ubuntu-latest
     services:
       postgres:
         image: postgres
@@ -30,23 +30,12 @@ jobs:
         with:
           python-version: "3.7.x"
 
-      - name: Install dependencies and run
+      - name: Install dependencies
+        working-directory: ./integration_tests
         run: |
-          pip install dbt==0.20.0
+          pip install -r requirements.txt
           dbt deps
-          dbt run
 
-      - name: Generate Documentation
-        run: dbt docs generate
-
-      - name: Copy files
-        if: github.ref == 'refs/heads/main'
-        run: 'mkdir docs && cp target/{catalog.json,index.html,manifest.json,run_results.json} docs/'
-        shell: bash
-
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        if: github.ref == 'refs/heads/main'
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs
+      - name: Test DB
+        working-directory: ./integration_tests/python_tests
+        run: pytest --db postgres

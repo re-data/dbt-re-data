@@ -1,0 +1,52 @@
+name: Generate Documentation
+
+on: [push, pull_request]
+
+env:
+  DBT_PROFILES_DIR: ./
+
+jobs:
+  generate-docs:
+    runs-on: ubuntu-18.04
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          # Maps tcp port 5432 on service container to the host
+          - 5432:5432
+    steps:        
+      - name: Check out
+        uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v1
+        with:
+          python-version: "3.7.x"
+
+      - name: Install dependencies and run
+        run: |
+          pip install dbt==0.20.0
+          dbt deps
+          dbt run
+
+      - name: Generate Documentation
+        run: dbt docs generate
+
+      - name: Copy files
+        if: github.ref == 'refs/heads/main'
+        run: 'mkdir docs && cp target/{catalog.json,index.html,manifest.json,run_results.json} docs/'
+        shell: bash
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        if: github.ref == 'refs/heads/main'
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs

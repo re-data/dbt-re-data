@@ -2,7 +2,6 @@ import os
 import pytest
 from .utils.run import run_dbt
 
-@pytest.mark.parametrize('db', ['postgres','snowflake','redshift','bigquery'])
 def test_deduplication(db, debug=True):
 
     print (f"Running setup and tests for {db}")

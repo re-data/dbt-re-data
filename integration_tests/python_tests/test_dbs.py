@@ -10,7 +10,7 @@ DBT_VARS = {
     're_data:time_window_end': RUN_TIME.strftime("%Y-%m-%d %H:%M:%S"),
 }
 
-def _test_generic(db, dbt_vars=None, debug=True):
+def test_monitoring(db, dbt_vars=None, debug=True):
 
     load_deps = 'dbt deps'
     assert os.system(load_deps) == 0
@@ -55,16 +55,3 @@ def _test_generic(db, dbt_vars=None, debug=True):
     assert os.system(test_re_data) == 0
 
     print (f"Running tests completed for {db}")
-
-
-def test_postgres():
-    _test_generic('postgres')
-
-def test_snowflake():
-    _test_generic('snowflake')
-
-def test_redshift():
-    _test_generic('redshift')
-
-def test_bigquery():
-    _test_generic('bigquery')
