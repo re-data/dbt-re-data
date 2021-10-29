@@ -36,10 +36,6 @@ jobs:
           pip install -r requirements.txt
           dbt deps
 
-      - name: Test DBs
-        working-directory: ./integration_tests
-        run: pytest python_tests/test_dbs.py --db postgres
-
-      - name: Test Filters
-        working-directory: ./integration_tests
-        run: pytest python_tests/test_filters.py --db postgres
+      - name: Test DB
+        working-directory: ./integration_tests/python_tests
+        run: pytest --db postgres
