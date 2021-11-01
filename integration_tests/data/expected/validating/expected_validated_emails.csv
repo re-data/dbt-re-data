@@ -1,0 +1,5 @@
+user_id,email,email_valid
+1,test@fakemail.com,1
+2,novalidemail@,0
+3,novalidemail@com,0
+4,test+alovalidemail@fakemail.com,0

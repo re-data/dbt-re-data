@@ -7,7 +7,10 @@ def test_validate_regex(db, debug=True):
 
     print (f"Running setup and tests for {db}")
 
-    run_dbt('dbt seed --full-refresh --select validate_email', db)
-    run_dbt('dbt run --full-refresh --select validate_email+', db)
+    run_dbt('dbt seed --full-refresh --select '
+            'public_macros.validating expected.validating'
+        , db)
+    run_dbt('dbt run --full-refresh --select public_macros.validating', db)
+    run_dbt('dbt test --select public_macros.validating --greedy', db)
 
     print (f"Running tests completed for {db}")

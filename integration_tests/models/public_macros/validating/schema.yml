@@ -1,0 +1,12 @@
+version: 2
+
+models:
+  - name: validated_emails
+    tests:
+      - dbt_utils.equality:
+          compare_model: ref('expected_validated_emails')
+
+  - name: validated_numbers
+    tests:
+      - dbt_utils.equality:
+          compare_model: ref('expected_validated_numbers')

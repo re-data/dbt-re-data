@@ -2,7 +2,10 @@
 
 {% macro valid_regex(column_name, to_validate) %}
 {% set pattern = re_data.get_regexp_for(to_validate) %}
- {{ re_data.regex_match_expression(column_name, pattern) }}
+  case when 
+    {{ column_name }} is null then false 
+    else {{ re_data.regex_match_expression(column_name, pattern) }}
+  end
 {% endmacro %}
 
 {% macro valid_email(column_name) %}
@@ -53,10 +56,6 @@
     {{ re_data.valid_regex(column_name, 'number_whole')}}
 {% endmacro %}
 
-{% macro valid_number(column_name) %}
-    {{ re_data.valid_regex(column_name, 'number_whole')}}
-{% endmacro %}
-
 {% macro valid_number_decimal_point(column_name) %}
     {{ re_data.valid_regex(column_name, 'number_decimal_point')}}
 {% endmacro %}
@@ -67,6 +66,14 @@
 
 {% macro valid_number_percentage(column_name) %}
     {{ re_data.valid_regex(column_name, 'number_percentage')}}
+{% endmacro %}
+
+{% macro valid_number_percentage_point(column_name) %}
+    {{ re_data.valid_regex(column_name, 'number_percentage_point')}}
+{% endmacro %}
+
+{% macro valid_number_percentage_comma(column_name) %}
+    {{ re_data.valid_regex(column_name, 'number_percentage_comma')}}
 {% endmacro %}
 
 {% macro valid_phone(column_name) %}
