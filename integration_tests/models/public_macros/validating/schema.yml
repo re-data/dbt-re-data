@@ -25,8 +25,3 @@ models:
     tests:
       - dbt_utils.equality:
           compare_model: ref('expected_validated_uuids')
-
-  - name: validated_credit_cards
-    tests:
-      - dbt_utils.equality:
-          compare_model: ref('expected_validated_credit_cards')
