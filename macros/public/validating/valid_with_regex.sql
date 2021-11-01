@@ -36,6 +36,10 @@
     {{ re_data.valid_regex(column_name, 'time_12h')}}
 {% endmacro %}
 
+{% macro valid_time(column_name) %}
+    {{ re_data.valid_regex(column_name, 'time')}}
+{% endmacro %}
+
 {% macro valid_ip_v4(column_name) %}
     {{ re_data.valid_regex(column_name, 'ipv4_address')}}
 {% endmacro %}

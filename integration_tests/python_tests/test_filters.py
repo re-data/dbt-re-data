@@ -8,6 +8,6 @@ def test_deduplication(db, debug=True):
 
     run_dbt('dbt seed --full-refresh --select duplicated expected_deduplicated', db)
     run_dbt('dbt run --full-refresh --select duplicated+', db)
-    run_dbt('dbt test --models deduplicated --greedy', db)
+    run_dbt('dbt test --store-failures --models deduplicated --greedy', db)
 
     print (f"Running tests completed for {db}")

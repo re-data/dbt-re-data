@@ -11,6 +11,6 @@ def test_validate_regex(db, debug=True):
             'public_macros.validating expected.validating'
         , db)
     run_dbt('dbt run --full-refresh --select public_macros.validating', db)
-    run_dbt('dbt test --select public_macros.validating --greedy', db)
+    run_dbt('dbt test --store-failures --select public_macros.validating --greedy', db)
 
     print (f"Running tests completed for {db}")
