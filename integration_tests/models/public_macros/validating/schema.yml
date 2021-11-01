@@ -10,3 +10,23 @@ models:
     tests:
       - dbt_utils.equality:
           compare_model: ref('expected_validated_numbers')
+
+  - name: validated_date_and_time
+    tests:
+      - dbt_utils.equality:
+          compare_model: ref('expected_validated_date_and_time')
+
+  - name: validated_ips
+    tests:
+      - dbt_utils.equality:
+          compare_model: ref('expected_validated_ips')
+  
+  - name: validated_uuids
+    tests:
+      - dbt_utils.equality:
+          compare_model: ref('expected_validated_uuids')
+
+  - name: validated_credit_cards
+    tests:
+      - dbt_utils.equality:
+          compare_model: ref('expected_validated_credit_cards')
