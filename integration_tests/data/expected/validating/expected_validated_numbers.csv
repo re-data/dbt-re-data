@@ -1,0 +1,12 @@
+number,is_number,is_number_decimal_point,is_number_decimal_comma,is_percentage,is_percentage_decimal_point,is_percentage_decimal_comma
+133,1,0,0,0,0,0
+1232.232,0,1,0,0,0,0
+"2332,123",0,0,1,0,0,0
+not a number,0,0,0,0,0,0
+"1,3%",0,0,0,1,0,1
+123%,0,0,0,1,1,1
+13  %,0,0,0,0,0,0
+76.234%,0,0,0,1,1,0
+not a number,0,0,0,0,0,0
+x,0,0,0,0,0,0
+123partly987,0,0,0,0,0,0

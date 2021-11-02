@@ -1,4 +1,5 @@
-pytest --db postgres &
-pytest --db snowflake &
-pytest --db bigquery &
-pytest --db redshift
+pytest --db postgres $@ & 
+pytest --db snowflake $@ &
+pytest --db bigquery $@ &
+pytest --db redshift $@ &
+wait 

@@ -15,9 +15,13 @@
 {%- endmacro -%}
 
 {%- macro default__clean_blacklist(column_name, pattern_string, replacement) -%}
-    regexp_replace( {{ column_name }}, '{{ pattern_string }}', '{{ replacement }}')    
+    regexp_replace( {{ column_name }}, '{{ pattern_string }}', '{{ replacement }}')
 {%- endmacro -%}
 
 {%- macro postgres__clean_blacklist(column_name, pattern_string, replacement) -%}
-    regexp_replace( {{ column_name }}, '{{ pattern_string }}', '{{ replacement }}', 'g')    
+    regexp_replace( {{ column_name }}, '{{ pattern_string }}', '{{ replacement }}', 'g')
+{%- endmacro -%}
+
+{%- macro redshift__clean_blacklist(column_name, pattern_string, replacement) -%}
+    regexp_replace( {{ column_name }}, '{{ pattern_string }}', '{{ replacement }}')
 {%- endmacro -%}
