@@ -12,7 +12,7 @@
 #  limitations under the License.
 #}
 
-{% macro get_regexp_for(to_validate) %}
+{% macro get_regex_for(to_validate) %}
 
     {% set regexp_dict = {
         'number_whole': '^\-?[0-9]+$',
@@ -43,22 +43,22 @@
         } %}
 
     {% set base_regex = regexp_dict[to_validate] %}
-    {% set qualifed_regex = adapter.dispatch('get_regexp_for', 're_data')(base_regex) %}
+    {% set qualifed_regex = adapter.dispatch('get_regex_for', 're_data')(base_regex) %}
     {{ return(qualifed_regex) }}
 
 {% endmacro %}
 
-{% macro default__get_regexp_for(pattern) %}
+{% macro default__get_regex_for(pattern) %}
     {{ return (pattern) }}
 {% endmacro %}
 
-{% macro redshift__get_regexp_for(pattern) %}
+{% macro redshift__get_regex_for(pattern) %}
     {% set changed = modules.re.sub('\.', '\\.', pattern) %}
     {% set changed = modules.re.sub('\-', '\\-', changed) %}
     {{ return (changed) }}
 {% endmacro %}
 
-{% macro snowflake__get_regexp_for(pattern) %}
+{% macro snowflake__get_regex_for(pattern) %}
     {% set changed = modules.re.sub('\.', '\\.', pattern) %}
     {% set changed = modules.re.sub('\-', '\\-', changed) %}
     {{ return (changed) }}

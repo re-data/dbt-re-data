@@ -1,7 +1,7 @@
 
 
 {% macro valid_regex(column_name, to_validate) %}
-{% set pattern = re_data.get_regexp_for(to_validate) %}
+{% set pattern = re_data.get_regex_for(to_validate) %}
   case when 
     {{ column_name }} is null then false 
     else {{ re_data.regex_match_expression(column_name, pattern) }}
