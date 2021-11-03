@@ -8,7 +8,7 @@
             select * from {{ reference_table }}
         {% elif reference_table is mapping %}
             {% for key, value in reference_table.items() %}
-                select '{{key}}' as incorrect, '{{value}}' as correct
+                select '{{key}}' as source, '{{value}}' as target
                 {% if not loop.last %}union all{% endif %}
             {% endfor %}
         {% endif %}
@@ -20,13 +20,13 @@
         {{ re_data.normalize_expression_cte(reference_table) }}
         
         select s.*, 
-        case when t.incorrect is null
+        case when t.source is null
                 then s.{{column_name}}
-            else t.correct
+            else t.target
             end as {{ column_name + '__normalized'}} 
         from {{ source_relation }} s
         left join target_table t 
-        on t.incorrect = s.{{column_name}}
+        on t.source = s.{{column_name}}
     )
 {%- endmacro -%}
 
