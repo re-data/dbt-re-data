@@ -16,6 +16,10 @@ clean-targets:
   - "target"
   - "dbt_modules"
 
+models:
+  re_data:
+    enabled: true
+
 vars:
   re_data:max_columns_in_query: 1
   re_data:monitored:

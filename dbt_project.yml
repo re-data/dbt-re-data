@@ -2,7 +2,7 @@
 # and underscores. A good package name should reflect your organization's
 # name or the intended use of these models
 name: "re_data"
-version: "0.3.0"
+version: "0.4.0"
 config-version: 2
 
 # This setting configures which "profile" dbt uses for this project.
@@ -69,6 +69,6 @@ require-dbt-version: [">=0.20.0", "<0.22.0"]
 models:
   re_data:
     +schema: re
-
+    enabled: false
     internal:
       +schema: re_internal
