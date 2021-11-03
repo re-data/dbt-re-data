@@ -1,5 +1,5 @@
 with us_states_normalization_cte as (
-    select incorrect, correct from {{ ref('us_states_normalization') }}
+    select source, target from {{ ref('us_states_normalization') }}
 )
 
 {% set us_states_mapping = {'Ala.': 'Alabama', 'Alaska': 'Alaska', 'Ariz.': 'Arizona', 'Ark.': 'Arkansas', 'Calif.': 'California', 'Colo.': 'Colorado', 'Conn.': 'Connecticut',
@@ -16,8 +16,8 @@ with us_states_normalization_cte as (
     We have three ways of passing the source used for normalization
         1. passing a dbt model using ref('') which is of type Relation.
         2. passing a common table expression that contains the source mapping
-            Note: model or cte must include "incorrect" and "correct" column names used for normalization in 1. & 2. repectively
-        3. passing a dictionary of values that map from incorrect -> correct ie {[incorrect]: [correct]}
+            Note: model or cte must include "source" and "target" column names used for normalization in 1. & 2. repectively
+        3. passing a dictionary of values that map from source -> target ie {[source]: [target]}
  #}
 
 select distinct * from (
