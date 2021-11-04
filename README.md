@@ -22,7 +22,7 @@ re_data metrics & alerts models contain information about data quality which let
 
 # Getting stated
 
-[Check our docs!](https://re-data.github.io/re-data/docs/introduction/whatis) 🙂
+[Check our docs!](https://re-data.github.io/re-data/latest/docs/introduction/whatis) 🙂
 
 [Join re_data community on Slack](https://join.slack.com/t/re-data/shared_invite/zt-vkauq1y8-tL4R4_H5nZoVvyXyy0hdug) (we are very responsive there)
 
