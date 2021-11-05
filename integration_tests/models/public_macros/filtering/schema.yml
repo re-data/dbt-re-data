@@ -5,3 +5,7 @@ models:
     tests:
       - dbt_utils.equality:
           compare_model: ref('expected_deduplicated')
+  - name: duplicates
+    tests:
+      - dbt_utils.equality:
+          compare_model: ref('expected_duplicates')
