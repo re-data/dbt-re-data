@@ -10,20 +10,11 @@ re_data_duplicate_row_number - number of a duplicate row inside the group of dup
 
 {% macro filter_get_duplicates(relation, unique_cols, sort_columns) %}
     (
-        with with_row_num_count as (
-            select *
-            , count(*) over (
-            partition by {{ re_data.comma_delimited_list(unique_cols) }} 
-            ) as re_data_duplicates_group_rows_count
-            , row_number() over (
-                partition by {{ re_data.comma_delimited_list(unique_cols) }} {% if sort_columns %} order by {{ re_data.comma_delimited_list(sort_columns) }} {% endif %}
-            ) as re_data_duplicates_group_row_number
-
-           
-            from {{ relation }}
+        with duplication_context as (
+            {{re_data.add_duplication_context(relation, unique_cols, sort_columns)}}
         ),
         duplicate_rows as (
-            select * from with_row_num_count where re_data_duplicates_group_rows_count > 1
+            select * from duplication_context where re_data_duplicates_group_rows_count > 1
         )
         {# return surrogate key as well? #}
         select *
