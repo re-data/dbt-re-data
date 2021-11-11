@@ -10,4 +10,12 @@ def test_deduplication(db, debug=True):
     dbt_run('--select deduplicated', db)
     dbt_test('--select deduplicated', db)
 
+def test_get_duplicates(db, debug=True):
+
+    print (f"Running setup and tests for {db}")
+
+    dbt_seed('--select duplicates expected_duplicates', db)
+    dbt_run('--select duplicates', db)
+    dbt_test('--select duplicates', db)
+
     print (f"Running tests completed for {db}")
