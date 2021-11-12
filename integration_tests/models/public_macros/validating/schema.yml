@@ -5,11 +5,29 @@ models:
     tests:
       - dbt_utils.equality:
           compare_model: ref('expected_validated_emails')
+     
+    columns:
+      - name: email
+        tests:
+          - re_data.valid_string:
+              macro: valid_email
+              where_cond: is_valid = true
 
   - name: validated_numbers
     tests:
       - dbt_utils.equality:
           compare_model: ref('expected_validated_numbers')
+
+    columns:
+      - name: number
+        tests:
+          - re_data.valid_string:
+              macro: valid_number
+              where_cond: is_number = true
+
+          - re_data.valid_string:
+              macro: valid_number_decimal_point
+              where_cond: is_number_decimal_point = true
 
   - name: validated_date_and_time
     tests:
