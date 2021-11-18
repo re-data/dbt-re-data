@@ -9,6 +9,9 @@
 -- depends_on: {{ ref('re_data_base_metrics') }}
 
 {% if execute %}
+    {% set dbt_graph = tojson(graph) %}
+    {# This ensures that the concatenated dollar sign is escaped in jinja as it won't compile if written as a literal #}
+    {% set two_dollar_sign = "$" + "$" %}
     {% set overview_query %}
         with z_score_cte as (
             select * from {{ ref('re_data_z_score') }}
@@ -16,11 +19,11 @@
         base_metrics_cte as (
             select * from {{ ref('re_data_base_metrics') }}
         )
-        select 'anomalies' as component_name, json_agg(row_to_json(z)) as component_json, {{ dbt_utils.current_timestamp_in_utc() }} as generated_at
-        from z_score_cte z
-        union all
-        select 'metrics' as component_name, json_agg(row_to_json(b)) as component_json, {{ dbt_utils.current_timestamp_in_utc() }} as generated_at
-        from base_metrics_cte b
+        select 
+            (select json_agg(row_to_json(z)) from z_score_cte z) as anomalies,
+            (select json_agg(row_to_json(b)) from base_metrics_cte b) as metrics,
+            {{two_dollar_sign}}{{ dbt_graph }}{{two_dollar_sign}} as graph,
+            {{ dbt_utils.current_timestamp_in_utc() }} as generated_at
         
     {% endset %}
 
