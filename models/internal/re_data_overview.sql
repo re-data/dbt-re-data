@@ -5,7 +5,7 @@
     )
 }}
 
--- depends_on: {{ ref('re_data_z_score') }}
+-- depends_on: {{ ref('re_data_alerting') }}
 -- depends_on: {{ ref('re_data_base_metrics') }}
 
 {% if execute %}
@@ -14,7 +14,7 @@
     {% set two_dollar_sign = "$" + "$" %}
     {% set overview_query %}
         with z_score_cte as (
-            select * from {{ ref('re_data_z_score') }}
+            select * from {{ ref('re_data_alerting') }}
         ),
         base_metrics_cte as (
             select * from {{ ref('re_data_base_metrics') }}
