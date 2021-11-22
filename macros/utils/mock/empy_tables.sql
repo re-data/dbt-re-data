@@ -98,6 +98,11 @@
     select 
         cast (some_string as {{ string_type() }} ) as component,
         cast (some_string as {{ string_type() }} ) as component_json,
+
+{% macro empty_run_results() %}
+    {{ re_data.dummy_to_select() }}
+    select 
+        cast (some_string as {{ string_type() }} ) as json_data,
         cast (some_time as {{ timestamp_type() }} ) as generated_at
     from dummy_table
     where some_num = 2
