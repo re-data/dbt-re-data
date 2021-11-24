@@ -7,6 +7,7 @@
 
 -- depends_on: {{ ref('re_data_alerting') }}
 -- depends_on: {{ ref('re_data_base_metrics') }}
+-- depends_on: {{ ref('re_data_schema_changes') }}
 
 {% if execute %}
     {% set dbt_graph = tojson(graph) %}
@@ -18,10 +19,14 @@
         ),
         base_metrics_cte as (
             select * from {{ ref('re_data_base_metrics') }}
+        ),
+        schema_changes_cte as (
+            select * from {{ ref('re_data_schema_changes') }}
         )
         select 
             (select json_agg(row_to_json(z)) from z_score_cte z) as anomalies,
             (select json_agg(row_to_json(b)) from base_metrics_cte b) as metrics,
+            (select json_agg(row_to_json(s)) from schema_changes_cte s) as schema_changes,
             {{two_dollar_sign}}{{ dbt_graph }}{{two_dollar_sign}} as graph,
             {{ dbt_utils.current_timestamp_in_utc() }} as generated_at
         
