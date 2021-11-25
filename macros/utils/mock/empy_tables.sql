@@ -92,3 +92,13 @@
     from dummy_table
     where some_num = 2
 {% endmacro %}
+
+{% macro empty_overview_table() %}
+    {{ re_data.dummy_to_select() }}
+    select 
+        cast (some_string as {{ string_type() }} ) as component,
+        cast (some_string as {{ string_type() }} ) as component_json,
+        cast (some_time as {{ timestamp_type() }} ) as generated_at
+    from dummy_table
+    where some_num = 2
+{% endmacro %}
