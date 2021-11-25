@@ -96,8 +96,12 @@
 {% macro empty_overview_table() %}
     {{ re_data.dummy_to_select() }}
     select 
-        cast (some_string as {{ string_type() }} ) as component,
-        cast (some_string as {{ string_type() }} ) as component_json,
+        cast (some_string as {{ string_type() }} ) as anomalies,
+        cast (some_string as {{ string_type() }} ) as metrics,
+        cast (some_string as {{ string_type() }} ) as schema_changes,
+        cast (some_string as {{ string_type() }} ) as graph,
+        cast (some_time as {{ timestamp_type() }} ) as generated_at
+{% endmacro %}
 
 {% macro empty_run_results() %}
     {{ re_data.dummy_to_select() }}

@@ -11,8 +11,6 @@
 
 {% if execute %}
     {% set dbt_graph = tojson(graph) %}
-    {# This ensures that the concatenated dollar sign is escaped in jinja as it won't compile if written as a literal #}
-    {% set two_dollar_sign = "$" + "$" %}
     {% set overview_query %}
         with z_score_cte as (
             select * from {{ ref('re_data_alerting') }}
@@ -27,7 +25,7 @@
             (select json_agg(row_to_json(z)) from z_score_cte z) as anomalies,
             (select json_agg(row_to_json(b)) from base_metrics_cte b) as metrics,
             (select json_agg(row_to_json(s)) from schema_changes_cte s) as schema_changes,
-            {{two_dollar_sign}}{{ dbt_graph }}{{two_dollar_sign}} as graph,
+            {{ quote_text(dbt_graph) }} as graph,
             {{ dbt_utils.current_timestamp_in_utc() }} as generated_at
         
     {% endset %}
