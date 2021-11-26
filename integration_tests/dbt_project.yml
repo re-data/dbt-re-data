@@ -3,7 +3,7 @@ version: "1.0"
 config-version: 2
 
 # Changed when running tests
-profile: "re_data_postgres"
+profile: "re_data_snowflake"
 
 source-paths: ["models"]
 analysis-paths: ["analysis"]
