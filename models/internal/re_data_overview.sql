@@ -1,15 +1,11 @@
-{{
-    config(
-        materialized='incremental',
-        unique_key = 'generated_at'
-    )
-}}
+
 
 -- depends_on: {{ ref('re_data_alerting') }}
 -- depends_on: {{ ref('re_data_base_metrics') }}
 -- depends_on: {{ ref('re_data_schema_changes') }}
 
 {% if execute %}
+    {{ log((row_to_json(ref('re_data_base_metrics'))), info=True) }}
     with json_metrics
         as ( select {{ (row_to_json(ref('re_data_base_metrics'))) }} as json_row
            from {{ ref('re_data_base_metrics') }} )
