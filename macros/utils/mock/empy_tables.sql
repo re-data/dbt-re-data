@@ -99,6 +99,7 @@
         cast (some_string as {{ string_type() }} ) as anomalies,
         cast (some_string as {{ string_type() }} ) as metrics,
         cast (some_string as {{ string_type() }} ) as schema_changes,
+        cast (some_string as {{ string_type() }} ) as table_schema
         cast (some_string as {{ string_type() }} ) as graph,
         cast (some_time as {{ timestamp_type() }} ) as generated_at
 {% endmacro %}
