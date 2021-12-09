@@ -10,7 +10,7 @@ def dbt_seed(args, for_db):
     dbt_command('dbt seed --full-refresh ' + args, for_db)
 
 def dbt_run(args, for_db):
-    dbt_command('dbt run --full-refresh -x ' + args, for_db)
+    dbt_command('dbt run --full-refresh --fail-fast ' + args, for_db)
 
 def dbt_test(args, for_db):
-    dbt_command('dbt test --store-failures -x --greedy ' + args, for_db)
+    dbt_command('dbt test --store-failures --fail-fast ' + args, for_db)

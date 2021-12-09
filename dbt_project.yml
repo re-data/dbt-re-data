@@ -1,20 +1,13 @@
-# Name your project! Project names should contain only lowercase characters
-# and underscores. A good package name should reflect your organization's
-# name or the intended use of these models
 name: "re_data"
 version: "0.4.0"
 config-version: 2
 
-# This setting configures which "profile" dbt uses for this project.
 profile: "re_data_postgres"
 
-# These configurations specify where dbt should look for different types of files.
-# The `source-paths` config, for example, states that models in this project can be
-# found in the "models/" directory. You probably won't need to change these!
-source-paths: ["models"]
+model-paths: ["models"]
 analysis-paths: ["analysis"]
 test-paths: ["tests"]
-data-paths: ["data"]
+seed-paths: ["data"]
 macro-paths: ["macros"]
 snapshot-paths: ["snapshots"]
 docs-paths: ["docs_blocks"]
@@ -64,7 +57,7 @@ vars:
 # as tables. These settings can be overridden in the individual model files
 # using the `{{ config(...) }}` macro.
 
-require-dbt-version: [">=0.20.0", "<0.22.0"]
+require-dbt-version: [">=0.20.0", "<1.1.0"]
 
 models:
   re_data:
