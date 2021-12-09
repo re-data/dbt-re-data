@@ -35,7 +35,7 @@
     {% endset %}
 
     {% set overview_result = run_query(overview_query) %}
-    {% do overview_result.to_json('target/re_data_overview.json') %}
+    {% do overview_result.to_json('target/re_data/re_data_overview.json') %}
 
     {{ overview_query }}
     
