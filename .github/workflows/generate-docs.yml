@@ -32,7 +32,8 @@ jobs:
 
       - name: Install dependencies and run
         run: |
-          pip install dbt==0.20.0
+          pip install dbt-core==1.0.0
+          pip install dbt-postgres==1.0.0
           dbt deps
           dbt run
 
