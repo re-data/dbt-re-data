@@ -10,7 +10,7 @@ Data transformations in re_data are implemented and exposed as models & macros i
 
 Check out our **[live demo](https://re-data.github.io/re-data/ui-feature-react-app/#/alerts)** of what re_data can do for you 😊
 
-# Getting stated
+# Getting started
 
 [Check our docs!](https://re-data.github.io/re-data/latest/docs/introduction/whatis) 🙂
 
