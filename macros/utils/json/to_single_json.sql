@@ -20,12 +20,11 @@
     )
 {% endmacro %}
 
-{% macro row_to_json(model) %}
-    {%- set columns = adapter.get_columns_in_relation(model) -%}
+{% macro to_single_json(columns) %}
     '{' ||
     {%- for column in columns %}
-        '"{{ column.column }}": ' ||
-        {{ to_json_string_value_or_null(column.column) }} 
+        '"{{ column }}": ' ||
+        {{ to_json_string_value_or_null(column) }} 
         {%- if not loop.last %} || ',' || {%- endif %}
     {%- endfor %}
     || '}'
