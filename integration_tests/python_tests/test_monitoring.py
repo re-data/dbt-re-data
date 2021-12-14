@@ -33,7 +33,7 @@ def test_monitoring(db):
     dbt_vars['re_data:time_window_end'] = (RUN_TIME + timedelta(days=1)).strftime("%Y-%m-%d %H:%M:%S")
 
     dbt_command(
-        'dbt run --exclude transformed -x --vars "{}"'.format(yaml.dump(dbt_vars)),
+        'dbt run --exclude transformed --fail-fast --vars "{}"'.format(yaml.dump(dbt_vars)),
         db
     )
 
