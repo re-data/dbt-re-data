@@ -7,7 +7,7 @@
     {% set dbt_graph = tojson(graph) %}
     {% set overview_query %}
         with schema_changes_casted as (
-            select table_name, operation, column_name, data_type, {{ bool_to_string('is_nullable') }}, prev_column_name, prev_data_type, {{ bool_to_string('prev_is_nullable') }}, detected_time
+            select id, table_name, operation, column_name, data_type, {{ bool_to_string('is_nullable') }}, prev_column_name, prev_data_type, {{ bool_to_string('prev_is_nullable') }}, detected_time
             from {{ ref('re_data_schema_changes') }}
         ),
         columns_casted as (
@@ -31,7 +31,7 @@
             table_name as table_name,
             column_name as column_name,
             computed_on as computed_on,
-            {{ to_single_json(['metric', 'z_score_value', 'last_value', 'last_avg', 'last_stddev', 'time_window_end', 'interval_length_sec']) }} as data
+            {{ to_single_json(['id', 'metric', 'z_score_value', 'last_value', 'last_avg', 'last_stddev', 'time_window_end', 'interval_length_sec']) }} as data
         from
             {{ ref('re_data_alerting') }}
 
@@ -42,7 +42,7 @@
             table_name as table_name,
             column_name as column_name,
             detected_time as computed_on,
-            {{ to_single_json(['operation', 'data_type', 'is_nullable', 'prev_column_name', 'prev_data_type', 'prev_is_nullable']) }} as data
+            {{ to_single_json(['id', 'operation', 'data_type', 'is_nullable', 'prev_column_name', 'prev_data_type', 'prev_is_nullable', 'detected_time']) }} as data
         from
             schema_changes_casted
     ) union all
