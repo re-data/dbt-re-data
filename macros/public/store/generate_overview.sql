@@ -7,10 +7,12 @@
     {# time grain is either days or hour #}
     {% set time_grain, num_str = interval.split(':') %}
     {% set num = num_str | int %}
-    {% if time_grain == 'hour' %}
+    {% if time_grain == 'hours' %}
         {% set interval_length_sec = num * 3600 %}
-    {% else %}
+    {% elif time_grain == 'days'%}
         {% set interval_length_sec = num * 3600 * 24 %}
+    {% else %}
+        {{ exceptions.raise_compiler_error("Invalid interval. Got: " ~ interval) }}
     {% endif %}
     {{ log('[re_data] interval length in seconds is ' ~ interval_length_sec, info=True) }}
     {% set dbt_graph = tojson(graph) %}
