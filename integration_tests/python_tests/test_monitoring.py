@@ -20,8 +20,6 @@ def test_monitoring(db):
     
     print (f"Running setup and tests for {db}")
 
-    profile_part = f' --profile re_data_{db}'
-
     dbt_seed('--vars "{}"'.format(yaml.dump(dbt_vars)), db)
     dbt_run('--models transformed', db)
 
@@ -38,5 +36,16 @@ def test_monitoring(db):
     )
 
     dbt_test('--vars "{}"'.format(yaml.dump(dbt_vars)), db)
+
+    op_vars = {
+        'start_date': RUN_TIME.strftime("%Y-%m-%d"),
+        'end_date': (RUN_TIME + timedelta(days=1)).strftime("%Y-%m-%d"),
+        'interval': 'days:1',
+    }
+
+    dbt_command(
+        'dbt run-operation generate_overview --args "{}"'.format(yaml.dump(op_vars)),
+        db, common_args=''
+    )
 
     print (f"Running tests completed for {db}")
