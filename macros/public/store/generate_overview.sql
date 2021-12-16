@@ -57,6 +57,7 @@
             {{ to_single_json(['id', 'operation', 'data_type', 'is_nullable', 'prev_column_name', 'prev_data_type', 'prev_is_nullable', 'detected_time']) }} as data
         from
             schema_changes_casted
+            where date(detected_time) >= '{{start_date}}'
     ) union all
     (
         select
