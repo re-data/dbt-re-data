@@ -1,9 +1,18 @@
-{% macro generate_overview() %}
+{% macro generate_overview(start_date, end_date, interval) %}
 -- depends_on: {{ ref('re_data_alerting') }}
 -- depends_on: {{ ref('re_data_base_metrics') }}
 -- depends_on: {{ ref('re_data_schema_changes') }}
 -- depends_on: {{ ref('re_data_columns') }}
 
+    {# time grain is either days or hour #}
+    {% set time_grain, num_str = interval.split(':') %}
+    {% set num = num_str | int %}
+    {% if time_grain == 'hour' %}
+        {% set interval_length_sec = num * 3600 %}
+    {% else %}
+        {% set interval_length_sec = num * 3600 * 24 %}
+    {% endif %}
+    {{ log('[re_data] interval length in seconds is ' ~ interval_length_sec, info=True) }}
     {% set dbt_graph = tojson(graph) %}
     {% set overview_query %}
         with schema_changes_casted as (
@@ -24,6 +33,8 @@
             {{ to_single_json(['metric', 'value', 'time_window_end', 'interval_length_sec']) }} as data
         from
             {{ ref('re_data_base_metrics') }}
+            where date(time_window_end) between '{{start_date}}' and '{{end_date}}'
+            and interval_length_sec = {{interval_length_sec}}
     ) union all 
     (
         select
@@ -34,7 +45,8 @@
             {{ to_single_json(['id', 'metric', 'z_score_value', 'last_value', 'last_avg', 'last_stddev', 'time_window_end', 'interval_length_sec']) }} as data
         from
             {{ ref('re_data_alerting') }}
-
+            where date(time_window_end) between '{{start_date}}' and '{{end_date}}'
+            and interval_length_sec = {{interval_length_sec}}
     ) union all
     (
         select
