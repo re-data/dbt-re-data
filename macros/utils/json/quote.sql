@@ -10,5 +10,5 @@
 
 {% macro bigquery__quote_text(text) %}
     {% set quoting = '"""' %}
-    {{quoting}}{{text}}{{quoting}}
+    r{{quoting}}{{text}}{{quoting}}
 {% endmacro %}
