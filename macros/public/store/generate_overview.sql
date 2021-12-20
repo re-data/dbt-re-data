@@ -28,11 +28,11 @@
         
     (    
         select
-            'metric' as type,
-            table_name as table_name,
-            column_name as column_name,
-            computed_on as computed_on,
-            {{ to_single_json(['metric', 'value', 'time_window_end', 'interval_length_sec']) }} as data
+            'metric' as "type",
+            table_name as "table_name",
+            column_name as "column_name",
+            computed_on as "computed_on",
+            {{ to_single_json(['metric', 'value', 'time_window_end', 'interval_length_sec']) }} as "data"
         from
             {{ ref('re_data_base_metrics') }}
             where date(time_window_end) between '{{start_date}}' and '{{end_date}}'
@@ -40,11 +40,11 @@
     ) union all 
     (
         select
-            'alert' as type,
-            table_name as table_name,
-            column_name as column_name,
-            computed_on as computed_on,
-            {{ to_single_json(['id', 'metric', 'z_score_value', 'last_value', 'last_avg', 'last_stddev', 'time_window_end', 'interval_length_sec']) }} as data
+            'alert' as "type",
+            table_name as "table_name",
+            column_name as "column_name",
+            computed_on as "computed_on",
+            {{ to_single_json(['id', 'metric', 'z_score_value', 'last_value', 'last_avg', 'last_stddev', 'time_window_end', 'interval_length_sec']) }} as "data"
         from
             {{ ref('re_data_alerting') }}
             where date(time_window_end) between '{{start_date}}' and '{{end_date}}'
@@ -52,33 +52,33 @@
     ) union all
     (
         select
-            'schema_change' as type,
-            table_name as table_name,
-            column_name as column_name,
-            detected_time as computed_on,
-            {{ to_single_json(['id', 'operation', 'data_type', 'is_nullable', 'prev_column_name', 'prev_data_type', 'prev_is_nullable', 'detected_time']) }} as data
+            'schema_change' as "type",
+            table_name as "table_name",
+            column_name as "column_name",
+            detected_time as "computed_on",
+            {{ to_single_json(['id', 'operation', 'data_type', 'is_nullable', 'prev_column_name', 'prev_data_type', 'prev_is_nullable', 'detected_time']) }} as "data"
         from
             schema_changes_casted
             where date(detected_time) >= '{{start_date}}'
     ) union all
     (
         select
-            'schema' as type,
-            table_name as table_name,
-            column_name as column_name,
-            computed_on as computed_on,
-            {{ to_single_json(['data_type', 'is_nullable', 'is_datetime']) }} as data
+            'schema' as "type",
+            table_name as "table_name",
+            column_name as "column_name",
+            computed_on as "computed_on",
+            {{ to_single_json(['data_type', 'is_nullable', 'is_datetime']) }} as "data"
         from
             columns_casted
     ) union all
     (
         select
-            'dbt_graph' as type,
-            null as table_name,
-            null as column_name,
-            {{- dbt_utils.current_timestamp_in_utc() -}} as computed_on,
-            {{ quote_text(dbt_graph)}} as data
-    ) order by computed_on desc
+            'dbt_graph' as "type",
+            null as "table_name",
+            null as "column_name",
+            {{- dbt_utils.current_timestamp_in_utc() -}} as "computed_on",
+            {{ quote_text(dbt_graph)}} as "data"
+    ) order by "computed_on" desc
     {% endset %}
 
     {% set overview_result = run_query(overview_query) %}
