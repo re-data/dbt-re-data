@@ -1,26 +1,16 @@
 # What is re_data?
 
-re_data is a set of tools (dbt macros & models) that helps you make sure your data pipelines are clean & reliable. 😊
+re_data is an open-source data quality & observability framework for the modern data stack. 😊
 
-## Data Preparation
+Currently, re_data focuses on observing the dbt project (together with underlaying data warehouse - Postgres, BigQuery, Snowflake, Redshift).
 
-re_data data preparation macros help you clean your data faster, with less code & a smaller chance of errors.
-Currently, we support four types of data preparation:
+Data transformations in re_data are implemented and exposed as models & macros in this dbt package.
 
-- data cleaning
-- data filtering
-- data normalization
-- data validation
+# Live demo
 
-## Data Monitoring
+Check out our **[live demo](https://re-data.github.io/re-data/ui-feature-react-app/#/alerts)** of what re_data can do for you 😊
 
-re_data metrics & alerts models contain information about data quality which lets you discover bad data much faster. You can:
- - use built-in metrics & extend them with your code
- - test them as regular dbt models
- - visualize them in your favourite BI tool
- - trigger external (Slack/Pagerduty/etc.) alerts based on them
-
-# Getting stated
+# Getting started
 
 [Check our docs!](https://re-data.github.io/re-data/latest/docs/introduction/whatis) 🙂
 
