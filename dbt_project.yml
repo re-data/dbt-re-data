@@ -7,9 +7,7 @@ require-dbt-version: [">=0.20.0", "<1.1.0"]
 profile: "re_data_postgres"
 
 target-path: "target" # directory which will store compiled SQL files
-clean-targets: # directories to be removed by `dbt clean`
-  - "target"
-  - "dbt_modules"
+clean-targets: ["target", "dbt_modules", "dbt_packages"]
 
 vars:
   re_data:max_columns_in_query: 10
