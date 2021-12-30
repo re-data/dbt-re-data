@@ -23,7 +23,6 @@
         {{ exceptions.raise_compiler_error("Invalid interval. Got: " ~ interval) }}
     {% endif %}
     {{ log('[re_data] interval length in seconds is ' ~ interval_length_sec, info=True) }}
-    {% set dbt_graph = tojson(graph) %}
     {% set overview_query %}
         with schema_changes_casted as (
             select id, table_name, operation, column_name, data_type, {{ bool_to_string('is_nullable') }}, prev_column_name, prev_data_type, {{ bool_to_string('prev_is_nullable') }}, detected_time
@@ -66,14 +65,6 @@
             {{ to_single_json(['data_type', 'is_nullable', 'is_datetime']) }} as {{ re_data.quote_column('data') }}
         from
             columns_casted
-    ) union all
-    (
-        select
-            'dbt_graph' as {{ re_data.quote_column('type') }},
-            null as {{ re_data.quote_column('table_name') }},
-            null as {{ re_data.quote_column('column_name') }},
-            {{- dbt_utils.current_timestamp_in_utc() -}} as {{ re_data.quote_column('computed_on') }},
-            {{ quote_text(dbt_graph)}} as {{ re_data.quote_column('data') }}
     )order by {{ re_data.quote_column('computed_on')}} desc
     {% endset %}
 
