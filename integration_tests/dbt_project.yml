@@ -8,6 +8,9 @@ profile: "re_data_postgres"
 target-path: "target"
 clean-targets: ["target", "dbt_modules", "dbt_packages"]
 
+on-run-end:
+  - "{{ re_data.store_results(results) }}"
+
 models:
   re_data:
     enabled: true

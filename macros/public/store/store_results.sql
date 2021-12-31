@@ -1,19 +1,16 @@
 
-{% macro store_results() %}
-    -- depends_on: {{ ref('re_data_run_results') }}
-    {% set results = var('results') %}
-    {% set run_dict = {"results": results} %}
+{% macro store_results(results) %}
+    {% set to_insert = [] %}
 
     {% if execute and results %}
-
-        {% set insert_query %}
-            insert into {{ ref('re_data_run_results') }}
-            values (
-                {{ quote_text(run_dict) }}, {{dbt_utils.current_timestamp_in_utc()}}
-            )
-        {% endset %}
-
-        {% do run_query(insert_query) %}
+        {% for el in results %}
+            {% if el.node.resource_type.name == 'Test' %}
+                {{ debug() }}
+                {% do to_insert.append({'name': el.node.name, 'status': el.status.name, 'model': el.node.file_key_name, 'column': el.node.column_name}) %}
+            {% endif %}
+        {% endfor %}
     {% endif %}
+    select 1
 
 {% endmacro %}
+
