@@ -8,7 +8,7 @@ Data transformations in re_data are implemented and exposed as models & macros i
 
 # Live demo
 
-Check out our **[live demo](https://re-data.github.io/re-data/ui-feature-react-app/#/alerts)** of what re_data can do for you 😊
+Check out our **[live demo](https://re-data.github.io/re-data/ui-latest/#/alerts)** of what re_data can do for you 😊
 
 # Getting started
 
