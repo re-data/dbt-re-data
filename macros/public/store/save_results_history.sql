@@ -8,6 +8,7 @@
         {% set to_insert = [] %}
         {% for el in results %}
             {% if el.node.resource_type.name == 'Test' %}
+                {{ debug() }}
                 {% set any_refs = re.findall("ref\(\'(?P<name>.*)\'\)", el.node.test_metadata.kwargs['model']) %}
                 {% if any_refs %}
                     {% set model_name = any_refs[0] %} 
