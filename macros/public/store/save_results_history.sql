@@ -2,11 +2,20 @@
 {% macro save_results_history(results) %}
     -- depends_on: {{ ref('re_data_test_history') }}
 
+    {% set re = modules.re %}
+
     {% if execute and results %}
         {% set to_insert = [] %}
         {% for el in results %}
             {% if el.node.resource_type.name == 'Test' %}
-                {% do to_insert.append({ 'table_name': el.node.file_key_name, 'column_name': el.node.column_name , 'test_name': el.node.name, 'status': el.status.name}) %}
+                {% set any_refs = re.findall("ref\(\'(?P<name>.*)\'\)", el.node.test_metadata.kwargs['model']) %}
+                {% if any_refs %}
+                    {% set model_name = any_refs[0] %} 
+                {% else %}
+                    {% set model_name = None %} 
+                {% endif %}
+
+                {% do to_insert.append({ 'table_name': model_name, 'column_name': el.node.column_name , 'test_name': el.node.name, 'status': el.status.name}) %}
             {% endif %}
         {% endfor %}
 
