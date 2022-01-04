@@ -3,13 +3,13 @@ version: "1.0"
 config-version: 2
 
 # Changed when running tests
-profile: "re_data_postgres"
+profile: "re_data_snowflake"
 
 target-path: "target"
 clean-targets: ["target", "dbt_modules", "dbt_packages"]
 
 on-run-end:
-  - "{{ re_data.store_results(results) }}"
+  - "{{ re_data.save_results_history(results) }}"
 
 models:
   re_data:

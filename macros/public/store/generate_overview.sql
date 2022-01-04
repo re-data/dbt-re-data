@@ -76,6 +76,13 @@
             {{ to_single_json(['type', 'model', 'message', 'value', 'time_window_end']) }} as {{ re_data.quote_column('data') }}
         from
             {{ ref('re_data_alerts') }}
+    ) union all
+    (
+        select
+            {{ overview_select_base('test', 'runned_at')}}
+            {{ to_single_json(['status', 'test_name']) }} as {{ re_data.quote_column('data') }}
+        from
+            {{ ref('re_data_test_history') }}
     )
     order by {{ re_data.quote_column('computed_on')}} desc
     {% endset %}
