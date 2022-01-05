@@ -83,7 +83,6 @@
             {{ to_single_json(['status', 'test_name']) }} as {{ re_data.quote_column('data') }}
         from
             {{ ref('re_data_test_history') }}
-        where date(runned_at) between '{{start_date}}' and '{{end_date}}' 
     )
     order by {{ re_data.quote_column('computed_on')}} desc
     {% endset %}
