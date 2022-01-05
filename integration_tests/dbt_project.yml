@@ -3,7 +3,7 @@ version: "1.0"
 config-version: 2
 
 # Changed when running tests
-profile: "re_data_snowflake"
+profile: "re_data_postgres"
 
 target-path: "target"
 clean-targets: ["target", "dbt_modules", "dbt_packages"]
