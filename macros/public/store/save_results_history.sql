@@ -9,13 +9,13 @@
         {% for el in results %}
             {% if el.node.resource_type.name == 'Test' %}
                 {% set any_refs = re.findall("ref\(\'(?P<name>.*)\'\)", el.node.test_metadata.kwargs['model']) %}
-                {% set any_source = re.findall("source\(\'(?P<one>.*)\'\,\'(?P<two>.*)\'\)", el.node.test_metadata.kwargs['model']) %}
+                {% set any_source = re.findall("source\(\'(?P<one>.*)\'\,\s+\'(?P<two>.*)\'\)", el.node.test_metadata.kwargs['model']) %}
                 {% if any_refs %}
                     {% set model_name = any_refs[0].replace("'", "") %} 
                 {% elif any_source %}
-                    {% set model_name = any_source[0] + '.' + any_source[1] %} 
+                    {% set model_name = any_source[0][0] + '.' + any_source[0][1] %} 
                 {% else %}
-                    {% set model_name = None %}
+                    {% set model_name = none %}
                 {% endif %}
 
                 {% do to_insert.append({ 'table_name': model_name, 'column_name': el.node.column_name , 'test_name': el.node.name, 'status': el.status.name}) %}
