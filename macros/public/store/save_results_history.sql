@@ -1,5 +1,5 @@
 
-{% macro save_results_history(results) %}
+{% macro save_test_history(results) %}
     -- depends_on: {{ ref('re_data_test_history') }}
 
     {% set re = modules.re %}
