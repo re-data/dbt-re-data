@@ -10,10 +10,12 @@
             {% if el.node.resource_type.name == 'Test' %}
                 {% set any_refs = re.findall("ref\(\'(?P<name>.*)\'\)", el.node.test_metadata.kwargs['model']) %}
                 {% set any_source = re.findall("source\(\'(?P<one>.*)\'\,\s+\'(?P<two>.*)\'\)", el.node.test_metadata.kwargs['model']) %}
+                {% set schema = el.node.schema.replace('_dbt_test__audit', '') %}
+                {% set database = el.node.database %}
                 {% if any_refs %}
-                    {% set model_name = any_refs[0].replace("'", "") %} 
+                    {% set model_name = database + '.' + schema + '.' + any_refs[0] %} 
                 {% elif any_source %}
-                    {% set model_name = any_source[0][0] + '.' + any_source[0][1] %} 
+                    {% set model_name = database + '.' + any_source[0][0] + '.' + any_source[0][1] %} 
                 {% else %}
                     {% set model_name = none %}
                 {% endif %}
