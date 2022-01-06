@@ -80,7 +80,7 @@
     (
         select
             {{ overview_select_base('test', 'runned_at')}}
-            {{ to_single_json(['status', 'test_name']) }} as {{ re_data.quote_column('data') }}
+            {{ to_single_json(['status', 'test_name', 'runned_at']) }} as {{ re_data.quote_column('data') }}
         from
             {{ ref('re_data_test_history') }}
         where date(runned_at) between '{{start_date}}' and '{{end_date}}' 
