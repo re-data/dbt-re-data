@@ -106,7 +106,7 @@
         cast (some_string as {{ string_type() }} ) as column_name,
         cast (some_string as {{ string_type() }} ) as test_name,
         cast (some_string as {{ string_type() }} ) as status,
-        cast (some_time as {{ timestamp_type() }} ) as runned_at
+        cast (some_time as {{ timestamp_type() }} ) as run_at
     from dummy_table
     where some_num = 2
 {% endmacro %}

@@ -79,11 +79,11 @@
     ) union all
     (
         select
-            {{ overview_select_base('test', 'runned_at')}}
-            {{ to_single_json(['status', 'test_name', 'runned_at']) }} as {{ re_data.quote_column('data') }}
+            {{ overview_select_base('test', 'run_at')}}
+            {{ to_single_json(['status', 'test_name', 'run_at']) }} as {{ re_data.quote_column('data') }}
         from
             {{ ref('re_data_test_history') }}
-        where date(runned_at) between '{{start_date}}' and '{{end_date}}' 
+        where date(run_at) between '{{start_date}}' and '{{end_date}}' 
     )
     order by {{ re_data.quote_column('computed_on')}} desc
     {% endset %}
