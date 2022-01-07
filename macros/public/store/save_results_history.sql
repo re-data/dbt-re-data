@@ -18,8 +18,8 @@
                     {% set name = database + '.' + schema + '.' + name %} 
                 {% elif any_source %}
                     {% set name = any_source[0][1] %}
-                    {% set schema = re_data.graph_param('schema', name, package_name, ['source']) %}
-                    {% set database = re_data.graph_param('database', name, package_name, ['source']) %}
+                    {% set schema = re_data.graph_param('schema', name, package_name, ['seed', 'source']) %}
+                    {% set database = re_data.graph_param('database', name, package_name, ['seed', 'source']) %}
                     {% set name = database + '.' + schema + '.' + name %} 
                 {% else %}
                     {% set name = none %}
