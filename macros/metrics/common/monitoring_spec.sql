@@ -9,28 +9,28 @@
     {% endif %}
 {% endmacro %}
 
-{% macro obj_graph_name(obj_type, name) %}
-    {{ return (obj_type + '.' + project_name + '.' + name) }}
+{% macro graph_param(param, name, package, check_types) %}
+    {% for t in check_types %}
+        {% if graph.nodes.get(t + '.' + package + '.' + name)[param] %}
+            {{ return (graph.nodes[t + '.' + package + '.' + name][param]) }}
+        {% endif %}
+    {% endfor %}
+
+    {{ return (none) }}
+
 {% endmacro %}
 
 {% macro get_schema_spec(par_name, table, group) %}
     {% set name = table['name'] %}
+    {% set package = project_name %}
 
     {% if table[par_name] %}
         {{ return (table[par_name]) }}
     {% elif group[par_name] %}
         {{ return (group[par_name]) }}
-    {% elif graph.nodes.get(obj_graph_name('model', name)) %}
-        {{ return (graph.nodes.get(obj_graph_name('model', name))[par_name]) }}
-
-    {% elif graph.nodes.get(obj_graph_name('seed', name)) %}
-        {{ return (graph.nodes.get(obj_graph_name('seed', name))[par_name]) }}
-    
-    {% elif graph.sources.get(obj_graph_name('source', name)) %}
-        {{ return (graph.nodes.get(obj_graph_name('source', name))[par_name]) }}
-    
     {% else %}
-        {{ return (None) }}
+        {% set value = graph_param(par_name, name, package, ['source', 'seed', 'model']) %}
+        {{ return (value) }}
     {% endif %}
 {% endmacro %}
 
