@@ -10,13 +10,15 @@
             {% if el.node.resource_type.name == 'Test' %}
                 {% set any_refs = re.findall("ref\(\'(?P<name>.*)\'\)", el.node.test_metadata.kwargs['model']) %}
                 {% set any_source = re.findall("source\(\'(?P<one>.*)\'\,\s+\'(?P<two>.*)\'\)", el.node.test_metadata.kwargs['model']) %}
-                {% set package_name = el.node.package_name %}
+
                 {% if any_refs %}
                     {% set name = any_refs[0] %}
+                    {% set package_name = el.node.package_name %}
                     {% set schema = re_data.graph_param('schema', name, package_name, ['seed', 'model']) %}
                     {% set database = re_data.graph_param('database', name, package_name, ['seed', 'model']) %}
                     {% set name = database + '.' + schema + '.' + name %} 
                 {% elif any_source %}
+                    {% set package_name = any_source[0][0] %}
                     {% set name = any_source[0][1] %}
                     {% set schema = re_data.graph_param('schema', name, package_name, ['seed', 'source']) %}
                     {% set database = re_data.graph_param('database', name, package_name, ['seed', 'source']) %}
