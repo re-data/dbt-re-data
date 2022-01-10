@@ -84,3 +84,25 @@
     timestamp({{time_column}}) >= {{ time_window_start() }} and
     timestamp({{time_column}}) < {{ time_window_end() }}
 {% endmacro %}
+
+
+{% macro format_timestamp(column_name) %}
+    {{ adapter.dispatch('in_time_window', 're_data')(column_name) }}
+{% endmacro %}
+
+{% macro default__format_timestamp(column_name) %}
+    to_timestamp({{column_name}}, 'YYYY-MM-DD HH24:MI:SS')
+{% endmacro %}
+
+
+{% macro redshift__format_timestamp(column_name) %}
+    TIMEFORMAT({{column_name}}, 'YYYY-MM-DD HH24:MI:SS')
+{% endmacro %}
+
+{% macro bigquery__format_timestamp(column_name) %}
+    FORMAT_TIMESTAMP({{column_name}}, '%Y-%m-%d %H:%I:%S')
+{% endmacro %}
+
+{% macro snowflake__format_timestamp(column_name) %}
+    TO_TIMESTAMP({{column_name}}, 'YYYY-MM-DD HH24:MI:SS')
+{% endmacro %}

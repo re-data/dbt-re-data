@@ -35,11 +35,11 @@
 {% macro generate_schema_change_message(operation, column_name, prev_column_name, prev_data_type, data_type, detected_time) %}
     case 
         when {{ operation }} = 'column_added'
-            then 'column ' || {{ column_name }} || ' of type ' || {{ data_type }} || ' was added at ' || {{ detected_time }}
+            then 'column ' || {{ column_name }} || ' of type ' || {{ data_type }} || ' was added at ' || {{ format_timestamp('detected_time') }}
         when {{ operation }} = 'column_removed'
-            then 'column ' || {{ prev_column_name }} || ' of type ' || {{ prev_data_type }} || ' was removed at ' || {{ detected_time }}
+            then 'column ' || {{ prev_column_name }} || ' of type ' || {{ prev_data_type }} || ' was removed at ' || {{ format_timestamp('detected_time') }}
         when {{ operation }} = 'type_change'
-            then {{ column_name }} || ' column data type was changed from ' || {{ prev_data_type }} || ' to ' || {{ data_type }} || ' at ' || {{ detected_time }} 
+            then {{ column_name }} || ' column data type was changed from ' || {{ prev_data_type }} || ' to ' || {{ data_type }} || ' at ' || {{ format_timestamp('detected_time') }}
         else ''
     end
 {% endmacro %}
