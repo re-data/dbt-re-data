@@ -87,11 +87,11 @@
 
 
 {% macro format_timestamp(column_name) %}
-    {{ adapter.dispatch('in_time_window', 're_data')(column_name) }}
+    {{ adapter.dispatch('format_timestamp', 're_data')(column_name) }}
 {% endmacro %}
 
 {% macro default__format_timestamp(column_name) %}
-    to_timestamp({{column_name}}, 'YYYY-MM-DD HH24:MI:SS')
+    to_char({{column_name}}, 'YYYY-MM-DD HH24:MI:SS')
 {% endmacro %}
 
 
