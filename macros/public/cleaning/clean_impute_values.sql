@@ -1,8 +1,4 @@
-{# https://github.com/re-data/re-data/issues/148 
-
-
-
-#}
+{# https://github.com/re-data/re-data/issues/148 #}
 
 
 {# DAMA: Corrective actions - Automated corrections
@@ -13,8 +9,13 @@ AI Data Repair in H2O
 https://www.coursera.org/learn/machine-learning-h2o/lecture/tAtLC/data-repair-2
 #}
 
-{% macro clean_impute_values(column_name) %}
-select *, re_data.clean_impute_values('col_x', list_of_values_to_replace, what_replace_it_with)
-from {{ ref('xyz') }}
-    initcap( {{column_name}} )
+{% macro clean_impute_values(column_name, agg_function = 'avg') %}
+
+{% if agg_function == 'median' %}
+	{{ fivetran_utils.percentile( percentile_field = column_name,  percent='0.5') }}
+{% else %}
+	{{agg_function}} ({{column_name}}) over ()
+{% endif %}
+
+
 {% endmacro %}
