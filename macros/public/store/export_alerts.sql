@@ -1,11 +1,11 @@
 {% macro export_alerts(start_date, end_date) %}
     {% set alerts_query %}
         select
-            type,
-            model,
-            message,
-            value,
-            {{ format_timestamp('time_window_end')}} as time_window_end
+            type as {{ re_data.quote_column('type') }},
+            model as {{ re_data.quote_column('model') }},
+            message as {{ re_data.quote_column('message') }},
+            value as {{ re_data.quote_column('value') }},
+            {{ format_timestamp('time_window_end')}} as {{ re_data.quote_column('time_window_end') }} 
         from {{ ref('re_data_alerts') }}
         where
             case
