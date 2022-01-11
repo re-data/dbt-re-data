@@ -94,11 +94,6 @@
     to_char({{column_name}}, 'YYYY-MM-DD HH24:MI:SS')
 {% endmacro %}
 
-
-{% macro redshift__format_timestamp(column_name) %}
-    TIMEFORMAT({{column_name}}, 'YYYY-MM-DD HH24:MI:SS')
-{% endmacro %}
-
 {% macro bigquery__format_timestamp(column_name) %}
     FORMAT_TIMESTAMP('%Y-%m-%d %H:%I:%S', {{column_name}})
 {% endmacro %}
