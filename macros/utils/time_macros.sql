@@ -100,7 +100,7 @@
 {% endmacro %}
 
 {% macro bigquery__format_timestamp(column_name) %}
-    FORMAT_TIMESTAMP({{column_name}}, '%Y-%m-%d %H:%I:%S')
+    FORMAT_TIMESTAMP('%Y-%m-%d %H:%I:%S', {{column_name}})
 {% endmacro %}
 
 {% macro snowflake__format_timestamp(column_name) %}
