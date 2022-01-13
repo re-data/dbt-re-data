@@ -4,19 +4,26 @@
     else metric
     end 
     || ' is ' ||
-    {# todo: macro to ensure round() works across all dbs #}
-    abs(round( cast ({{ percentage_formula('last_value - last_avg', last_avg) }} as numeric), 2))
+    {{ to_2dp( percentage_formula('last_value - last_avg', last_avg) ) }}
     || '% ' ||
     {{ comparison_text(last_value, last_avg) }}
     || ' average.'
 {% endmacro %}
 
 {% macro to_2dp(val) %}
-    round( cast( {{ val }} as numeric ), 2)
+    {{ adapter.dispatch('to_2dp', 're_data')(val) }}
+{% endmacro %}
+
+{% macro default__to_2dp(val) %}
+    trim(to_char({{ val }}, '9999999990D00'))
+{% endmacro %}
+
+{% macro bigquery__to_2dp(val) %}
+    format('%.2f', {{ val }})
 {% endmacro %}
 
 {% macro seconds_to_hours(val) %}
-    {{ val }} / 3600
+    cast({{ val }} as {{ numeric_type() }}) / 3600
 {% endmacro %}
 
 {% macro generate_metric_value_text(metric, value) %}
