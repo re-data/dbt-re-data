@@ -10,3 +10,48 @@ re_data_postgres:
       dbname: postgres
       schema: dq
       threads: 4
+re_data_snowflake:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: "{{ env_var('SNOWFLAKE_RE_DATA_TESTING_ACCOUNT') }}"
+      user: "{{ env_var('RE_DATA_TESTING_USER') }}"
+      password: "{{ env_var('RE_DATA_TESTING_PASSWORD') }}"
+      database: RE_DATA_TESTING
+      warehouse: RE_DATA_TESTING_DWH
+      schema: dq
+      threads: 4
+re_data_redshift:
+  target: dev
+  outputs:
+    dev:
+      type: redshift
+      host: "{{ env_var('REDSHIFT_RE_DATA_TESTING_HOST') }}"
+      user: "{{ env_var('RE_DATA_TESTING_USER') }}"
+      password: "{{ env_var('RE_DATA_TESTING_PASSWORD') }}"
+      port: 5439
+      dbname: re_data_testing
+      schema: dq
+      threads: 4
+re_data_bigquery:
+  target: dev
+  outputs:
+    dev:
+      type: bigquery
+      method: service-account-json
+      project: "{{ env_var('BIGQUERY_TESTING_PROJECT_ID') }}"
+      dataset: dq
+      threads: 4
+
+      keyfile_json:
+        type: "service_account"
+        project_id: "{{ env_var('BIGQUERY_TESTING_PROJECT_ID') }}"
+        private_key_id: "{{ env_var('BIGQUERY_TESTING_PRIVATE_KEY_ID') }}"
+        private_key: "{{ env_var('BIGQUERY_TESTING_PRIVATE_KEY') }}"
+        client_email: "{{ env_var('BIGQUERY_TESTING_CLIENT_EMAIL') }}"
+        client_id: "{{ env_var('BIGQUERY_TESTING_CLIENT_ID') }}"
+        auth_uri: "https://accounts.google.com/o/oauth2/auth"
+        token_uri: "https://oauth2.googleapis.com/token"
+        auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs"
+        client_x509_cert_url: "{{ env_var('BIGQUERY_TESTING_CLIENT_X509_CERT') }}"

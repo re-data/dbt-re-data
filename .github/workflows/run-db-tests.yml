@@ -1,0 +1,74 @@
+name: Run package tests for all dbs
+
+on: [push, pull_request]
+
+env:
+  DBT_PROFILES_DIR: ${{ github.workspace }}/
+  SNOWFLAKE_RE_DATA_TESTING_ACCOUNT: ${{ secrets.SNOWFLAKE_RE_DATA_TESTING_ACCOUNT }}
+  RE_DATA_TESTING_USER: ${{ secrets.RE_DATA_TESTING_USER }}
+  RE_DATA_TESTING_PASSWORD: ${{ secrets.RE_DATA_TESTING_PASSWORD }}
+  REDSHIFT_RE_DATA_TESTING_HOST: ${{ secrets.REDSHIFT_RE_DATA_TESTING_HOST }}
+  BIGQUERY_TESTING_PROJECT_ID: ${{ secrets.BIGQUERY_TESTING_PROJECT_ID }}
+  BIGQUERY_TESTING_PRIVATE_KEY_ID: ${{ secrets.BIGQUERY_TESTING_PRIVATE_KEY_ID }}
+  BIGQUERY_TESTING_PRIVATE_KEY: ${{ secrets.BIGQUERY_TESTING_PRIVATE_KEY }}
+  BIGQUERY_TESTING_CLIENT_EMAIL: ${{ secrets.BIGQUERY_TESTING_CLIENT_EMAIL }}
+  BIGQUERY_TESTING_CLIENT_ID: ${{ secrets.BIGQUERY_TESTING_CLIENT_ID }}
+  BIGQUERY_TESTING_CLIENT_X509_CERT: ${{ secrets.BIGQUERY_TESTING_CLIENT_X509_CERT }}
+
+jobs:
+  test-other-dbs:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        database: [bigquery, redshift ]
+    steps:        
+      - name: Check out
+        uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v1
+        with:
+          python-version: "3.7.x"
+
+      - name: Install dependencies
+        working-directory: ./integration_tests
+        run: |
+          pip install -r requirements.txt
+          dbt deps
+
+      - name: Test DB
+        working-directory: ./integration_tests/python_tests
+        run: pytest --db ${{ matrix.database }}
+  test-postgres:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          # Maps tcp port 5432 on service container to the host
+          - 5432:5432
+    steps:        
+      - name: Check out
+        uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v1
+        with:
+          python-version: "3.7.x"
+
+      - name: Install dependencies
+        working-directory: ./integration_tests
+        run: |
+          pip install -r requirements.txt
+          dbt deps
+
+      - name: Test DB
+        working-directory: ./integration_tests/python_tests
+        run: pytest --db postgres
