@@ -34,6 +34,7 @@ jobs:
         working-directory: ./integration_tests
         run: |
           pip install -r requirements.txt
+          pip install dbt-${{ matrix.database }}==1.0.0
           dbt deps
 
       - name: Test DB
