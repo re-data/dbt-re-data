@@ -21,7 +21,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        database: [bigquery, redshift ]
+        database: [snowflake, bigquery, redshift ]
     steps:        
       - name: Check out
         uses: actions/checkout@v2
