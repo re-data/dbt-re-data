@@ -9,13 +9,40 @@ AI Data Repair in H2O
 https://www.coursera.org/learn/machine-learning-h2o/lecture/tAtLC/data-repair-2
 #}
 
-{% macro clean_impute_values(column_name, agg_function = 'avg') %}
 
-{% if agg_function == 'median' %}
-	{{ fivetran_utils.percentile( percentile_field = column_name,  percent='0.5') }}
-{% else %}
-	{{agg_function}} ({{column_name}}) over ()
-{% endif %}
+{% macro clean_impute_values(column_name, replace_with = 'avg', list_of_values_to_replace = [], replace_all_values = false) %}
+{#
+-- parameters:
+--  replace_with:
+--  in case of 'min', 'max', 'avg' and 'median' the corresponding aggregate replaces the value
+--  in other cases the values is being treated as general SQL expression
 
+-- for postgres the median should be precalculated via intermediate cte
+#}
+
+
+
+{%- if not replace_all_values %}
+case
+	when 
+	not 
+	(
+		{{column_name}} is null
+		{% for val in list_of_values_to_replace -%}
+		or {{column_name}} = '{{val}}'
+		{% endfor %}
+	)
+	then {{column_name}}
+	else
+{%- endif -%}
+	{% if replace_with == 'median' %}
+		-- for postgres the median should be precalculated via intermediate cte
+		{{ fivetran_utils.percentile( percentile_field = column_name,  percent='0.5') }}
+	{% elif replace_with in ['min', 'max' , 'avg'] %}
+		{{replace_with}} ({{column_name}}) over ()
+	{% else %}
+		{{replace_with}}
+	{% endif %}
+{%- if not replace_all_values -%} end {%- endif %}
 
 {% endmacro %}
