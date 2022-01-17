@@ -42,11 +42,8 @@ jobs:
       - name: Test DB
         working-directory: ./integration_tests/python_tests
         run: |
-          pytest --db ${{ matrix.database }} -k 'test_cleaners'
-          pytest --db ${{ matrix.database }} -k 'test_filters'
+          pytest --db ${{ matrix.database }} -k 'not test_monitoring'
           pytest --db ${{ matrix.database }} -k 'test_monitoring'
-          pytest --db ${{ matrix.database }} -k 'test_normalizers'
-          pytest --db ${{ matrix.database }} -k 'test_validate'
   test-postgres:
     runs-on: ubuntu-latest
     services:
