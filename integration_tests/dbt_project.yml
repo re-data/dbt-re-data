@@ -8,6 +8,9 @@ profile: "re_data_postgres"
 target-path: "target"
 clean-targets: ["target", "dbt_modules", "dbt_packages"]
 
+on-run-start:
+  - "{{ create_test_source_tables() }}"
+
 models:
   re_data:
     enabled: true
@@ -55,8 +58,12 @@ vars:
       actively_monitored: true
 
     - tables:
-        - name: buy_events
-          time_filter: creation_time
+      - name: buy_events
+        time_filter: creation_time
+        actively_monitored: true
+
+    - tables:
+        - name: re_data_source_test_table
           actively_monitored: true
 
   re_data:metrics_base:

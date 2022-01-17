@@ -34,8 +34,8 @@
                     {% set package_name = any_source[0][0] %}
                     {% set name = any_source[0][1] %}
                     {% set node_name = re_data.full_name_from_depends(el.node, name) %}
-                    {% set schema = graph.nodes.get(node_name)['schema'] %}
-                    {% set database = graph.nodes.get(node_name)['database'] %}
+                    {% set schema = graph.sources.get(node_name)['schema'] %}
+                    {% set database = graph.sources.get(node_name)['database'] %}
 
                     {% set name = database + '.' + schema + '.' + name %}
                 {% else %}
