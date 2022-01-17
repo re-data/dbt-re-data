@@ -51,7 +51,6 @@ jobs:
     runs-on: ubuntu-latest
     services:
       postgres:
-        if: ${{ matrix.database }} == 'postgres'
         image: postgres
         env:
           POSTGRES_PASSWORD: postgres
