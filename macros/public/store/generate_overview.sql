@@ -73,7 +73,7 @@
             model as {{ re_data.quote_column('table_name') }},
             null as {{ re_data.quote_column('column_name') }},
             time_window_end as {{ re_data.quote_column('computed_on') }},
-            {{ to_single_json(['type', 'model', 'message', 'time_window_end']) }} as {{ re_data.quote_column('data') }}
+            {{ to_single_json(['type', 'model', 'message', 'value', 'time_window_end']) }} as {{ re_data.quote_column('data') }}
         from
             {{ ref('re_data_alerts') }}
     )
