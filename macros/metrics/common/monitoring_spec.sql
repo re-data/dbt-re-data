@@ -5,7 +5,7 @@
     {% elif group.get(par_name) is not none %}
         {{ return (group[par_name]) }}
     {% else %}
-        {{ return (None) }}
+        {{ return (none) }}
     {% endif %}
 {% endmacro %}
 
@@ -19,12 +19,15 @@
         {{ return (group[par_name]) }}
     {% else %}
         {% set suffix = '.' + package + '.' + name %}
-        {% set check_source_name = 'source.' + package + '.'%}
-        {% set graph_node = graph.nodes.get('model' + suffix) or graph.nodes.get('seed' + suffix) or graph.sources.get('source' + '.' + opt_schema + suffix) %}
-        {% if graph_node %}
-            {{ return (graph_node[par_name]) }}
+        {% set ns = namespace(graph_node=graph.nodes.get('model' + suffix) or graph.nodes.get('seed' + suffix)) %}    
+        {% if not ns.graph_node %}
+            {% set source_name = 'source' + '.' + project_name + '.' + table['schema'] + '.' + table['name'] %}
+            {% set ns.graph_node = graph.sources.get(source_name) %}
+        {% endif %}
+
+        {% if ns.graph_node %}
+            {{ return (ns.graph_node[par_name]) }}
         {% else %}
-            {{ debug()}}
             {{ log('[re_data_log] - error no dbt graph node found for ' ~ table, True) }}
             {{ return (none) }}
         {% endif %}
