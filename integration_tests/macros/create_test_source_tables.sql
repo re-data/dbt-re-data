@@ -2,6 +2,7 @@
 
 {% macro create_test_source_tables() %}
 
+    CREATE SCHEMA IF NOT EXISTS {{target.schema}};
     DROP TABLE IF EXISTS {{target.schema}}.re_data_source_test_table;
     CREATE TABLE IF NOT EXISTS {{target.schema}}.re_data_source_test_table (
         number {{ re_data.integer_type() }},
