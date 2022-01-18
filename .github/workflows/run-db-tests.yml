@@ -33,7 +33,7 @@ jobs:
           pip install -r requirements.txt
           pip install dbt-${{ matrix.database }}==1.0.0
           dbt deps
-          dbt run-operation drop_schema --args '{schema_name: 'dq'}'
+          dbt run-operation drop_schema --args '{schema_name: 'dq'}' --profile re_data_${{ matrix.database }}
 
       - name: Decode service account for BigQuery
         if: ${{ matrix.database }} == 'bigquery'
