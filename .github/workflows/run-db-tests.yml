@@ -27,6 +27,11 @@ jobs:
         with:
           python-version: "3.7.x"
 
+      - name: Decode service account for BigQuery
+        if: ${{ matrix.database }} == 'bigquery'
+        run: 'echo $BIGQUERY_TESTING_SERVICE_ACCOUNT_BASE64 | base64 --decode > $BIGQUERY_TESTING_SERVICE_ACCOUNT_PATH'
+        shell: bash
+
       - name: Install dependencies
         working-directory: ./integration_tests
         run: |
@@ -34,11 +39,6 @@ jobs:
           pip install dbt-${{ matrix.database }}==1.0.0
           dbt deps
           dbt run-operation drop_schema --args '{schema_name: 'dq'}' --profile re_data_${{ matrix.database }}
-
-      - name: Decode service account for BigQuery
-        if: ${{ matrix.database }} == 'bigquery'
-        run: 'echo $BIGQUERY_TESTING_SERVICE_ACCOUNT_BASE64 | base64 --decode > $BIGQUERY_TESTING_SERVICE_ACCOUNT_PATH'
-        shell: bash
 
       - name: Test DB
         working-directory: ./integration_tests/python_tests
