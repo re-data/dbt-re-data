@@ -4,4 +4,4 @@
     )
 }}
 
-{{ re_data.empty_run_results() }}
+{{ re_data.empty_test_history() }}

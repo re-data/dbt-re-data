@@ -1,0 +1,18 @@
+version: 2
+
+sources:
+  - name: dq
+    tables:
+      - name: re_data_source_test_table
+        columns:
+          - name: number
+            tests:
+              - not_null
+              - unique
+          
+          - name: description
+            tests:
+              - not_null
+              - unique
+          
+      
