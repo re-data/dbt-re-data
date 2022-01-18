@@ -15,7 +15,7 @@
 {% endmacro %}
 
 {% macro default__to_2dp(val) %}
-    trim(to_char({{ val }}, '9999999990D00'))
+    trim(to_char({{ val }}, '9999999999999999990D00'))
 {% endmacro %}
 
 {% macro bigquery__to_2dp(val) %}
