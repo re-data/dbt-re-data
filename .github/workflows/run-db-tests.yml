@@ -33,6 +33,7 @@ jobs:
           pip install -r requirements.txt
           pip install dbt-${{ matrix.database }}==1.0.0
           dbt deps
+          dbt run-operation drop_schema --args '{schema_name: 'dq'}'
 
       - name: Decode service account for BigQuery
         if: ${{ matrix.database }} == 'bigquery'
@@ -42,7 +43,7 @@ jobs:
       - name: Test DB
         working-directory: ./integration_tests/python_tests
         run: |
-          python run.py ${{ matrix.database }}
+          pytest --db ${{ matrix.database }}
 
   test-postgres:
     runs-on: ubuntu-latest
