@@ -84,3 +84,16 @@
     timestamp({{time_column}}) >= {{ time_window_start() }} and
     timestamp({{time_column}}) < {{ time_window_end() }}
 {% endmacro %}
+
+
+{% macro format_timestamp(column_name) %}
+    {{ adapter.dispatch('format_timestamp', 're_data')(column_name) }}
+{% endmacro %}
+
+{% macro default__format_timestamp(column_name) %}
+    to_char({{column_name}}, 'YYYY-MM-DD HH24:MI:SS')
+{% endmacro %}
+
+{% macro bigquery__format_timestamp(column_name) %}
+    FORMAT_TIMESTAMP('%Y-%m-%d %H:%I:%S', {{column_name}})
+{% endmacro %}

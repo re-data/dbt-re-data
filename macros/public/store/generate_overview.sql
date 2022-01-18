@@ -44,7 +44,7 @@
     ) union all 
     (
         select
-            {{ overview_select_base('alert', 'computed_on')}}
+            {{ overview_select_base('anomaly', 'computed_on')}}
             {{ to_single_json(['id', 'metric', 'z_score_value', 'last_value', 'last_avg', 'last_stddev', 'time_window_end', 'interval_length_sec']) }} as {{ re_data.quote_column('data') }}
         from
             {{ ref('re_data_alerting') }}
@@ -65,7 +65,19 @@
             {{ to_single_json(['data_type', 'is_nullable', 'is_datetime']) }} as {{ re_data.quote_column('data') }}
         from
             columns_casted
-    )order by {{ re_data.quote_column('computed_on')}} desc
+    )
+    union all 
+    (
+        select 
+            'alert' as {{ re_data.quote_column('type') }},
+            model as {{ re_data.quote_column('table_name') }},
+            null as {{ re_data.quote_column('column_name') }},
+            time_window_end as {{ re_data.quote_column('computed_on') }},
+            {{ to_single_json(['type', 'model', 'message', 'value', 'time_window_end']) }} as {{ re_data.quote_column('data') }}
+        from
+            {{ ref('re_data_alerts') }}
+    )
+    order by {{ re_data.quote_column('computed_on')}} desc
     {% endset %}
 
     {% set overview_result = run_query(overview_query) %}
