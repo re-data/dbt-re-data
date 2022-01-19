@@ -43,7 +43,7 @@ jobs:
       - name: Test DB
         working-directory: ./integration_tests/python_tests
         run: |
-          pytest --db ${{ matrix.database }}
+          python run.py ${{ matrix.database }}
 
   test-postgres:
     runs-on: ubuntu-latest
@@ -78,4 +78,4 @@ jobs:
       - name: Test DB
         working-directory: ./integration_tests/python_tests
         run: pytest --db postgres
-        
+
