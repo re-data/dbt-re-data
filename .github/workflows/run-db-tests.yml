@@ -33,7 +33,7 @@ jobs:
 
       - name: Set the SCHEMA environment variable
         run: |
-          echo SCHEMA=${GITHUB_REF_SLUG//-/_} >> $GITHUB_ENV
+          echo "SCHEMA=${GITHUB_REF_SLUG//-/_}" >> $GITHUB_ENV
           echo $SCHEMA
 
       - name: Decode service account for BigQuery
@@ -47,7 +47,7 @@ jobs:
           pip install -r requirements.txt
           pip install dbt-${{ matrix.database }}==1.0.0
           dbt deps
-          dbt run-operation drop_schema --args '{schema_name: 'dq'}' --profile re_data_${{ matrix.database }}
+          dbt run-operation drop_all_schemas --args '{schema_name: 'dq'}' --profile re_data_${{ matrix.database }}
 
       - name: Test DB
         working-directory: ./integration_tests/python_tests
