@@ -15,6 +15,7 @@ env:
 jobs:
   test-other-dbs:
     runs-on: ubuntu-latest
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != 're-data/dbt-re-data'
     strategy:
       fail-fast: false
       matrix:
@@ -47,6 +48,7 @@ jobs:
 
   test-postgres:
     runs-on: ubuntu-latest
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != 're-data/dbt-re-data'
     services:
       postgres:
         image: postgres
