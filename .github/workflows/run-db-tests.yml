@@ -34,7 +34,7 @@ jobs:
       - name: Set the SCHEMA environment variable
         run: |
           echo "SCHEMA=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
-          echo ${{ env.SCHEMA }}
+          echo $SCHEMA
 
       - name: Decode service account for BigQuery
         if: ${{ matrix.database }} == 'bigquery'
