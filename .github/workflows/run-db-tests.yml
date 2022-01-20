@@ -32,9 +32,10 @@ jobs:
         uses: rlespinasse/github-slug-action@v3.x
 
       - name: Set the SCHEMA environment variable
+        shell: bash
         run: |
-          echo "SCHEMA=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
-          echo $SCHEMA
+          echo "DQ_SCHEMA=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+          echo $DQ_SCHEMA
 
       - name: Decode service account for BigQuery
         if: ${{ matrix.database }} == 'bigquery'
