@@ -32,9 +32,13 @@ jobs:
         uses: rlespinasse/github-slug-action@v3.x
 
       - name: Set the SCHEMA environment variable
-        shell: bash
         run: |
-          echo "DQ_SCHEMA=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+          DQ_SCHEMA=${GITHUB_REF_SLUG//-/_}
+          echo "DQ_SCHEMA=${GITHUB_REF_SLUG//-/_}" >> $GITHUB_ENV
+          echo $DQ_SCHEMA
+
+      - name: Print DQ_SCHEMA
+        run: |
           echo $DQ_SCHEMA
 
       - name: Decode service account for BigQuery
