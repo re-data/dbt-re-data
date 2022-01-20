@@ -64,7 +64,6 @@ vars:
 
     - tables:
         - name: re_data_source_test_table
-          schema: dq
           actively_monitored: true
 
   re_data:metrics_base:
