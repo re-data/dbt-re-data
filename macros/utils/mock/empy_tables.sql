@@ -30,11 +30,6 @@
 
 {% endmacro %}
 
-{% macro dummy_empty_fressness_table() %}
-    {{ re_data.dummy_empty_table_generic(false)}}
-{% endmacro %}
-
-
 {% macro dummy_empty_base_metrics_table() %}
     {{ re_data.dummy_empty_table_generic(true)}}
 {% endmacro %}
@@ -104,11 +99,14 @@
         cast (some_time as {{ timestamp_type() }} ) as generated_at
 {% endmacro %}
 
-{% macro empty_run_results() %}
+{% macro empty_test_history() %}
     {{ re_data.dummy_to_select() }}
     select 
-        cast (some_string as {{ string_type() }} ) as json_data,
-        cast (some_time as {{ timestamp_type() }} ) as generated_at
+        cast (some_time as {{ string_type() }} ) as table_name,
+        cast (some_string as {{ string_type() }} ) as column_name,
+        cast (some_string as {{ string_type() }} ) as test_name,
+        cast (some_string as {{ string_type() }} ) as status,
+        cast (some_time as {{ timestamp_type() }} ) as run_at
     from dummy_table
     where some_num = 2
 {% endmacro %}

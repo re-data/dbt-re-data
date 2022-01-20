@@ -130,4 +130,3 @@ jobs:
           pip install dbt-${{ matrix.database }}==1.0.0
           dbt deps
           dbt run-operation drop_all_schemas --args '{schema_name: '${{ env.DQ_SCHEMA }}'}' --profile re_data_${{ matrix.database }}
-  
