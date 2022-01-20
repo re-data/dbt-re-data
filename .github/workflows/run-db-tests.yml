@@ -31,11 +31,9 @@ jobs:
       - name: Inject slug/short variables
         uses: rlespinasse/github-slug-action@v3.x
 
-      - name: Set the SCHEMA environment variable
+      - name: Set the DQ_SCHEMA environment variable
         run: |
-          DQ_SCHEMA=${GITHUB_REF_SLUG//-/_}
-          echo "DQ_SCHEMA=${GITHUB_REF_SLUG//-/_}" >> $GITHUB_ENV
-          echo $DQ_SCHEMA
+          echo "DQ_SCHEMA=dq_${GITHUB_REF_SLUG//-/_}" >> $GITHUB_ENV
 
       - name: Print DQ_SCHEMA
         run: |
