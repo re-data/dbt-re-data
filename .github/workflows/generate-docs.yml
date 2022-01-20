@@ -1,6 +1,6 @@
 name: Generate Documentation
 
-on: [push, pull_request]
+on: [push]
 
 env:
   DBT_PROFILES_DIR: ./
