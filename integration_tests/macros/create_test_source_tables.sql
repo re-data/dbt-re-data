@@ -10,16 +10,16 @@
         created_at {{ re_data.timestamp_type() }}
     );
     INSERT INTO {{target.schema}}.re_data_source_test_table (number, description, created_at) VALUES 
-        (1, 'one', now()),
-        (2, 'two', now()),
-        (3, 'three', now()),
-        (4, 'four', now()),
-        (5, 'five', now()),
-        (6, 'six', now()),
-        (7, 'seven', now()),
-        (8, 'eight', now()),
-        (9, 'nine', now()),
-        (10, 'ten', now()
+        (1, 'one', current_timestamp),
+        (2, 'two', current_timestamp),
+        (3, 'three', current_timestamp),
+        (4, 'four', current_timestamp),
+        (5, 'five', current_timestamp),
+        (6, 'six', current_timestamp),
+        (7, 'seven', current_timestamp),
+        (8, 'eight', current_timestamp),
+        (9, 'nine', current_timestamp),
+        (10, 'ten', current_timestamp
     );
 
 {% endmacro %}
