@@ -1,6 +1,6 @@
 name: Run package tests for all dbs
 
-on: [push, pull_request, delete]
+on: [push, delete]
 
 env:
   DBT_PROFILES_DIR: ${{ github.workspace }}/
@@ -15,7 +15,7 @@ env:
 jobs:
   test-other-dbs:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != 're-data/dbt-re-data'
+    if: github.event_name == 'push' && github.repository == 're-data/dbt-re-data'
     strategy:
       fail-fast: false
       matrix:
@@ -59,7 +59,7 @@ jobs:
 
   test-postgres:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != 're-data/dbt-re-data'
+    if: github.event_name == 'push'
     services:
       postgres:
         image: postgres
@@ -94,7 +94,7 @@ jobs:
 
   clean-up-schemas:
     runs-on: ubuntu-latest
-    if: github.event_name == 'delete'
+    if: github.event_name == 'delete' && github.repository == 're-data/dbt-re-data'
     strategy:
       fail-fast: false
       matrix:
