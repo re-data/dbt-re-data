@@ -20,7 +20,7 @@ re_data_snowflake:
       password: "{{ env_var('RE_DATA_TESTING_PASSWORD') }}"
       database: RE_DATA_TESTING
       warehouse: RE_DATA_TESTING_DWH
-      schema: dq
+      schema: "{{ env_var('DQ_SCHEMA') }}"
       threads: 4
 re_data_redshift:
   target: dev
@@ -32,7 +32,7 @@ re_data_redshift:
       password: "{{ env_var('RE_DATA_TESTING_PASSWORD') }}"
       port: 5439
       dbname: re_data_testing
-      schema: dq
+      schema: "{{ env_var('DQ_SCHEMA') }}"
       threads: 4
 re_data_bigquery:
   target: dev
@@ -41,7 +41,7 @@ re_data_bigquery:
       type: bigquery
       method: service-account
       project: "{{ env_var('BIGQUERY_TESTING_PROJECT_ID') }}"
-      dataset: dq
+      dataset: "{{ env_var('DQ_SCHEMA') }}"
       threads: 4
       keyfile: "{{ env_var('BIGQUERY_TESTING_SERVICE_ACCOUNT_PATH') }}"
       location: EU
