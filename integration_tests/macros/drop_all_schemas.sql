@@ -44,6 +44,5 @@
             create schema if not exists {{schema}};
         {% endfor %}
     {% endset %}
-    {{ log(create_query, info=True) }}
     {% do run_query(create_query) %}
 {% endmacro %}
