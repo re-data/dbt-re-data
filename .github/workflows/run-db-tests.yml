@@ -112,7 +112,7 @@ jobs:
 
       - name: Set the DQ_SCHEMA environment variable
         run: |
-          echo "DQ_SCHEMA=dq_${ ${{ GITHUB_EVENT_REF_SLUG }}//-/_}" >> $GITHUB_ENV
+          echo "DQ_SCHEMA=dq_${GITHUB_EVENT_REF_SLUG//-/_}" >> $GITHUB_ENV
 
       - name: Print DQ_SCHEMA
         run: |
