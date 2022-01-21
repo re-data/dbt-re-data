@@ -40,7 +40,7 @@ jobs:
           echo $DQ_SCHEMA
 
       - name: Decode service account for BigQuery
-        if: ${{ matrix.database }} == 'bigquery'
+        if: matrix.database == 'bigquery'
         run: 'echo $BIGQUERY_TESTING_SERVICE_ACCOUNT_BASE64 | base64 --decode > $BIGQUERY_TESTING_SERVICE_ACCOUNT_PATH'
         shell: bash
 
@@ -112,14 +112,14 @@ jobs:
 
       - name: Set the DQ_SCHEMA environment variable
         run: |
-          echo "DQ_SCHEMA=dq_${GITHUB_REF_SLUG//-/_}" >> $GITHUB_ENV
+          echo "DQ_SCHEMA=dq_${GITHUB_EVENT_REF_SLUG//-/_}" >> $GITHUB_ENV
 
       - name: Print DQ_SCHEMA
         run: |
           echo $DQ_SCHEMA
 
       - name: Decode service account for BigQuery
-        if: ${{ matrix.database }} == 'bigquery'
+        if: matrix.database == 'bigquery'
         run: 'echo $BIGQUERY_TESTING_SERVICE_ACCOUNT_BASE64 | base64 --decode > $BIGQUERY_TESTING_SERVICE_ACCOUNT_PATH'
         shell: bash
 

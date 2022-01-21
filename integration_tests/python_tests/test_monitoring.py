@@ -18,37 +18,36 @@ def test_monitoring(db, source_schema):
     assert os.system(load_deps) == 0
 
     dbt_vars = copy.deepcopy(DBT_VARS)
-    yaml_vars = yaml.dump(dbt_vars)
     
     print (f"Running setup and tests for {db}")
 
-    dbt_seed('--vars "{}"'.format(yaml_vars), db)
-    dbt_run('--models transformed --vars "{}"'.format(yaml_vars), db)
+    dbt_seed('', db, dbt_vars)
+    dbt_run('--models transformed', db, dbt_vars)
 
     print (f"Computing re_data metrics for {db}") 
-    dbt_run('--exclude transformed  --vars "{}"'.format(yaml_vars), db)
+    dbt_run('--exclude transformed ', db, dbt_vars)
 
     # updat dbts_vars to run dbt for next day of data
     dbt_vars['re_data:time_window_start'] = dbt_vars['re_data:time_window_end']
     dbt_vars['re_data:time_window_end'] = (RUN_TIME + timedelta(days=1)).strftime("%Y-%m-%d %H:%M:%S")
-    yaml_vars = yaml.dump(dbt_vars)
 
     dbt_command(
-        'dbt run --exclude transformed --fail-fast --vars "{}"'.format(yaml_vars),
-        db
+        'dbt run --exclude transformed --fail-fast',
+        db, dbt_vars
     )
 
-    dbt_test('--vars "{}"'.format(yaml_vars), db)
+    dbt_test('', db, dbt_vars)
 
     op_vars = {
         'start_date': RUN_TIME.strftime("%Y-%m-%d"),
         'end_date': (RUN_TIME + timedelta(days=1)).strftime("%Y-%m-%d"),
         'interval': 'days:1'
     }
+    op_vars = yaml.dump(op_vars)
     
     dbt_command(
-        f'dbt run-operation generate_overview --args "{yaml.dump(op_vars)}" --vars "{yaml_vars}"',
-        db, common_args=''
+        f'dbt run-operation generate_overview --args "{op_vars}"',
+        db, dbt_vars
     )
 
     print (f"Running tests completed for {db}")
