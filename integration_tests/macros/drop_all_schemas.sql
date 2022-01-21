@@ -29,3 +29,21 @@
     {% endset %}
     {% do run_query(drop_query) %}
 {% endmacro %}
+
+{% macro create_required_schemas(schema_name) %}
+    {% set schemas_to_drop = [
+        schema_name,
+        schema_name + '_re',
+        schema_name + '_re_internal',
+        schema_name + '_raw',
+        schema_name + '_expected',
+        schema_name + '_dbt_test__audit'
+    ] %}
+    {% set create_query %}
+        {% for schema in schemas_to_drop %}
+            create schema if not exists {{schema}};
+        {% endfor %}
+    {% endset %}
+    {{ log(create_query, info=True) }}
+    {% do run_query(create_query) %}
+{% endmacro %}
