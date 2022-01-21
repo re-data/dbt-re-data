@@ -1,3 +1,4 @@
+import os
 import copy
 import yaml
 from datetime import datetime, timedelta
@@ -13,8 +14,8 @@ DBT_VARS = {
 def test_monitoring(db, source_schema):
     DBT_VARS.update({'source_schema': source_schema})
 
-    # load_deps = 'dbt deps'
-    # assert os.system(load_deps) == 0
+    load_deps = 'dbt deps'
+    assert os.system(load_deps) == 0
 
     dbt_vars = copy.deepcopy(DBT_VARS)
     
