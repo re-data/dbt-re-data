@@ -40,7 +40,7 @@ jobs:
           echo $DQ_SCHEMA
 
       - name: Decode service account for BigQuery
-        if: ${{ matrix.database }} == 'bigquery'
+        if: matrix.database == 'bigquery'
         run: 'echo $BIGQUERY_TESTING_SERVICE_ACCOUNT_BASE64 | base64 --decode > $BIGQUERY_TESTING_SERVICE_ACCOUNT_PATH'
         shell: bash
 
@@ -119,7 +119,7 @@ jobs:
           echo $DQ_SCHEMA
 
       - name: Decode service account for BigQuery
-        if: ${{ matrix.database }} == 'bigquery'
+        if: matrix.database == 'bigquery'
         run: 'echo $BIGQUERY_TESTING_SERVICE_ACCOUNT_BASE64 | base64 --decode > $BIGQUERY_TESTING_SERVICE_ACCOUNT_PATH'
         shell: bash
 
