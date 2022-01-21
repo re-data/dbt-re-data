@@ -21,7 +21,8 @@
         {% set suffix = '.' + package + '.' + name %}
         {% set ns = namespace(graph_node=graph.nodes.get('model' + suffix) or graph.nodes.get('seed' + suffix)) %}    
         {% if not ns.graph_node %}
-            {% set source_name = 'source' + '.' + project_name + '.' + table['schema'] + '.' + table['name'] %}
+            {% set schema_name = table.get('schema') or target.schema %}
+            {% set source_name = 'source' + '.' + project_name + '.' + schema_name + '.' + table['name'] %}
             {% set ns.graph_node = graph.sources.get(source_name) %}
         {% endif %}
 

@@ -1,6 +1,6 @@
 name: Generate Documentation
 
-on: [push, pull_request]
+on: [push]
 
 env:
   DBT_PROFILES_DIR: ./
@@ -8,7 +8,7 @@ env:
 jobs:
   generate-docs:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != 're-data/dbt-re-data'
+    if: github.event_name == 'push'
     services:
       postgres:
         image: postgres
