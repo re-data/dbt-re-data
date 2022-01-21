@@ -10,6 +10,6 @@
         {{ get_tables_from_config()}}
     )
 
-    select * from code_monitored where actively_monitored is true
+    select * from code_monitored where actively_monitored = true
 {% endif %}
 
