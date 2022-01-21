@@ -44,19 +44,24 @@ jobs:
         run: 'echo $BIGQUERY_TESTING_SERVICE_ACCOUNT_BASE64 | base64 --decode > $BIGQUERY_TESTING_SERVICE_ACCOUNT_PATH'
         shell: bash
 
-      - name: Create Schema if needed
-        if: matrix.database == 'redshift'
-        working-directory: ./integration_tests
-        run: |
-          dbt run-operation create_required_schemas --args "{ schema_name: ${{ env.DQ_SCHEMA }} }" --profile re_data_${{ matrix.database }} --vars "{ source_schema: ${{ env.DQ_SCHEMA }} }"
-
       - name: Install dependencies
         working-directory: ./integration_tests
         run: |
           pip install -r requirements.txt
           pip install dbt-${{ matrix.database }}==1.0.0
           dbt deps
+
+      - name: Drop schemas
+        if: matrix.database == 'redshift'
+        working-directory: ./integration_tests
+        run: |
           dbt run-operation drop_all_schemas --args "{ schema_name: ${{ env.DQ_SCHEMA }} }" --profile re_data_${{ matrix.database }} --vars "{ source_schema: ${{ env.DQ_SCHEMA }} }"
+
+      - name: Create Schemas if needed
+        if: matrix.database == 'redshift'
+        working-directory: ./integration_tests
+        run: |
+          dbt run-operation create_required_schemas --args "{ schema_name: ${{ env.DQ_SCHEMA }} }" --profile re_data_${{ matrix.database }} --vars "{ source_schema: ${{ env.DQ_SCHEMA }} }"
 
       - name: Test DB
         working-directory: ./integration_tests/python_tests
