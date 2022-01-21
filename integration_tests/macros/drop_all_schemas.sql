@@ -31,6 +31,7 @@
 {% endmacro %}
 
 {% macro create_required_schemas(schema_name) %}
+    {# required to manually create schemas used for redshift tests #}
     {% set schemas_to_drop = [
         schema_name,
         schema_name + '_re',
