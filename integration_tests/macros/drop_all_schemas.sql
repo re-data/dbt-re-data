@@ -1,5 +1,5 @@
-{% macro drop_all_schemas(schema_name) %}
-    {% set schemas_to_drop = [
+{% macro get_schemas_used(schema_name) %}
+    {% set schemas = [
         schema_name,
         schema_name + '_re',
         schema_name + '_re_internal',
@@ -7,6 +7,11 @@
         schema_name + '_expected',
         schema_name + '_dbt_test__audit'
     ] %}
+    {{ return (schemas) }}
+{% endmacro %}
+
+{% macro drop_all_schemas(schema_name) %}
+    {% set schemas_to_drop = get_schemas_used(schema_name) %}
     {{ adapter.dispatch('drop_all_schemas')(schemas_to_drop) }}
 {% endmacro %}
 
@@ -32,14 +37,7 @@
 
 {% macro create_required_schemas(schema_name) %}
     {# required to manually create schemas used for redshift tests #}
-    {% set schemas_to_drop = [
-        schema_name,
-        schema_name + '_re',
-        schema_name + '_re_internal',
-        schema_name + '_raw',
-        schema_name + '_expected',
-        schema_name + '_dbt_test__audit'
-    ] %}
+    {% set schemas_to_drop = get_schemas_used(schema_name) %}
     {% set create_query %}
         {% for schema in schemas_to_drop %}
             create schema if not exists {{schema}};
