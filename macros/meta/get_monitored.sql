@@ -1,5 +1,34 @@
+{% macro pub_monitored_from_graph %}
+    {% set monitored = [] %}
+    {% for node in graph.nodes %}
+    {% endfor %}
 
-{% macro get_monitoring_spec(par_name, table, group) %}
+    {{ return(monitored) }}
+{% endmacro %}
+
+{% macro pub_monitored_from_vars() %}
+    {% set monitored = [] %}
+    {% for group in var('re_data:monitored') %}
+        {% for table in group['tables'] %}
+            {% do monitored.extend(priv_get_monitored_from_group(table, group)) %}
+        {% endfor %}
+    {% endfor %}
+
+    {{ return(monitored) }}
+{% endmacro %}
+
+{% macro priv_get_monitored_from_group(table, group) %}
+    
+    {% set name = table['name'] %}
+    {% set schema = priv_schema_spec('schema', table, group) %}
+    {% set database = priv_schema_spec('database', table, group) %}
+    {% set time_filter = priv_monitored_spec('time_filter', table, group) %}
+    {% set metrics = table.get('metrics', {}) %}
+    {% set columns = table.get('columns', []) %}
+    
+    {{ return ([{'name': name, 'schema': schema, 'database': database, 'time_filter': time_filter, 'metrics': metrics, 'columns': columns}]) }}
+
+{% macro priv_monitored_spec(par_name, table, group) %}
     {% if table.get(par_name) is not none %}
         {{ return (table[par_name]) }}
     {% elif group.get(par_name) is not none %}
@@ -9,7 +38,7 @@
     {% endif %}
 {% endmacro %}
 
-{% macro get_schema_spec(par_name, table, group) %}
+{% macro priv_schema_spec(par_name, table, group) %}
     {% set name = table['name'] %}
     {% set package = project_name %}
 
@@ -34,17 +63,5 @@
         {% endif %}
     {% endif %}
 {% endmacro %}
-
-{% macro monitoring_spec(table, group) %}
-    
-    {% set name = table['name'] %}
-    {% set schema = get_schema_spec('schema', table, group) %}
-    {% set database = get_schema_spec('database', table, group) %}
-    {% set actively_monitored = get_monitoring_spec('actively_monitored', table, group) %}
-    {% set time_filter = get_monitoring_spec('time_filter', table, group) %}
-    {% set metrics = table.get('metrics', {}) %}
-    {% set columns = table.get('columns', []) %}
-    
-    {{ return ([{'table': name, 'schema': schema, 'database': database, 'time_filter': time_filter, 'actively_monitored': actively_monitored, 'metrics': metrics, 'columns': columns}]) }}
 
 {% endmacro %}

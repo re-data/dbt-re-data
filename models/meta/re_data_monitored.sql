@@ -2,14 +2,9 @@
     config(
         materialized='table',
         unique_key = 'table_name'
+        post_hook="{{ insert_into_monitored() }}"
     )
 }}
 
-{% if execute %}
-    with code_monitored as (
-        {{ get_tables_from_config()}}
-    )
-
-    select * from code_monitored where actively_monitored = true
-{% endif %}
-
+{{ empty_code_monitored() }}
+ 

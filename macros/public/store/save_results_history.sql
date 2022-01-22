@@ -17,6 +17,8 @@
 
     {% if execute and results %}
         {% set to_insert = [] %}
+        {% set run_started_at_str = run_started_at.strftime('%Y-%m-%d %H:%M:%S') %}
+
         {% for el in results %}
             {% if el.node.resource_type.name == 'Test' %}
                 {% set any_refs = modules.re.findall("ref\(\'(?P<name>.*)\'\)", el.node.test_metadata.kwargs['model']) %}
@@ -42,33 +44,16 @@
                     {% set name = none %}
                 {% endif %}
 
-                {% do to_insert.append({ 'table_name': name, 'column_name': el.node.column_name , 'test_name': el.node.name, 'status': el.status.name}) %}
+                {% do to_insert.append({ 'table_name': name, 'column_name': el.node.column_name or 'NULL' , 'test_name': el.node.name, 'status': el.status.name, 'run_at': run_started_at_str}) %}
             {% endif %}
         {% endfor %}
 
-        {% set run_started_at_str = run_started_at.strftime('%Y-%m-%d %H:%M:%S') %}
+        {% do insert_list_to_table(
+            ref('re_data_test_history'),
+            to_insert,
+            ['table_name', 'column_name', 'test_name', 'status', 'run_at']
+        ) %}
 
-        {% set single_insert_list = [] %}
-        {% for el in to_insert %}
-            {% do single_insert_list.append(el) %}
-            {% set single_insert_list_size = single_insert_list | length%}
-            {% if single_insert_list_size == 100 or loop.last %}
-
-                {% set insert_query %}
-                    insert into {{ ref('re_data_test_history')}} (table_name, column_name, test_name, status, run_at) values
-
-                    {% for el in single_insert_list %}
-                        ( '{{ el.table_name }}' , {% if el.column_name %}'{{ el.column_name }}'{% else %}null{% endif %}, '{{ el.test_name }}', '{{ el.status }}', '{{ run_started_at_str }}' ) {% if not loop.last %}, {% endif %}
-                    {% endfor %}
-                {% endset %}
-
-                {% if to_insert %}
-                    {% do run_query(insert_query) %}
-                {% endif %}
-
-                {% do single_insert_list.clear() %}
-            {% endif %}
-        {% endfor %}
     {% endif %}
 
     {{ return ('') }}

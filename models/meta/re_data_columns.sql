@@ -6,9 +6,10 @@
 }}
 
 -- depends_on: {{ ref('re_data_run_started_at') }}
+-- depends_on: {{ ref('re_data_monitored') }}
 
 {% if execute %}
-    {% set schemas = get_schemas_from_monitored_config() %}
+    {% set schemas = run_query(re_data.get_schemas()) %}
 {% else %}
     {% set schemas = [] %}
 {% endif %}
@@ -17,9 +18,9 @@
     {{ empty_columns_table() }}
 {% else %}
     with columns_froms_select as (
-        {% for schema_db_mapping in schemas %}
-            {% set schema_name = re_data.schema_name(schema_db_mapping.schema) %}
-            {{ get_monitored_columns(schema_name, schema_db_mapping.database) }}
+        {% for schema_spec in schemas %}
+            {% set schema_name = re_data.schema_name(schema_spec.schema) %}
+            {{ get_monitored_columns(schema_name, schema_spec.database) }}
         {%- if not loop.last %} union all {%- endif %}
         {% endfor %}
     )

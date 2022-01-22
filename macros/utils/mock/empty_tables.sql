@@ -30,10 +30,6 @@
 
 {% endmacro %}
 
-{% macro dummy_empty_base_metrics_table() %}
-    {{ re_data.dummy_empty_table_generic(true)}}
-{% endmacro %}
-
 {% macro dummy_empty_schema_changes_table() %}
     {{ re_data.dummy_to_select() }}
     select 
@@ -66,9 +62,11 @@
 {% macro empty_code_monitored() %}
     {{ re_data.dummy_to_select() }}
     select 
-        cast (some_string as {{ string_type() }} ) as table_name,
+        cast (some_string as {{ string_type() }} ) as full_name,
+        cast (some_string as {{ string_type() }} ) as name,
+        cast (some_string as {{ string_type() }} ) as schema,
+        cast (some_string as {{ string_type() }} ) as database,
         cast (some_string as {{ string_type() }} ) as time_filter,
-        cast (some_bool as {{ boolean_type() }} ) as actively_monitored,
         cast (some_string as {{ string_type() }} ) as metrics,
         cast (some_string as {{ string_type() }} ) as columns
     from dummy_table
