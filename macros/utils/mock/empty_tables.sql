@@ -62,7 +62,6 @@
 {% macro empty_code_monitored() %}
     {{ re_data.dummy_to_select() }}
     select 
-        cast (some_string as {{ string_type() }} ) as full_name,
         cast (some_string as {{ string_type() }} ) as name,
         cast (some_string as {{ string_type() }} ) as schema,
         cast (some_string as {{ string_type() }} ) as database,

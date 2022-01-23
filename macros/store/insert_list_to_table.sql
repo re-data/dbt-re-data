@@ -9,17 +9,29 @@
         {% if single_insert_list_size == insert_size or loop.last %}
 
             {% set insert_query %}
-                insert into {{ table }} ({% for p in params %}p{% if not loop.last %}, {% endif %}) values
-
-                {% for el in single_insert_list %}
-                    ({% for p in parms %} {{el[p]}} {% endfor %})
-                    {% if not loop.last %}, {% endif %}
-                {% endfor %}
+                insert into {{ table }} ({%- for p in params %}{{p}}{% if not loop.last %}, {% endif %}{% endfor %}) values
+                {%- for row in single_insert_list -%}
+                    (
+                    {%- for p in params -%}
+                        {%- if row[p] is none -%}
+                            NULL
+                        {%- else -%}
+                            {%- if row[p] is string -%}
+                                '{{row[p]}}'
+                            {%- elif row[p] is number -%}
+                                {{-row[p]-}}
+                            {%- else -%}
+                                '{{- tojson(row[p]) -}}'
+                            {%- endif -%}
+                        {%- endif -%}
+                        {%- if not loop.last -%},{%- endif -%}
+                    {%- endfor -%}
+                    )
+                    {%- if not loop.last -%},{%- endif %}
+                {% endfor -%}
             {% endset %}
 
-            {% if to_insert %}
-                {% do run_query(insert_query) %}
-            {% endif %}
+            {% do run_query(insert_query) %}
 
             {% do single_insert_list.clear() %}
         {% endif %}

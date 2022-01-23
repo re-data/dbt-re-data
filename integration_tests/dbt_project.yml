@@ -3,7 +3,7 @@ version: "1.0"
 config-version: 2
 
 # Changed when running tests
-profile: "re_data_postgres"
+profile: "re_data_snowflake"
 
 target-path: "target"
 clean-targets: ["target", "dbt_modules", "dbt_packages"]
@@ -54,11 +54,6 @@ vars:
           time_filter: creation_time
 
         - name: sample_without_time_filter
-
-
-    - tables:
-      - name: buy_events
-        time_filter: creation_time
 
     - tables:
         - name: re_data_source_test_table

@@ -1,6 +1,22 @@
-{% macro pub_monitored_from_graph %}
+{% macro pub_monitored_from_graph() %}
     {% set monitored = [] %}
-    {% for node in graph.nodes %}
+    {% set both = []%}
+    {% do both.extend(graph.nodes.values()) %}
+    {% do both.extend(graph.sources.values()) %}
+
+    {% for el in both %}
+        {% if el.config.get('re_data_monitored') %}
+            
+            {% do monitored.append({
+                'name': re_data.name_in_db(el.name),
+                'schema': re_data.name_in_db(el.schema),
+                'database': re_data.name_in_db(el.database),
+                'time_filter': el.config.get('re_data_time_filter', none),
+                'metrics': el.config.get('re_data_metrics', {}),
+                'columns': el.config.get('re_data_columns', [])
+                })
+            %}
+        {% endif %}
     {% endfor %}
 
     {{ return(monitored) }}
@@ -26,7 +42,9 @@
     {% set metrics = table.get('metrics', {}) %}
     {% set columns = table.get('columns', []) %}
     
-    {{ return ([{'name': name, 'schema': schema, 'database': database, 'time_filter': time_filter, 'metrics': metrics, 'columns': columns}]) }}
+    {{ return ([{'name': re_data.name_in_db(name), 'schema': re_data.name_in_db(schema), 'database': re_data.name_in_db(database), 'time_filter': time_filter, 'metrics': metrics, 'columns': columns}]) }}
+
+{% endmacro %}
 
 {% macro priv_monitored_spec(par_name, table, group) %}
     {% if table.get(par_name) is not none %}
@@ -62,6 +80,4 @@
             {{ return (none) }}
         {% endif %}
     {% endif %}
-{% endmacro %}
-
 {% endmacro %}

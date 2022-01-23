@@ -1,8 +1,8 @@
 {{
     config(
         materialized='table',
-        unique_key = 'table_name'
-        post_hook="{{ insert_into_monitored() }}"
+        unique_key = 'table_name',
+        post_hook="{% if execute %}{{ insert_into_monitored() }}{% endif %}"
     )
 }}
 

@@ -2,7 +2,7 @@
 {% macro metric_expression(model, table, metric, expression, column_name=None, condition=None) %}
     select * from {{ref('re_data_base_metrics')}}
     where
-        table_name = {{ re_data.full_table_name_values(table.identifier, table.schema, table.database)}} and
+        table_name = '{{ re_data.full_table_name_values(table.identifier, table.schema, table.database)}}' and
         metric = '{{ metric }}' and
         {% if condition is not none %}
             {{ condition }} and

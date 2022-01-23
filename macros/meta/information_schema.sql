@@ -4,7 +4,9 @@
 
 {% macro default__get_monitored_columns(table_schema, db_name) %}
     select
-        {{full_table_name(table_name, table_schema, table_catalog) }} as table_name,
+        table_name,
+        table_schema,
+        table_catalog,
         column_name,
         data_type,
         is_nullable,
@@ -18,7 +20,9 @@
 
     {%- call statement('columns', fetch_result=True) -%}
     select
-        {{full_table_name(table_name, table_schema, table_catalog) }} as table_name,
+        table_name,
+        table_schema,
+        table_catalog,
         column_name,
         data_type,
         is_nullable,
