@@ -7,7 +7,7 @@
 {% endmacro %}
 
 {% macro generate_overview(start_date, end_date, interval) %}
--- depends_on: {{ ref('re_data_alerting') }}
+-- depends_on: {{ ref('re_data_anomalies') }}
 -- depends_on: {{ ref('re_data_base_metrics') }}
 -- depends_on: {{ ref('re_data_schema_changes') }}
 -- depends_on: {{ ref('re_data_columns') }}
@@ -47,7 +47,7 @@
             {{ overview_select_base('anomaly', 'computed_on')}}
             {{ to_single_json(['id', 'metric', 'z_score_value', 'last_value', 'last_avg', 'last_stddev', 'time_window_end', 'interval_length_sec']) }} as {{ re_data.quote_column('data') }}
         from
-            {{ ref('re_data_alerting') }}
+            {{ ref('re_data_anomalies') }}
             where date(time_window_end) between '{{start_date}}' and '{{end_date}}'
             and interval_length_sec = {{interval_length_sec}}
     ) union all

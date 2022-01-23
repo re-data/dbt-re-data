@@ -5,7 +5,7 @@ select
     last_value_text as value,
     time_window_end
 from
-    {{ ref('re_data_alerting') }}
+    {{ ref('re_data_anomalies') }}
 union all
 
 select

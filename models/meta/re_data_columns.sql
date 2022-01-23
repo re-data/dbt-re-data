@@ -18,7 +18,7 @@
 {% else %}
     with columns_from_select as (
         {% for row in schemas %}
-            {% set schema_name = re_data.schema_name(re_data.row_value(row, 'schema')) %}
+            {% set schema_name = re_data.name_in_db(re_data.row_value(row, 'schema')) %}
             {{ get_monitored_columns(schema_name, re_data.row_value(row, 'database')) }}
         {%- if not loop.last %} union all {%- endif %}
         {% endfor %}
