@@ -1,17 +1,4 @@
 
-{% macro full_name_from_depends(node, name) %}
-
-    {% for full_name in node.depends_on.nodes %}
-        {% set node_name = full_name.split('.')[-1] %}
-        {% if node_name == name %}
-            {{ return(full_name) }}
-        {% endif %}
-    {% endfor %}
-
-    {{ return(none) }}
-
-{% endmacro %}
-
 {% macro save_test_history(results) %}
     -- depends_on: {{ ref('re_data_test_history') }}
 
@@ -26,7 +13,7 @@
 
                 {% if any_refs %}
                     {% set name = any_refs[0] %}
-                    {% set node_name = re_data.full_name_from_depends(el.node, name) %}
+                    {% set node_name = re_data.priv_full_name_from_depends(el.node, name) %}
                     {% set schema = graph.nodes.get(node_name)['schema'] %}
                     {% set database = graph.nodes.get(node_name)['database'] %}
 
@@ -35,7 +22,7 @@
                 {% elif any_source %}
                     {% set package_name = any_source[0][0] %}
                     {% set name = any_source[0][1] %}
-                    {% set node_name = re_data.full_name_from_depends(el.node, name) %}
+                    {% set node_name = re_data.priv_full_name_from_depends(el.node, name) %}
                     {% set schema = graph.sources.get(node_name)['schema'] %}
                     {% set database = graph.sources.get(node_name)['database'] %}
 
@@ -60,3 +47,15 @@
 
 {% endmacro %}
 
+{% macro priv_full_name_from_depends(node, name) %}
+
+    {% for full_name in node.depends_on.nodes %}
+        {% set node_name = full_name.split('.')[-1] %}
+        {% if node_name == name %}
+            {{ return(full_name) }}
+        {% endif %}
+    {% endfor %}
+
+    {{ return(none) }}
+
+{% endmacro %}
