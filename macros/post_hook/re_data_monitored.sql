@@ -1,4 +1,4 @@
-{% macro insert_into_monitored() %}
+{% macro pub_insert_into_re_data_monitored() %}
     {% set monitored = re_data.pub_monitored_from_graph() %}
     
     {% do insert_list_to_table(

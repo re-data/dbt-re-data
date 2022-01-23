@@ -2,7 +2,7 @@
     config(
         materialized='table',
         unique_key = 'table_name',
-        post_hook="{% if execute %}{{ insert_into_monitored() }}{% endif %}"
+        post_hook="{% if execute %}{{ pub_insert_into_re_data_monitored() }}{% endif %}"
     )
 }}
 
