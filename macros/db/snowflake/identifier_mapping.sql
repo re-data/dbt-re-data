@@ -1,4 +1,8 @@
 
 {% macro snowflake__name_in_db(name) %}
-    {{ return (name.upper()) }}
+    {% if name %}
+        {{ return (name.upper()) }}
+    {% else %}
+        {{ return (name) }}
+    {% endif %}
 {% endmacro %}

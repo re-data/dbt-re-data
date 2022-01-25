@@ -12,8 +12,8 @@
                 'schema': re_data.name_in_db(el.schema),
                 'database': re_data.name_in_db(el.database),
                 'time_filter': el.config.get('re_data_time_filter', none),
-                'metrics': el.config.get('re_data_metrics', {}),
-                'columns': el.config.get('re_data_columns', [])
+                'metrics': re_data.metrics_in_db(el.config.get('re_data_metrics', {})),
+                'columns': re_data.columns_in_db(el.config.get('re_data_columns', []))
                 })
             %}
         {% endif %}
@@ -42,7 +42,14 @@
     {% set metrics = table.get('metrics', {}) %}
     {% set columns = table.get('columns', []) %}
     
-    {{ return ([{'name': re_data.name_in_db(name), 'schema': re_data.name_in_db(schema), 'database': re_data.name_in_db(database), 'time_filter': time_filter, 'metrics': metrics, 'columns': columns}]) }}
+    {{ return ([{
+        'name': re_data.name_in_db(name),
+        'schema': re_data.name_in_db(schema),
+        'database': re_data.name_in_db(database),
+        'time_filter': time_filter,
+        'metrics': re_data.metrics_in_db(metrics),
+        'columns': re_data.columns_in_db(columns)}]) 
+    }}
 
 {% endmacro %}
 

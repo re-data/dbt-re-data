@@ -1,7 +1,7 @@
 version: 2
 
 sources:
-  - name: "{{ var('source_schema') }}"
+  - name:  "{{ var('source_schema') or target.schema }}"
     tables:
       - name: re_data_source_test_table
         columns:

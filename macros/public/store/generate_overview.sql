@@ -29,7 +29,7 @@
             from {{ ref('re_data_schema_changes') }}
         ),
         columns_casted as (
-            select id, table_name, column_name, data_type, {{ bool_to_string('is_nullable') }}, {{ bool_to_string('is_datetime') }}, computed_on
+            select {{ full_table_name('name', 'schema', 'database') }} as table_name, column_name, data_type, {{ bool_to_string('is_nullable') }}, {{ bool_to_string('is_datetime') }}, computed_on
             from {{ ref('re_data_columns') }} 
         )
         
