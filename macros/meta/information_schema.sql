@@ -10,8 +10,6 @@
         column_name,
         data_type,
         is_nullable,
-        {{- re_data.is_datetime('data_type') -}} as is_datetime,
-        {{- re_data.time_filter('column_name', 'data_type') -}} as time_filter
     from
     {{ tables_in_schema(table_schema, db_name) }}
 {% endmacro %}
@@ -26,8 +24,6 @@
         column_name,
         data_type,
         is_nullable,
-        {{- re_data.is_datetime('data_type')}} as is_datetime,
-        {{- re_data.time_filter('column_name', 'data_type') -}} as time_filter
     from 
         {% if db_name %}{{db_name}}.{% endif %}information_schema.columns
     where
@@ -43,7 +39,6 @@
             column_name {{ string_type()}},
             data_type {{ string_type() }},
             is_nullable {{ boolean_type() }},
-            is_datetime {{ boolean_type() }},
             time_filter {{ string_type() }}
         );
         insert into {{ temp_table_name }}  values
@@ -60,7 +55,7 @@
     {% endset %}
     {% do run_query(create_temp_table_query) %}
 
-    select table_name, column_name, data_type, is_nullable, is_datetime, time_filter
+    select table_name, column_name, data_type, is_nullable, time_filter
     from {{ temp_table_name }} 
 
 {% endmacro %}

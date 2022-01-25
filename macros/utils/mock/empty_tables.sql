@@ -61,7 +61,6 @@
         cast (some_string as {{ string_type() }} ) as column_name,
         cast (some_string as {{ string_type() }} ) as data_type,
         cast (some_bool as {{ boolean_type() }} ) as is_nullable,
-        cast (some_bool as {{ boolean_type() }} ) as is_datetime,
         cast (some_string as {{ string_type() }} ) as time_filter,
         cast (some_time as {{ timestamp_type() }} ) as computed_on
     from dummy_table

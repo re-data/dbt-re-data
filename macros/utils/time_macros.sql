@@ -1,16 +1,4 @@
 
-{% macro time_filter(column_name, column_type) %}
-
-    case when {{ re_data.is_datetime(column_type)}} = true
-    then
-        column_name
-    else
-        null
-    end
-
-{% endmacro %}
-
-
 {% macro time_window_start() %}
     cast('{{- var('re_data:time_window_start') -}}' as timestamp) 
 {% endmacro %}
