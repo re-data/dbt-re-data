@@ -9,13 +9,7 @@
 
 {% if execute %}
     {% set schemas = run_query(re_data.get_schemas()) %}
-{% else %}
-    {% set schemas = [] %}
-{% endif %}
 
-{% if schemas == [] %}
-    {{ empty_columns_table() }}
-{% else %}
     with columns_from_select as (
         {% for row in schemas %}
             {% set schema_name = re_data.name_in_db(re_data.row_value(row, 'schema')) %}
@@ -35,4 +29,5 @@
         cast (time_filter as {{ string_type() }} ) as time_filter,
         {{- dbt_utils.current_timestamp_in_utc() -}} as computed_on
     from columns_from_select
+    
 {% endif %}
