@@ -9,7 +9,7 @@
         table_catalog,
         column_name,
         data_type,
-        is_nullable,
+        is_nullable
     from
     {{ tables_in_schema(table_schema, db_name) }}
 {% endmacro %}
@@ -23,7 +23,7 @@
         table_catalog,
         column_name,
         data_type,
-        is_nullable,
+        is_nullable
     from 
         {% if db_name %}{{db_name}}.{% endif %}information_schema.columns
     where
@@ -36,26 +36,27 @@
     {% set create_temp_table_query %}
         create temp table {{ temp_table_name }} (
             table_name {{ string_type()}},
+            table_schema {{ string_type()}},
+            table_catalog {{ string_type()}},
             column_name {{ string_type()}},
             data_type {{ string_type() }},
             is_nullable {{ boolean_type() }},
-            time_filter {{ string_type() }}
         );
         insert into {{ temp_table_name }}  values
         {% for col in columns %} (
             '{{col[0]}}'::text,
             '{{col[1]}}'::text,
             '{{col[2]}}'::text,
-            '{{col[3]}}',
-            {{col[4]}},
-            {% if col[5] %} '{{col[5]}}'::text {% else %} null {% endif %}
+            '{{col[3]}}'::text,
+            '{{col[4]}}'::text,
+            '{{col[5]}}'::text,
             ) {%- if not loop.last %}, {%- endif %}
         {% endfor %}
 
     {% endset %}
     {% do run_query(create_temp_table_query) %}
 
-    select table_name, column_name, data_type, is_nullable, time_filter
+    select table_name, table_schema, table_catalog, column_name, data_type, is_nullable
     from {{ temp_table_name }} 
 
 {% endmacro %}
