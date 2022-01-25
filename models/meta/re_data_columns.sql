@@ -28,4 +28,6 @@
         {{- dbt_utils.current_timestamp_in_utc() -}} as computed_on
     from columns_from_select
 
+{% else %}
+    {{ empty_columns_table() }}
 {% endif %}

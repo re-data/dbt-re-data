@@ -40,7 +40,7 @@
             table_catalog {{ string_type()}},
             column_name {{ string_type()}},
             data_type {{ string_type() }},
-            is_nullable {{ boolean_type() }},
+            is_nullable {{ string_type() }}
         );
         insert into {{ temp_table_name }}  values
         {% for col in columns %} (
@@ -49,7 +49,7 @@
             '{{col[2]}}'::text,
             '{{col[3]}}'::text,
             '{{col[4]}}'::text,
-            '{{col[5]}}'::text,
+            '{{col[5]}}'::text
             ) {%- if not loop.last %}, {%- endif %}
         {% endfor %}
 
