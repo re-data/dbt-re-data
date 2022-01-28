@@ -42,11 +42,8 @@ vars:
         - nulls_percent
         - missing_percent
 
-
-
 models:
   re_data:
     +schema: re
-    enabled: false
     internal:
       +schema: re_internal
