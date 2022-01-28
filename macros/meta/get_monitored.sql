@@ -5,17 +5,19 @@
     {% do both.extend(graph.sources.values()) %}
 
     {% for el in both %}
-        {% if el.config.get('re_data_monitored') %}
+        {% if el.resource_type in ['model', 'seed', 'source'] %}
+            {% if el.config.get('re_data_monitored') %}
             
-            {% do monitored.append({
-                'name': re_data.name_in_db(el.name),
-                'schema': re_data.name_in_db(el.schema),
-                'database': re_data.name_in_db(el.database),
-                'time_filter': el.config.get('re_data_time_filter', none),
-                'metrics': re_data.metrics_in_db(el.config.get('re_data_metrics', {})),
-                'columns': re_data.columns_in_db(el.config.get('re_data_columns', []))
-                })
-            %}
+                {% do monitored.append({
+                    'name': re_data.name_in_db(el.name),
+                    'schema': re_data.name_in_db(el.schema),
+                    'database': re_data.name_in_db(el.database),
+                    'time_filter': el.config.get('re_data_time_filter', none),
+                    'metrics': re_data.metrics_in_db(el.config.get('re_data_metrics', {})),
+                    'columns': re_data.columns_in_db(el.config.get('re_data_columns', []))
+                    })
+                %}
+            {% endif %}
         {% endif %}
     {% endfor %}
 
