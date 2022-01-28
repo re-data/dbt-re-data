@@ -35,7 +35,7 @@
             {% endif %}
         {% endfor %}
 
-        {% do insert_list_to_table(
+        {% do re_data.insert_list_to_table(
             ref('re_data_test_history'),
             to_insert,
             ['table_name', 'column_name', 'test_name', 'status', 'run_at']

@@ -1,7 +1,7 @@
 {% macro pub_insert_into_re_data_monitored() %}
     {% set monitored = re_data.pub_monitored_from_graph() %}
     
-    {% do insert_list_to_table(
+    {% do re_data.insert_list_to_table(
         this,
         monitored,
         ['name', 'schema', 'database', 'time_filter', 'metrics', 'columns']
@@ -20,7 +20,7 @@
         {% endif %}
     {% endfor %}
 
-    {% do insert_list_to_table(
+    {% do re_data.insert_list_to_table(
         this,
         not_yet_monitored,
         ['name', 'schema', 'database', 'time_filter', 'metrics', 'columns']

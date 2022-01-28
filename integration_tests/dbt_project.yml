@@ -14,49 +14,18 @@ on-run-start:
 models:
   re_data:
     enabled: true
-
+  
 vars:
   re_data:max_columns_in_query: 1
   re_data:monitored:
     - tables:
-        - name: sample_table
-          time_filter: creation_time
-          
-          columns: 
-            - event_type
-            - value1
-            - value2
-            - null_value
-          
-          metrics:
-            table:
-              - my_custom_table_metric # my own custom metric
-              - distinct_table_rows
-            column:
-              event_type:
-                - regex_test:
-                    regex: ([A-Za-z0-9]+)
-                - match_regex:
-                    regex: ^sell
-                - match_regex_percent:
-                    regex: ^sell
-                - not_match_regex:
-                    regex: ^buy
-                - not_match_regex_percent:
-                    regex: ^buy
-                - distinct_values
-                - duplicate_values
-                - duplicate_rows
-                - unique_rows
-
-
         - name: sample_with_anomaly
           time_filter: creation_time
 
         - name: sample_without_time_filter
 
     - tables:
-        - name: re_data_source_test_table
+      - name: re_data_source_test_table
 
   re_data:metrics_base:
     table:
@@ -89,6 +58,37 @@ seeds:
   +quote_columns: false
 
   re_data_integration_tests:
+    sample_table:
+      +re_data_monitored: true
+      +re_data_time_filter: creation_time
+      
+      +re_data_columns: 
+        - event_type
+        - value1
+        - value2
+        - null_value
+      
+      +re_data_metrics:
+        table:
+          - my_custom_table_metric # my own custom metric
+          - distinct_table_rows
+        column:
+          event_type:
+            - regex_test:
+                regex: ([A-Za-z0-9]+)
+            - match_regex:
+                regex: ^sell
+            - match_regex_percent:
+                regex: ^sell
+            - not_match_regex:
+                regex: ^buy
+            - not_match_regex_percent:
+                regex: ^buy
+            - distinct_values
+            - duplicate_values
+            - duplicate_rows
+            - unique_rows
+
     expected:
       +schema: expected
 
