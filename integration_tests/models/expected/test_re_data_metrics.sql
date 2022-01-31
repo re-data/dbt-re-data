@@ -2,5 +2,5 @@
     "sample_table", target.schema + "_raw", re_data.get_target_database()) %}
 
 select * from {{ ref('re_data_metrics')}}
-where table_name = {{ table_name }}
+where table_name = '{{ table_name }}'
 

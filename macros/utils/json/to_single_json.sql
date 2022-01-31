@@ -1,16 +1,4 @@
 
-{% macro to_empty_helper(column) %}
-    '"' ||
-    replace (
-        coalesce(
-            cast ( {{column}} as {{ string_type()}}),
-            ''
-        ),
-        '"', '\"'
-    ) || '"'
-
-{% endmacro %}
-
 {% macro to_json_string_value_or_null(column) %}
     (
         case 

@@ -1,16 +1,4 @@
 
-{% macro time_filter(column_name, column_type) %}
-
-    case when {{ re_data.is_datetime(column_type)}} = true
-    then
-        column_name
-    else
-        null
-    end
-
-{% endmacro %}
-
-
 {% macro time_window_start() %}
     cast('{{- var('re_data:time_window_start') -}}' as timestamp) 
 {% endmacro %}
@@ -57,19 +45,6 @@
 {% macro redshift__interval_length_sec(start_timestamp, end_timestamp) %}
    DATEDIFF(second, {{ start_timestamp }}, {{ end_timestamp }})
 {% endmacro %}
-
-{% macro before_time_window_end(time_column) %}
-    {{ adapter.dispatch('before_time_window_end', 're_data')(time_column) }}
-{% endmacro %}
-
-{% macro default__before_time_window_end(time_column) %}
-    {{time_column}} < {{- time_window_end() -}}
-{% endmacro %}
-
-{% macro bigquery__before_time_window_end(time_column) %}
-    timestamp({{time_column}}) < {{- time_window_end() -}}
-{% endmacro %}
-
 
 {% macro in_time_window(time_column) %}
     {{ adapter.dispatch('in_time_window', 're_data')(time_column) }}
