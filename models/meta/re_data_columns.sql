@@ -9,6 +9,7 @@
 
 {% if execute %}
     {% set schemas = run_query(re_data.get_schemas()) %}
+    {% if schemas %}
 
     with columns_from_select as (
         {% for row in schemas %}
@@ -27,6 +28,10 @@
         cast (case is_nullable when 'YES' then 1 else 0 end as {{ boolean_type() }} ) as is_nullable,
         {{- dbt_utils.current_timestamp_in_utc() -}} as computed_on
     from columns_from_select
+
+    {% else %}
+        {{ empty_columns_table() }}
+    {% endif %}
 
 {% else %}
     {{ empty_columns_table() }}
