@@ -23,6 +23,7 @@ vars:
           time_filter: creation_time
 
         - name: sample_without_time_filter
+          time_filter: xxxx # testing if overriding parameters in seeds config works
 
     - tables:
       - name: re_data_source_test_table
@@ -58,6 +59,11 @@ seeds:
   +quote_columns: false
 
   re_data_integration_tests:
+
+    sample_without_time_filter:
+      +re_data_monitored: true
+      +re_data_time_filter: null
+
     sample_table:
       +re_data_monitored: true
       +re_data_time_filter: creation_time
