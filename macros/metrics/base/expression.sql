@@ -38,7 +38,7 @@
 {% macro metrics_base_expresion_table_all(table_name, time_filter, metrics) %}
     {%- set table_expr = [] %}
     {%- set metrics_to_compute = [] %}
-    {% do metrics_to_compute.extend(var('re_data:metrics_base').get('table', []) %}
+    {% do metrics_to_compute.extend(var('re_data:metrics_base').get('table', [])) %}
     {% do metrics_to_compute.extend(metrics.get('table', [])) %}
 
     {% for metric_value in metrics_to_compute %}
