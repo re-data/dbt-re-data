@@ -84,5 +84,5 @@ models:
          compare_columns:
           - right(upper(replace(replace(table_name, '"', ''), '`', '')), 10) as table_name
           - coalesce(upper(column_name), '') as column_name
-          - test_name
+          - right(test_name, 15) as test_name
           - status
