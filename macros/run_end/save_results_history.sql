@@ -31,7 +31,7 @@
                     {% set name = none %}
                 {% endif %}
 
-                {% do to_insert.append({ 'table_name': name, 'column_name': el.node.column_name or 'NULL' , 'test_name': el.node.name, 'status': el.status.name, 'run_at': run_started_at_str}) %}
+                {% do to_insert.append({ 'table_name': name, 'column_name': el.node.column_name or none , 'test_name': el.node.name, 'status': el.status.name, 'run_at': run_started_at_str}) %}
             {% endif %}
         {% endfor %}
 

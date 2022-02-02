@@ -1,6 +1,7 @@
 import os
 import copy
 import yaml
+import json
 from datetime import datetime, timedelta
 from .utils.run import dbt_seed, dbt_run, dbt_test, dbt_command
 
@@ -9,6 +10,7 @@ RUN_TIME = datetime(2021, 5, 2, 0, 0, 0)
 DBT_VARS = {
     're_data:time_window_start': (RUN_TIME - timedelta(days=1)).strftime("%Y-%m-%d %H:%M:%S"),
     're_data:time_window_end': RUN_TIME.strftime("%Y-%m-%d %H:%M:%S"),
+    're_data:monitoring_test': True
 }
 
 def test_monitoring(db, source_schema):
@@ -27,7 +29,12 @@ def test_monitoring(db, source_schema):
     print (f"Computing re_data metrics for {db}") 
     dbt_run('--exclude transformed ', db, dbt_vars)
 
-    # updat dbts_vars to run dbt for next day of data
+    dbt_command(
+        f'dbt run-operation schema_change_buy_events_add_column',
+        db, dbt_vars
+    )
+
+    # update dbts_vars to run dbt for next day of data
     dbt_vars['re_data:time_window_start'] = dbt_vars['re_data:time_window_end']
     dbt_vars['re_data:time_window_end'] = (RUN_TIME + timedelta(days=1)).strftime("%Y-%m-%d %H:%M:%S")
 
@@ -36,7 +43,11 @@ def test_monitoring(db, source_schema):
         db, dbt_vars
     )
 
-    dbt_test('', db, dbt_vars)
+    dbt_test('--exclude test_re_data_test_history', db, dbt_vars)
+
+    # tests test_history seperately, because those are actually added to DB after running
+    # dbt test command
+    dbt_test('--select test_re_data_test_history', db, dbt_vars)
 
     op_vars = {
         'start_date': RUN_TIME.strftime("%Y-%m-%d"),
@@ -49,5 +60,19 @@ def test_monitoring(db, source_schema):
         f'dbt run-operation generate_overview --args "{op_vars}"',
         db, dbt_vars
     )
+
+    overview = json.load(open(f'../target/re_data/overview.json'))
+    expected_types = ['metric', 'schema_change', 'schema', 'alert']
+    all_types = set()
+
+    # some simple check for now
+    for obj in overview:
+        all_types.add(obj['type'])
+        assert obj['table_name']
+        assert 'column_name' in obj
+        assert 'computed_on' in obj
+
+    assert len(overview) > 100
+    assert sorted(all_types) == sorted(expected_types)
 
     print (f"Running tests completed for {db}")
