@@ -9,6 +9,7 @@ RUN_TIME = datetime(2021, 5, 2, 0, 0, 0)
 DBT_VARS = {
     're_data:time_window_start': (RUN_TIME - timedelta(days=1)).strftime("%Y-%m-%d %H:%M:%S"),
     're_data:time_window_end': RUN_TIME.strftime("%Y-%m-%d %H:%M:%S"),
+    're_data:monitoring_test': True
 }
 
 def test_monitoring(db, source_schema):
@@ -36,7 +37,11 @@ def test_monitoring(db, source_schema):
         db, dbt_vars
     )
 
-    dbt_test('', db, dbt_vars)
+    dbt_test('--exclude test_re_data_test_history', db, dbt_vars)
+
+    # tests test_history seperately, because those are actually added to DB after running
+    # dbt test command
+    dbt_test('--select test_re_data_test_history', db, dbt_vars)
 
     op_vars = {
         'start_date': RUN_TIME.strftime("%Y-%m-%d"),
