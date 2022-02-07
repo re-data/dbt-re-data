@@ -1,7 +1,12 @@
 {# https://github.com/re-data/re-data/issues/148 #}
 
 
-{# DAMA: Corrective actions - Automated corrections
+
+{# 
+DAMA: Corrective actions - Automated corrections
+
+possible improvement: partitions
+
 references for further improvements:
 Statistics
 https://www.researchgate.net/publication/236635604_Data_Quality_Improvement_by_Imputation_of_Missing_Values
@@ -15,9 +20,9 @@ https://www.coursera.org/learn/machine-learning-h2o/lecture/tAtLC/data-repair-2
 -- parameters:
 --  replace_with:
 --  in case of 'min', 'max', 'avg' and 'median' the corresponding aggregate replaces the value
---  in other cases the values is being treated as general SQL expression
+--  in other cases, the values are being treated as a general SQL expression
 
--- for postgres the median should be precalculated via intermediate cte
+-- for postgres, the median should be precalculated via intermediate cte
 #}
 
 
@@ -37,7 +42,8 @@ case
 {%- endif -%}
 	{% if replace_with == 'median' %}
 		-- for postgres the median should be precalculated via intermediate cte
-		{{ fivetran_utils.percentile( percentile_field = column_name,  percent='0.5') }}
+		-- https://hub.getdbt.com/fivetran/fivetran_utils/0.2.9/
+		{{ fivetran_utils.percentile( percentile_field = column_name,  percent='0.5', partition_field = 1) }}
 	{% elif replace_with in ['min', 'max' , 'avg'] %}
 		{{replace_with}} ({{column_name}}) over ()
 	{% else %}
