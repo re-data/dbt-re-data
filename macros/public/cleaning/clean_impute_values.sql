@@ -43,6 +43,7 @@ case
 	{% if replace_with == 'median' %}
 		-- for postgres the median should be precalculated via intermediate cte
 		-- https://hub.getdbt.com/fivetran/fivetran_utils/0.2.9/
+		-- partition_field = 1 median across whole table 
 		{{ fivetran_utils.percentile( percentile_field = column_name,  percent='0.5', partition_field = 1) }}
 	{% elif replace_with in ['min', 'max' , 'avg'] %}
 		{{replace_with}} ({{column_name}}) over ()
