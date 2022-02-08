@@ -32,8 +32,9 @@ jobs:
         uses: rlespinasse/github-slug-action@v3.x
 
       - name: Set the DQ_SCHEMA environment variable
+        shell: bash
         run: |
-          echo "DQ_SCHEMA=dq_${GITHUB_REF_SLUG//-/_}" >> $GITHUB_ENV
+          echo "DQ_SCHEMA=dq_${GITHUB_REF_SLUG//[^[:alnum:]]/_}" >> $GITHUB_ENV
 
       - name: Print DQ_SCHEMA
         run: |
@@ -121,8 +122,9 @@ jobs:
         uses: rlespinasse/github-slug-action@v3.x
 
       - name: Set the DQ_SCHEMA environment variable
+        shell: bash
         run: |
-          echo "DQ_SCHEMA=dq_${GITHUB_EVENT_REF_SLUG//-/_}" >> $GITHUB_ENV
+          echo "DQ_SCHEMA=dq_${GITHUB_EVENT_REF_SLUG//[^[:alnum:]]/_}" >> $GITHUB_ENV
 
       - name: Print DQ_SCHEMA
         run: |
