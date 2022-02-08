@@ -4,15 +4,18 @@
         -- we are splitting computing metrics to 4 different threads
         {% set for_loop_mod = (loop.index % 4) %}
         {% if for_loop_mod == thread_value %}
-            {% set table_name = re_data.row_value(mtable, 'table_name') %}
+            {% set name = re_data.row_value(mtable, 'name') %}
+            {% set schema = re_data.row_value(mtable, 'schema') %}
+            {% set database = re_data.row_value(mtable, 'database') %}
             {% set time_filter = re_data.row_value(mtable, 'time_filter') %}    
             {% set metrics = fromjson(re_data.row_value(mtable, 'metrics')) %}
             {% set for_cols = fromjson(re_data.row_value(mtable, 'columns')) %}
             {% set for_cols_dict = re_data.dict_from_list(for_cols) %}
+            {% set table_name = re_data.full_table_name_values(name, schema, database) %}
  
             {% set columns_query %}
                 select * from {{ ref('re_data_columns') }}
-                where table_name = '{{ table_name }}'
+                where name = '{{ name }}' and schema = '{{ schema }}' and database = '{{ database }}'
             {% endset %}
 
             {% set columns = run_query(columns_query) %}

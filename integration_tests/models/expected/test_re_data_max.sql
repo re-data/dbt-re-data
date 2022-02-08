@@ -1,1 +1,1 @@
-select * from {{ ref('re_data_max') }}
+select * from {{ ref('re_data_base_metrics') }} where metric = 'max'
