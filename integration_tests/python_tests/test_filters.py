@@ -1,21 +1,25 @@
-import os
-import pytest
 from .utils.run import dbt_seed, dbt_run, dbt_test
 
-def test_deduplication(db, debug=True):
+def test_deduplication(db, source_schema, debug=True):
+    dbt_vars = {
+        'source_schema': source_schema
+    }
 
     print (f"Running setup and tests for {db}")
 
-    dbt_seed('--select duplicated expected_deduplicated', db)
-    dbt_run('--select deduplicated', db)
-    dbt_test('--select deduplicated', db)
+    dbt_seed(f'--select duplicated expected_deduplicated', db, dbt_vars)
+    dbt_run(f'--select deduplicated', db, dbt_vars)
+    dbt_test(f'--select deduplicated', db, dbt_vars)
 
-def test_get_duplicates(db, debug=True):
+def test_get_duplicates(db, source_schema, debug=True):
+    dbt_vars = {
+        'source_schema': source_schema
+    }
 
     print (f"Running setup and tests for {db}")
 
-    dbt_seed('--select duplicates expected_duplicates', db)
-    dbt_run('--select duplicates', db)
-    dbt_test('--select duplicates', db)
+    dbt_seed(f'--select duplicates expected_duplicates', db, dbt_vars)
+    dbt_run(f'--select duplicates', db, dbt_vars)
+    dbt_test(f'--select duplicates', db, dbt_vars)
 
     print (f"Running tests completed for {db}")

@@ -1,8 +1,9 @@
-import os
-import pytest
 from .utils.run import dbt_seed, dbt_run, dbt_test
 
-def test_cleaners(db, debug=True):
+def test_cleaners(db, source_schema, debug=True):
+    dbt_vars = {
+        'source_schema': source_schema
+    }
 
     print (f"Running setup and tests for {db}")
 
@@ -10,7 +11,6 @@ def test_cleaners(db, debug=True):
     
     dbt_run('--select sanitized_user_data+', db)
     dbt_test('--select sanitized_user_data', db)
-
     
     dbt_run('--select imputed_customers_data+', db)
     dbt_test('--select imputed_customers_data', db)
