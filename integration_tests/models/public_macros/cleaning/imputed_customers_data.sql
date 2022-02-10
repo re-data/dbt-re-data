@@ -1,5 +1,5 @@
 
-{#>>>>>>>>>>>>>>>> postgres only #}
+{#postgres only #}
 {% if target.type == 'postgres' %} 
 
 with median_value_cte as 
@@ -14,7 +14,7 @@ from {{ ref('customers_to_impute') }}
 )
 
 {% endif %}
-{#<<<<<<<<<<<<<<< postgres only #}
+{#postgres only #}
 select
 
     src.*
