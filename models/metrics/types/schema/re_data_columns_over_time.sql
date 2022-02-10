@@ -9,7 +9,7 @@
 with columns as (
 
 select
-    cols.table_name,
+    {{ full_table_name('cols.name', 'cols.schema', 'cols.database') }} as table_name,
     cols.column_name,
     cols.data_type,
     cols.is_nullable,
@@ -17,7 +17,7 @@ select
 from
     {{ ref('re_data_columns')}} cols, {{ ref('re_data_monitored')}} tables
 where
-    cols.table_name = tables.table_name
+    cols.name = tables.name and cols.schema = tables.schema and cols.database = tables.database
 )
 
 select

@@ -51,8 +51,3 @@ models:
       - name: computed_on
         tests:
           - not_null
-  
-  - name: re_data_alerting
-    description: >
-      View computed on top of `re_data_z_score` table to contain metrics which look alerting. Alerting threshold is controled by var `re_data:alerting_z_score`
-      which is equal to 3 by default, but can be changed and adjusted.
