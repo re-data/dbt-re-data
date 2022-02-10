@@ -11,4 +11,8 @@ def test_cleaners(db, source_schema, debug=True):
     dbt_run(f'--select sanitized_user_data+', db, dbt_vars)
     dbt_test(f'--select sanitized_user_data', db, dbt_vars)
 
+    dbt_seed('--select customers_to_impute expected_customers_imputed', db)
+    dbt_run('--select imputed_customers_data+', db)
+    dbt_test('--select imputed_customers_data', db)
+  
     print (f"Running tests completed for {db}")
