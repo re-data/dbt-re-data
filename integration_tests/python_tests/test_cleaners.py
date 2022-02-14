@@ -7,7 +7,7 @@ def test_cleaners(db, source_schema, debug=True):
 
     print (f"Running setup and tests for {db}")
     seeds_cmd = '--select sample_user_data expected_sample_user_data customers_to_impute expected_customers_imputed'
-    print('seeds cmd:',seeds_cmd)
+    print('seeds cmd :',seeds_cmd)
 
     dbt_seed(seeds_cmd, db)
     
