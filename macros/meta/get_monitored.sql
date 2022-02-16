@@ -9,7 +9,7 @@
             {% if el.config.get('re_data_monitored') %}
             
                 {% do monitored.append({
-                    'name': re_data.name_in_db(el.name),
+                    'name': re_data.name_in_db(el.identifier or el.name),
                     'schema': re_data.name_in_db(el.schema),
                     'database': re_data.name_in_db(el.database),
                     'time_filter': el.config.get('re_data_time_filter', none),
