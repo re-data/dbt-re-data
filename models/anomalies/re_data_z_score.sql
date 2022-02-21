@@ -16,7 +16,9 @@ with z_score_without_id as (
         (0.6745 * (last_metric.last_value - stats.last_median)) / (stats.last_median_absolute_deviation + 0.0000000001) as modified_z_score_value,
         last_metric.last_value as last_value,
         stats.last_avg as last_avg,
+        stats.last_median as last_median,
         stats.last_stddev as last_stddev,
+        stats.last_median_absolute_deviation,
         {{ time_window_end() }} as time_window_end,
         {{dbt_utils.current_timestamp_in_utc()}} as computed_on
     from
@@ -50,7 +52,9 @@ select
     modified_z_score_value,
     last_value,
     last_avg,
+    last_median,
     last_stddev,
+    last_median_absolute_deviation,
     time_window_end,
     interval_length_sec,
     computed_on

@@ -20,20 +20,23 @@
         
     ), abs_deviation as (
         select 
-            table_name,
-            column_name,
-            metric,
-            interval_length_sec,
-            abs(
-                    value
-                        - 
-                    avg(value) over(partition by table_name, column_name, metric, interval_length_sec)
-                ) as absolute_deviation
+            s.table_name,
+            s.column_name,
+            s.metric,
+            s.interval_length_sec,
+            abs( s.value - mv.last_median ) as absolute_deviation
         from
-            {{ ref(table_name) }}
+            {{ ref(table_name) }} s
+        left join 
+            median_value mv
+            on
+                s.table_name = mv.table_name and
+                s.column_name = mv.column_name and
+                s.metric = mv.metric and
+                s.interval_length_sec = mv.interval_length_sec
         where
-            time_window_end > {{- anamaly_detection_time_window_start() -}} and
-            time_window_end <= {{- time_window_end() -}}
+            s.time_window_end > {{- anamaly_detection_time_window_start() -}} and
+            s.time_window_end <= {{- time_window_end() -}}
     ), median_abs_deviation as (
         select
             table_name,
