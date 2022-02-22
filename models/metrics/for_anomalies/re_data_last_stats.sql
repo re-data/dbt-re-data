@@ -1,13 +1,15 @@
 {% set metrics_tables = ['re_data_base_metrics'] %}
+{% set columns_to_group_by = 'table_name, column_name, metric, interval_length_sec' %}
 
 {%- for table_name in metrics_tables %}
+
     with median_value as (
-        select 
+        select distinct
             table_name,
             column_name,
             metric,
             interval_length_sec,
-            {{ fivetran_utils.percentile(percentile_field='value', partition_field='table_name, column_name, metric, interval_length_sec', percent='0.5') }} as last_median
+            {{ fivetran_utils.percentile(percentile_field='value', partition_field=columns_to_group_by, percent='0.5') }} as last_median
         from
             {{ ref(table_name) }}
         where
@@ -15,7 +17,7 @@
             time_window_end <= {{- time_window_end() -}}
         {% if target.type == 'postgres' %} 
             group by
-                table_name, column_name, metric, interval_length_sec
+                {{ columns_to_group_by }}
         {% endif %}
         
     ), abs_deviation as (
@@ -38,17 +40,18 @@
             s.time_window_end > {{- anamaly_detection_time_window_start() -}} and
             s.time_window_end <= {{- time_window_end() -}}
     ), median_abs_deviation as (
-        select
+        select distinct
             table_name,
             column_name,
             metric,
             interval_length_sec,
-            {{ fivetran_utils.percentile(percentile_field='absolute_deviation', partition_field='table_name, column_name, metric, interval_length_sec', percent='0.5') }} as median_absolute_deviation
+            avg(absolute_deviation) {% if target.type != 'postgres' %} over(partition by {{ columns_to_group_by }}) {% endif %} as mean_absolute_deviation,
+            {{ fivetran_utils.percentile(percentile_field='absolute_deviation', partition_field=columns_to_group_by, percent='0.5') }} as median_absolute_deviation
         from
             abs_deviation
         {% if target.type == 'postgres' %} 
             group by
-                table_name, column_name, metric, interval_length_sec
+                {{ columns_to_group_by }}
         {% endif %}
     ), stats as (
         select
@@ -66,9 +69,9 @@
             time_window_end > {{- anamaly_detection_time_window_start() -}} and
             time_window_end <= {{- time_window_end() -}}
         group by
-            table_name, column_name, metric, interval_length_sec
+            {{ columns_to_group_by }}
     )
-    select distinct
+    select
         s.table_name,
         s.column_name,
         s.metric,
@@ -78,7 +81,8 @@
         s.interval_length_sec,
         s.computed_on,
         mv.last_median,
-        md.median_absolute_deviation last_median_absolute_deviation
+        md.median_absolute_deviation last_median_absolute_deviation,
+        md.mean_absolute_deviation last_mean_absolute_deviation
     from
         stats s
     left join
