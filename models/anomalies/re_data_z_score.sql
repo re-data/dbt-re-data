@@ -25,6 +25,9 @@ with z_score_without_id as (
         stats.last_stddev as last_stddev,
         stats.last_median_absolute_deviation,
         stats.last_mean_absolute_deviation,
+        stats.last_third_quartile - stats.last_first_quartile as last_iqr,
+        stats.last_first_quartile,
+        stats.last_third_quartile,
         {{ time_window_end() }} as time_window_end,
         {{dbt_utils.current_timestamp_in_utc()}} as computed_on
     from
@@ -62,6 +65,11 @@ select
     last_stddev,
     last_median_absolute_deviation,
     last_mean_absolute_deviation,
+    last_iqr,
+    last_first_quartile - (1.5 * last_iqr) as lower_bound,
+    last_third_quartile + (1.5 * last_iqr) as upper_bound,
+    last_first_quartile,
+    last_third_quartile,
     time_window_end,
     interval_length_sec,
     computed_on
