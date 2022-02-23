@@ -9,8 +9,8 @@
             column_name,
             metric,
             interval_length_sec,
-            {{ fivetran_utils.percentile(percentile_field='value', partition_field=columns_to_group_by, percent='0.5') }} as last_first_quartile,
-            {{ fivetran_utils.percentile(percentile_field='value', partition_field=columns_to_group_by, percent='0.25') }} as last_median,
+            {{ fivetran_utils.percentile(percentile_field='value', partition_field=columns_to_group_by, percent='0.25') }} as last_first_quartile,
+            {{ fivetran_utils.percentile(percentile_field='value', partition_field=columns_to_group_by, percent='0.5') }} as last_median,
             {{ fivetran_utils.percentile(percentile_field='value', partition_field=columns_to_group_by, percent='0.75') }} as last_third_quartile
         from
             {{ ref(table_name) }}
