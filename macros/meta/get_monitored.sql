@@ -52,7 +52,7 @@
         'time_filter': time_filter,
         'metrics': re_data.metrics_in_db(metrics),
         'columns': re_data.columns_in_db(columns),
-        'anomaly_detector': var('re_data:anomaly_detector'),
+        'anomaly_detector': var('re_data:anomaly_detector', {}),
         }]) 
     }}
 
