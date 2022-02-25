@@ -15,7 +15,7 @@
                     'time_filter': el.config.get('re_data_time_filter', none),
                     'metrics': re_data.metrics_in_db(el.config.get('re_data_metrics', {})),
                     'columns': re_data.columns_in_db(el.config.get('re_data_columns', [])),
-                    'anomaly_detector': el.config.get('re_data_anomaly_detector', var('re_data:anomaly_detector')),
+                    'anomaly_detector': el.config.get('re_data_anomaly_detector', var('re_data:anomaly_detector', {})),
                     })
                 %}
             {% endif %}
