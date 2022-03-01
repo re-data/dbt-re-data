@@ -66,8 +66,6 @@ select
     last_median_absolute_deviation,
     last_mean_absolute_deviation,
     last_iqr,
-    last_first_quartile - (1.5 * last_iqr) as lower_bound,
-    last_third_quartile + (1.5 * last_iqr) as upper_bound,
     last_first_quartile,
     last_third_quartile,
     time_window_end,

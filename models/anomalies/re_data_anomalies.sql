@@ -11,8 +11,6 @@ select
     z.z_score_value,
     z.modified_z_score_value,
     m.anomaly_detector,
-    {{ fivetran_utils.json_extract('m.anomaly_detector', 'name') }} as anomaly_name,
-    {{ fivetran_utils.json_extract('m.anomaly_detector', 'threshold') }} as anomaly_threshold,
     z.last_value,
     z.last_avg,
     z.last_median,
