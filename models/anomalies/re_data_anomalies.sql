@@ -32,7 +32,9 @@ select
 from
     {{ ref('re_data_z_score')}} z 
 left join {{ ref('re_data_monitored') }} m 
-on z.table_name = {{ full_table_name('m.name', 'm.schema', 'm.database') }}
+on {{ split_and_return_nth_value('table_name', '.', 1) }} = m.database
+and {{ split_and_return_nth_value('table_name', '.', 2) }} = m.schema
+and {{ split_and_return_nth_value('table_name', '.', 3) }} = m.name
 where
     case 
         when {{ fivetran_utils.json_extract('m.anomaly_detector', 'name') }} = 'z_score' 
