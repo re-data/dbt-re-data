@@ -62,6 +62,10 @@ models:
             - cast (last_value * 1000 as integer) as last_value
             - cast (last_avg * 1000 as integer) as last_avg
             - cast (last_stddev * 1000 as integer) as last_stddev
+            - cast (last_median * 1000 as integer) as last_median
+            - cast (last_iqr * 1000 as integer) as last_iqr
+            - cast (last_median_absolute_deviation * 1000 as integer) as last_median_absolute_deviation
+            - cast (last_mean_absolute_deviation * 1000 as integer) as last_mean_absolute_deviation
             - interval_length_sec
 
   - name: test_re_data_metrics
