@@ -58,6 +58,7 @@ models:
             - coalesce(upper(column_name), '') as column_name
             - metric
             - cast (z_score_value * 1000 as integer) as z_score_value
+            - cast (modified_z_score_value * 1000 as integer) as modified_z_score_value
             - time_window_end
             - cast (last_value * 1000 as integer) as last_value
             - cast (last_avg * 1000 as integer) as last_avg
