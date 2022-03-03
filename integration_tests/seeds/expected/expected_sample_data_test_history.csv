@@ -44,4 +44,3 @@
 "postgres.dq.re_data_source_test_table","number","source_not_null_dq_re_data_source_test_table_number","Pass","2022-03-03 01:15:44"
 "postgres.dq.re_data_source_test_table","description","source_unique_dq_re_data_source_test_table_description","Pass","2022-03-03 01:15:44"
 "postgres.dq.re_data_source_test_table","number","source_unique_dq_re_data_source_test_table_number","Pass","2022-03-03 01:15:44"
-"postgres.dq.test_re_data_test_history",,"dbt_utils_equality_test_re_data_test_history_right_upper_replace_replace_table_name_10_as_table_name__coalesce_upper_column_name_as_column_name__right_test_name_15_as_test_name__status__ref_expected_sample_data_test_history_","Pass","2022-03-03 01:15:50"
