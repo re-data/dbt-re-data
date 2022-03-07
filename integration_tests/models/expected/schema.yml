@@ -58,10 +58,26 @@ models:
             - coalesce(upper(column_name), '') as column_name
             - metric
             - cast (z_score_value * 1000 as integer) as z_score_value
+            - cast (modified_z_score_value * 1000 as integer) as modified_z_score_value
             - time_window_end
             - cast (last_value * 1000 as integer) as last_value
             - cast (last_avg * 1000 as integer) as last_avg
             - cast (last_stddev * 1000 as integer) as last_stddev
+            - cast (last_median * 1000 as integer) as last_median
+            - cast (last_iqr * 1000 as integer) as last_iqr
+            - cast (last_median_absolute_deviation * 1000 as integer) as last_median_absolute_deviation
+            - cast (last_mean_absolute_deviation * 1000 as integer) as last_mean_absolute_deviation
+            - interval_length_sec
+
+  - name: test_re_data_anomalies
+    tests:
+      - dbt_utils.equality:
+          compare_model: ref('expected_sample_data_anomalies')
+          compare_columns:
+            - right(upper(replace(replace(table_name, '"', ''), '`', '')), 10) as table_name
+            - coalesce(upper(column_name), '') as column_name
+            - metric
+            - anomaly_detector
             - interval_length_sec
 
   - name: test_re_data_metrics

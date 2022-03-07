@@ -14,7 +14,8 @@
                     'database': re_data.name_in_db(el.database),
                     'time_filter': el.config.get('re_data_time_filter', none),
                     'metrics': re_data.metrics_in_db(el.config.get('re_data_metrics', {})),
-                    'columns': re_data.columns_in_db(el.config.get('re_data_columns', []))
+                    'columns': re_data.columns_in_db(el.config.get('re_data_columns', [])),
+                    'anomaly_detector': el.config.get('re_data_anomaly_detector', var('re_data:anomaly_detector', {})),
                     })
                 %}
             {% endif %}
@@ -50,7 +51,9 @@
         'database': re_data.name_in_db(database),
         'time_filter': time_filter,
         'metrics': re_data.metrics_in_db(metrics),
-        'columns': re_data.columns_in_db(columns)}]) 
+        'columns': re_data.columns_in_db(columns),
+        'anomaly_detector': var('re_data:anomaly_detector', {}),
+        }]) 
     }}
 
 {% endmacro %}

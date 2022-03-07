@@ -19,6 +19,9 @@ models:
     enabled: true
   
 vars:
+  re_data:anomaly_detector:
+    name: modified_z_score
+    threshold: 0.6
   re_data:max_columns_in_query: 1
   re_data:monitored:
     - tables:

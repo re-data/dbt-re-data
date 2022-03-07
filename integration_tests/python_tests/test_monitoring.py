@@ -62,7 +62,7 @@ def test_monitoring(db, source_schema):
     )
 
     overview = json.load(open(f'../target/re_data/overview.json'))
-    expected_types = ['metric', 'schema_change', 'schema', 'alert']
+    expected_types = ['metric', 'schema_change', 'schema', 'alert', 'anomaly']
     all_types = set()
 
     # some simple check for now

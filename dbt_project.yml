@@ -16,6 +16,9 @@ vars:
   re_data:anomaly_detection_look_back_days: 30
 
   re_data:alerting_z_score: 3
+  re_data:anomaly_detector:
+    name: modified_z_score
+    threshold: 3
 
   re_data:monitored: [] # overwritten by user config
 

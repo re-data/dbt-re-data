@@ -47,7 +47,8 @@
         cast (some_string as {{ string_type() }} ) as database,
         cast (some_string as {{ string_type() }} ) as time_filter,
         cast (some_string as {{ string_type() }} ) as metrics,
-        cast (some_string as {{ string_type() }} ) as columns
+        cast (some_string as {{ string_type() }} ) as columns,
+        cast (some_string as {{ string_type() }} ) as anomaly_detector
     from dummy_table
     where some_num = 2
 {% endmacro %}
