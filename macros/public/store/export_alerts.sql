@@ -1,4 +1,4 @@
-{% macro export_alerts(start_date, end_date) %}
+{% macro export_alerts(start_date, end_date, alerts_path=None) %}
     {% set alerts_query %}
         select
             type as {{ re_data.quote_column('type') }},
@@ -16,5 +16,6 @@
     {% endset %}
 
     {% set query_result = run_query(alerts_query) %}
-    {% do query_result.to_json('target/re_data/alerts.json') %}
+    {% set alerts_file_path = alerts_path or 'target/re_data/alerts.json' %}
+    {% do query_result.to_json(alerts_file_path) %}
 {% endmacro %}
