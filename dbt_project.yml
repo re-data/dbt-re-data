@@ -15,7 +15,6 @@ vars:
   re_data:time_window_start: '{{ (run_started_at - modules.datetime.timedelta(1)).strftime("%Y-%m-%d 00:00:00") }}'
   re_data:anomaly_detection_look_back_days: 30
 
-  re_data:alerting_z_score: 3
   re_data:anomaly_detector:
     name: modified_z_score
     threshold: 3
