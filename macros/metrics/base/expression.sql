@@ -62,7 +62,7 @@
 
 {%- macro metrics_base_expression_column(column_name, metric_name, config, table_name, time_filter) %}
     {% set metric_macro = re_data.get_metric_macro(metric_name) %}
-    {% set context = {'time_filter': time_filter, 'metric_name': metric_name, 'config': config, 'table_name': table_name, 'column_name': column_name} %}
+    {% set context = {'time_filter': time_filter, 'metric_name': metric_name, 'config': config, 'table_name': table_name, 'column_name': re_data.quote_column_name(column_name)} %}
 
     {{ metric_macro(context) }}
 
