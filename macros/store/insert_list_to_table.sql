@@ -1,27 +1,29 @@
 
 
-{% macro insert_list_to_table(table, list, params, insert_size=100) %}
+{% macro insert_list_to_table(table, list, insert_size=100) %}
 
     {% set single_insert_list = [] %}
+    {% set cols = adapter.get_columns_in_relation(table) %}
     {% for el in list %}
         {% do single_insert_list.append(el) %}
-        {% set single_insert_list_size = single_insert_list | length%}
+        {% set single_insert_list_size = single_insert_list | length %}
         {% if single_insert_list_size == insert_size or loop.last %}
 
             {% set insert_query %}
-                insert into {{ table }} ({%- for p in params %}{{p}}{% if not loop.last %}, {% endif %}{% endfor %}) values
+                insert into {{ table }} ({%- for c in cols %}{{ c.name }}{% if not loop.last %}, {% endif %}{% endfor %}) values
                 {%- for row in single_insert_list -%}
                     (
-                    {%- for p in params -%}
-                        {%- if row[p] is none -%}
+                    {%- for c in cols -%}
+                        {% set col_name = c.name | lower %}
+                        {%- if row[col_name] is none -%}
                             NULL
                         {%- else -%}
-                            {%- if row[p] is string -%}
-                                '{{row[p]}}'
-                            {%- elif row[p] is number -%}
-                                {{-row[p]-}}
+                            {%- if row[col_name] is string -%}
+                                '{{row[col_name]}}'
+                            {%- elif row[col_name] is number -%}
+                                {{- row[col_name] -}}
                             {%- else -%}
-                                '{{- tojson(row[p]) -}}'
+                                '{{- tojson(row[col_name]) -}}'
                             {%- endif -%}
                         {%- endif -%}
                         {%- if not loop.last -%},{%- endif -%}
@@ -31,7 +33,7 @@
                 {% endfor -%}
             {% endset %}
 
-            {% do run_query(insert_query) %}
+            {% set result = run_query(insert_query) %}
 
             {% do single_insert_list.clear() %}
         {% endif %}
