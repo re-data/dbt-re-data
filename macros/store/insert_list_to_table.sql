@@ -33,9 +33,13 @@
                 {% endfor -%}
             {% endset %}
 
-            {% set result = run_query(insert_query) %}
+            {% call statement('insert_results') %}
+              {{ insert_query }}
+            {% endcall %}
+            {% do adapter.commit() %}
 
             {% do single_insert_list.clear() %}
+
         {% endif %}
     {% endfor %}
 
