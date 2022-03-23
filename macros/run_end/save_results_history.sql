@@ -1,13 +1,16 @@
 
 {% macro save_test_history(results) %}
     -- depends_on: {{ ref('re_data_test_history') }}
-
-    {% if execute and results %}
+    {% set command = flags.WHICH %}
+    {% if execute and results and command == 'test' %}
         {% set to_insert = [] %}
         {% set run_started_at_str = run_started_at.strftime('%Y-%m-%d %H:%M:%S') %}
 
         {% for el in results %}
             {% if el.node.resource_type.name == 'Test' %}
+                {% set res = el.to_dict() %}
+                {{ debug() }}
+
                 {% set any_refs = modules.re.findall("ref\(\'(?P<name>.*)\'\)", el.node.test_metadata.kwargs['model']) %}
                 {% set any_source = modules.re.findall("source\(\'(?P<one>.*)\'\,\s+\'(?P<two>.*)\'\)", el.node.test_metadata.kwargs['model']) %}
 
