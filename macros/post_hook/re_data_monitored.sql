@@ -4,7 +4,7 @@
     {% do re_data.insert_list_to_table(
         this,
         monitored,
-        ['name', 'schema', 'database', 'time_filter', 'metrics', 'columns', 'anomaly_detector']
+        ['name', 'schema', 'database', 'time_filter', 'metrics', 'columns', 'anomaly_detector', 'slack_owners']
     ) %}
 
     {% set monitored_set = {} %}
@@ -23,7 +23,7 @@
     {% do re_data.insert_list_to_table(
         this,
         not_yet_monitored,
-        ['name', 'schema', 'database', 'time_filter', 'metrics', 'columns', 'anomaly_detector']
+        ['name', 'schema', 'database', 'time_filter', 'metrics', 'columns', 'anomaly_detector', 'slack_owners']
     ) %}
 
     {{ return('') }}

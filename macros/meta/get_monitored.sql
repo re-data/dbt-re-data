@@ -3,6 +3,7 @@
     {% set both = []%}
     {% do both.extend(graph.nodes.values()) %}
     {% do both.extend(graph.sources.values()) %}
+    {% set slack_config = re_data.get_slack_config() %}
 
     {% for el in both %}
         {% if el.resource_type in ['model', 'seed', 'source'] %}
@@ -16,6 +17,7 @@
                     'metrics': re_data.metrics_in_db(el.config.get('re_data_metrics', {})),
                     'columns': re_data.columns_in_db(el.config.get('re_data_columns', [])),
                     'anomaly_detector': el.config.get('re_data_anomaly_detector', var('re_data:anomaly_detector', {})),
+                    'slack_owners': re_data.prepare_slack_model_owners(el.config.get('re_data_slack_owners', []), slack_config),
                     })
                 %}
             {% endif %}
@@ -53,6 +55,7 @@
         'metrics': re_data.metrics_in_db(metrics),
         'columns': re_data.columns_in_db(columns),
         'anomaly_detector': var('re_data:anomaly_detector', {}),
+        'slack_owners': {}
         }]) 
     }}
 
@@ -92,4 +95,39 @@
             {{ return (none) }}
         {% endif %}
     {% endif %}
+{% endmacro %}
+
+{% macro get_slack_config() %}
+    {% set slack_config = var('re_data:slack_config', {}) %}
+    {{ return (slack_config) }}
+{% endmacro %}
+
+{% macro prepare_slack_model_owners(slack_owners, slack_config) %}
+    {# 
+        loop through slack_owners that have member set in re_data:slack_config.
+        if the owner is defined as a group in re_data:slack_config, then add the group members to the slack_owners list.
+        e.g.
+        user1: xxx
+        user2: yyy
+        user3: zzz
+        team: [user1, user2]
+
+        if team is passed in as a slack_owner, then the slack_owners list will contain user1, user2.
+        This is used to mention the owners in the slack message individually.
+     #}
+    {% set owners = {} %}
+    {% for owner in slack_owners if slack_config.get(owner) %}
+        {% set member = slack_config.get(owner) %}
+        {% if re_data.is_list(member) %}
+            {% for key in member %}
+                {% if key in slack_config %}
+                    {% do owners.update({key: slack_config[key] }) %}
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            {% do owners.update({owner: member }) %}
+        {% endif %}
+    {% endfor %}
+
+    {{ return (owners) }}
 {% endmacro %}

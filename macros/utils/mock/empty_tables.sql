@@ -48,7 +48,8 @@
         cast (some_string as {{ string_type() }} ) as time_filter,
         cast (some_string as {{ string_type() }} ) as metrics,
         cast (some_string as {{ string_type() }} ) as columns,
-        cast (some_string as {{ string_type() }} ) as anomaly_detector
+        cast (some_string as {{ string_type() }} ) as anomaly_detector,
+        cast (some_string as {{ string_type() }} ) as slack_owners
     from dummy_table
     where some_num = 2
 {% endmacro %}
