@@ -25,27 +25,40 @@
 
     {% set run_started_at_str = run_started_at.strftime('%Y-%m-%d %H:%M:%S') %}
 
-    {% set any_refs = modules.re.findall("ref\(\'(?P<name>.*)\'\)", el.node.test_metadata.kwargs['model']) %}
-    {% set any_source = modules.re.findall("source\(\'(?P<one>.*)\'\,\s+\'(?P<two>.*)\'\)", el.node.test_metadata.kwargs['model']) %}
+    {% if el.node.to_dict().get('test_metadata') %}
+        {% set any_refs = modules.re.findall("ref\(\'(?P<name>.*)\'\)", el.node.test_metadata.kwargs['model']) %}
+        {% set any_source = modules.re.findall("source\(\'(?P<one>.*)\'\,\s+\'(?P<two>.*)\'\)", el.node.test_metadata.kwargs['model']) %}
 
-    {% if any_refs %}
-        {% set name = any_refs[0] %}
-        {% set node_name = re_data.priv_full_name_from_depends(el.node, name) %}
-        {% set schema = graph.nodes.get(node_name)['schema'] %}
-        {% set database = graph.nodes.get(node_name)['database'] %}
-        {% set table_name = database + '.' + schema + '.' + name %} 
-        
-    {% elif any_source %}
-        {% set package_name = any_source[0][0] %}
-        {% set name = any_source[0][1] %}
-        {% set node_name = re_data.priv_full_name_from_depends(el.node, name) %}
-        {% set schema = graph.sources.get(node_name)['schema'] %}
-        {% set database = graph.sources.get(node_name)['database'] %}
-        {% set table_name = database + '.' + schema + '.' + name %}
+        {% if any_refs %}
+            {% set name = any_refs[0] %}
+            {% set node_name = re_data.priv_full_name_from_depends(el.node, name) %}
+            {% set schema = graph.nodes.get(node_name)['schema'] %}
+            {% set database = graph.nodes.get(node_name)['database'] %}
+            {% set table_name = database + '.' + schema + '.' + name %} 
+            
+        {% elif any_source %}
+            {% set package_name = any_source[0][0] %}
+            {% set name = any_source[0][1] %}
+            {% set node_name = re_data.priv_full_name_from_depends(el.node, name) %}
+            {% set schema = graph.sources.get(node_name)['schema'] %}
+            {% set database = graph.sources.get(node_name)['database'] %}
+            {% set table_name = database + '.' + schema + '.' + name %}
+        {% else %}
+            {% set table_name = none %}
+        {% endif %}
     {% else %}
         {% set table_name = none %}
     {% endif %}
 
+    {% set failures_json = none %}
+
+    {% if el.failures and el.failures > 0 and el.node.relation_name %}
+        {% set failures_query %}
+            select * from {{ el.node.relation_name}} limit 10
+        {% endset %}
+        {% set failures_list = re_data.agate_to_list(run_query(failures_query)) %}
+    {% endif %}
+    
     {{ return ({
         'table_name': table_name,
         'column_name': el.node.column_name or none,
@@ -53,7 +66,11 @@
         'status': el.status.name,
         'execution_time': el.execution_time,
         'message': el.message,
+        'failures_count': el.failures,
+        'failures_json': '' ~ failures_list,
+        'failures_table': el.node.relation_name,
         'severity': el.node.config.severity,
+        'compiled_sql': el.node.compiled_sql,
         'run_at': run_started_at_str,
         })
     }}

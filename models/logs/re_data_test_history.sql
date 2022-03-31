@@ -13,7 +13,11 @@
         ('status', 'string'),
         ('execution_time', 'numeric'),
         ('message', 'string'),
+        ('failures_count', 'numeric'),
+        ('failures_json', 'string'),
+        ('failures_table', 'string'),
         ('severity', 'string'),
+        ('compiled_sql', 'string'),
         ('run_at', 'timestamp'),
     ])
 }}

@@ -19,11 +19,11 @@
                             NULL
                         {%- else -%}
                             {%- if row[col_name] is string -%}
-                                '{{row[col_name]}}'
+                                '{{ re_data.quote_constant(row[col_name]) }}'
                             {%- elif row[col_name] is number -%}
                                 {{- row[col_name] -}}
                             {%- else -%}
-                                '{{- tojson(row[col_name]) -}}'
+                                '{{- re_data.quote_constant(tojson(row[col_name])) -}}'
                             {%- endif -%}
                         {%- endif -%}
                         {%- if not loop.last -%},{%- endif -%}
