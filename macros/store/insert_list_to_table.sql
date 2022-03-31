@@ -36,7 +36,6 @@
             {% call statement('insert_results') %}
               {{ insert_query }}
             {% endcall %}
-            {% do adapter.commit() %}
 
             {% do single_insert_list.clear() %}
 

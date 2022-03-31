@@ -55,9 +55,9 @@
 
     {% set failures_json = none %}
 
-    {% if el.failures and el.failures > 0 and el.node.relation_name %}
+    {% if el.failures and el.failures > 0 and el.node.relation_name and var('re_data:query_test_failures') %}
         {% set failures_query %}
-            select * from {{ el.node.relation_name}} limit 10
+            select * from {{ el.node.relation_name}} limit {{ var('re_data:query_test_failures_limit') }}
         {% endset %}
         {% set failures_list = re_data.agate_to_list(run_query(failures_query)) %}
     {% endif %}
