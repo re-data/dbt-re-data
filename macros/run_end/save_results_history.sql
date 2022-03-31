@@ -10,11 +10,14 @@
             {% endif %}
         {% endfor %}
 
-        {% do re_data.insert_list_to_table(
-            ref('re_data_test_history'),
-            tests
-        )
-        %}
+
+        {% if tests %}
+            {% do re_data.insert_list_to_table(
+                ref('re_data_test_history'),
+                tests
+                )
+            %}
+        {% endif %}
 
     {% endif %}
     {{ return ('') }}
