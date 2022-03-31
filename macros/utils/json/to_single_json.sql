@@ -3,7 +3,7 @@
     (
         case 
             when {{column}} is null then 'null'
-            else '"' || replace(cast({{column}} as {{string_type()}}), '"', '\"')  || '"'
+            else '"' || regexp_replace(replace(cast({{column}} as {{string_type()}}), '"', '\"'), '\n', '\\n', 'g')  || '"'
         end
     )
 {% endmacro %}
