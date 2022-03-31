@@ -18,6 +18,6 @@
         ('failures_table', 'string'),
         ('severity', 'string'),
         ('compiled_sql', 'string'),
-        ('run_at', 'timestamp'),
+        ('run_at', 'timestamp')
     ])
 }}

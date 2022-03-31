@@ -43,7 +43,7 @@
         ('prev_column_name', 'string'),
         ('prev_data_type', 'string'),
         ('prev_is_nullable', 'boolean'),
-        ('detected_time', 'timestamp'),
+        ('detected_time', 'timestamp')
     ])
 }}
 }
