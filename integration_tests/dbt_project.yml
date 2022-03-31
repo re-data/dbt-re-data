@@ -12,7 +12,7 @@ on-run-start:
   - "{{ create_test_source_tables() }}"
 
 on-run-end:
-  - "{{ re_data.save_test_history(results) }}"
+  - "{% if var('re_data:monitoring_test', false) %} {{ re_data.save_test_history(results) }} {% endif %}"
 
 models:
   re_data:
