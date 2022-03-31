@@ -33,7 +33,20 @@
 {% endif %}
 
 {% if times_list == () %}
-    {{ dummy_empty_schema_changes_table() }}
+    re_data.empty_table_generic([
+        ('id', 'string'),
+        ('table_name', 'string'),
+        ('operation', 'string'),
+        ('column_name', 'string'),
+        ('data_type', 'string'),
+        ('is_nullable', 'boolean'),
+        ('prev_column_name', 'string'),
+        ('prev_data_type', 'string'),
+        ('prev_is_nullable', 'boolean'),
+        ('detected_time', 'timestamp'),
+    ])
+}}
+}
 {% else %}
 
     with curr_schema as (
