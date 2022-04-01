@@ -26,7 +26,7 @@
             metrics,
             columns,
             anomaly_detector,
-            slack_owners
+            owners
         from {{ ref('re_data_monitored') }}
     {% endset %}
     {% set query_result = run_query(monitored_query) %}
