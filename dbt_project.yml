@@ -9,6 +9,9 @@ profile: "re_data_postgres"
 target-path: "target" # directory which will store compiled SQL files
 clean-targets: ["target", "dbt_modules", "dbt_packages"]
 
+on-run-end:
+  - "{% if var('re_data:save_test_history') %} {{ re_data.save_test_history(results) }} {% endif %}"
+
 vars:
   re_data:max_columns_in_query: 10
   re_data:time_window_end: '{{ run_started_at.strftime("%Y-%m-%d 00:00:00") }}'
@@ -17,8 +20,9 @@ vars:
 
   re_data:alerting_z_score: 3
 
-  re_data:query_test_failures: true
-  re_data:query_test_failures_limit: 10
+  re_data:save_test_history: false
+  re_data:test_history_failures: true
+  re_data:test_history_failures_limit: 10
 
   re_data:anomaly_detector:
     name: modified_z_score

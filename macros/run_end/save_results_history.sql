@@ -10,7 +10,6 @@
             {% endif %}
         {% endfor %}
 
-
         {% if tests %}
             {% do re_data.insert_list_to_table(
                 ref('re_data_test_history'),
@@ -55,13 +54,25 @@
 
     {% set failures_json = none %}
 
-    {% if el.failures and el.failures > 0 and el.node.relation_name and var('re_data:query_test_failures') %}
+    {% if var.has_var('re_data:query_test_failures') %}
+        {% set query_failures = var('re_data:query_test_failures') %}
+    {% else %}
+        {% set query_failures = true %}
+    {% endif %}
+
+    {% if el.failures and el.failures > 0 and el.node.relation_name and query_failures %}
+        {% if var.has_var('re_data:test_history_failures') %}
+            {% set limit_count = var('re_data:test_history_failures_limit')%}
+        {% else %}
+            {% set limit_count = 10 %}
+        {% endif %}
+
         {% set failures_query %}
-            select * from {{ el.node.relation_name}} limit {{ var('re_data:query_test_failures_limit') }}
+            select * from {{ el.node.relation_name}} limit {{ limit_count }}
         {% endset %}
         {% set failures_list = re_data.agate_to_list(run_query(failures_query)) %}
     {% endif %}
-    
+
     {{ return ({
         'table_name': table_name,
         'column_name': el.node.column_name or none,
