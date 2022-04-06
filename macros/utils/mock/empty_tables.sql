@@ -3,9 +3,9 @@
     with types_table as (
         select
             cast (null as {{ string_type() }}) as string_type,
-            cast (null as {{ numeric_type() }}) as numeric_type,
-            cast (null as {{ timestamp_type() }}) as timestamp_type,
-            cast (null as {{ boolean_type() }}) as boolean_type
+            cast (1 as {{ numeric_type() }}) as numeric_type,
+            cast ('2000-01-10' as {{ timestamp_type() }}) as timestamp_type,
+            cast (true as {{ boolean_type() }}) as boolean_type
     )
 {% endmacro %}
 
