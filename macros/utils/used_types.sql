@@ -27,7 +27,7 @@
 {% endmacro %}
 
 {% macro redshift__string_type() %}
-    varchar(2047)
+    varchar(65535)
 {% endmacro %}
 
 {% macro bigquery__string_type() %}
