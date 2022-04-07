@@ -33,8 +33,8 @@
                 {% endfor -%}
             {% endset %}
             
-            {% call statement('insert_results',fetch_result=True, auto_begin=False) %}
-              {{ insert_query }}
+            {% call statement('insert_results',fetch_result=True, auto_begin=True) %}
+              {{ insert_query }}; commit;
             {% endcall %}
 
             {% do single_insert_list.clear() %}
