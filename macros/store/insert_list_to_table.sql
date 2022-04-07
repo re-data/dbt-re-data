@@ -32,11 +32,10 @@
                     {%- if not loop.last -%},{%- endif %}
                 {% endfor -%}
             {% endset %}
-
+            
             {% call statement('insert_results',fetch_result=True, auto_begin=False) %}
               {{ insert_query }}
             {% endcall %}
-            {% do adapter.commit() %}
 
             {% do single_insert_list.clear() %}
 
