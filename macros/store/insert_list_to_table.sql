@@ -34,7 +34,7 @@
             {% endset %}
             
             {% call statement('insert_results',fetch_result=True, auto_begin=True) %}
-              {{ insert_query }}; commit;
+              {{ insert_query }}
             {% endcall %}
 
             {% do single_insert_list.clear() %}
