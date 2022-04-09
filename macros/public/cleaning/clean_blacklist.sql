@@ -25,3 +25,7 @@
 {%- macro redshift__clean_blacklist(column_name, pattern_string, replacement) -%}
     regexp_replace( {{ column_name }}, '{{ pattern_string }}', '{{ replacement }}')
 {%- endmacro -%}
+
+{%- macro bigquery__clean_blacklist(column_name, pattern_string, replacement) -%}
+    regexp_replace( {{ column_name }}, """{{ pattern_string }}""", '{{ replacement }}')
+{%- endmacro -%}
