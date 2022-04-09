@@ -15,11 +15,11 @@
                             NULL
                         {%- else -%}
                             {%- if row[p] is string -%}
-                                '{{ re_data.quote_constant(row[p]) }}'
+                                {{- re_data.quote_string(row[p]) -}}
                             {%- elif row[p] is number -%}
                                 {{-row[p]-}}
                             {%- else -%}
-                                '{{- re_data.quote_constant(tojson(row[p])) -}}'
+                                {{- re_data.quote_string(tojson(row[p])) -}}
                             {%- endif -%}
                         {%- endif -%}
                         {%- if not loop.last -%},{%- endif -%}
