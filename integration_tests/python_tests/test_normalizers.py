@@ -7,7 +7,7 @@ def test_normalizers(db, source_schema, debug=True):
 
     print (f"Running setup and tests for {db}")
 
-    dbt_seed(f'--select us_states_normalization expected_us_states_normalized', db, dbt_vars)
+    dbt_seed(f'--select public_macros.normalizing', db, dbt_vars)
     dbt_run(f'--select us_states_normalized+', db, dbt_vars)
     dbt_test(f'--models us_states_normalized', db, dbt_vars)
 

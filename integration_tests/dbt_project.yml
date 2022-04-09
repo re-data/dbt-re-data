@@ -8,28 +8,20 @@ profile: "re_data_postgres"
 target-path: "target"
 clean-targets: ["target", "dbt_modules", "dbt_packages"]
 
-on-run-start:
-  - "{{ create_test_source_tables() }}"
-
 models:
   re_data:
     enabled: true
+
+sources:
+  re_data_integration_tests:
+    +re_data_monitored: true
+    +re_data_time_filter: null
   
 vars:
   re_data:anomaly_detector:
     name: modified_z_score
     threshold: 0.6
   re_data:max_columns_in_query: 1
-  re_data:monitored:
-    - tables:
-        - name: sample_with_anomaly
-          time_filter: creation_time
-
-        - name: sample_without_time_filter
-          time_filter: xxxx # testing if overriding parameters in seeds config works
-
-    - tables:
-      - name: re_data_source_test_table
 
   re_data:metrics_base:
     table:
@@ -58,73 +50,55 @@ vars:
         - missing_count
 
 seeds:
-  +schema: raw
+  +schema: seeds
   +quote_columns: false
 
   re_data_integration_tests:
+    monitoring:
+      sample_with_anomaly:
+        +re_data_monitored: true
+        +re_data_time_filter: creation_time
 
-    sample_without_time_filter:
-      +re_data_monitored: true
-      +re_data_time_filter: null
+      sample_without_time_filter:
+        +re_data_monitored: true
+        +re_data_time_filter: null
 
-    sample_table:
-      +re_data_monitored: true
-      +re_data_time_filter: creation_time
-      
-      +re_data_columns: 
-        - event_type
-        - value1
-        - value2
-        - null_value
-      
-      +re_data_metrics:
-        table:
-          - my_custom_table_metric # my own custom metric
-          - distinct_table_rows
-        column:
-          event_type:
-            - regex_test:
-                regex: ([A-Za-z0-9]+)
-            - match_regex:
-                regex: ^sell
-            - match_regex_percent:
-                regex: ^sell
-            - not_match_regex:
-                regex: ^buy
-            - not_match_regex_percent:
-                regex: ^buy
-            - distinct_values
-            - duplicate_values
-            - duplicate_rows
-            - unique_rows
+      sample_table:
+        +re_data_monitored: true
+        +re_data_time_filter: creation_time
+        
+        +re_data_columns: 
+          - event_type
+          - value1
+          - value2
+          - null_value
+        
+        +re_data_metrics:
+          table:
+            - my_custom_table_metric # my own custom metric
+            - distinct_table_rows
+          column:
+            event_type:
+              - regex_test:
+                  regex: ([A-Za-z0-9]+)
+              - match_regex:
+                  regex: ^sell
+              - match_regex_percent:
+                  regex: ^sell
+              - not_match_regex:
+                  regex: ^buy
+              - not_match_regex_percent:
+                  regex: ^buy
+              - distinct_values
+              - duplicate_values
+              - duplicate_rows
+              - unique_rows
 
-    expected:
-      +schema: expected
-
-      expected_sample_data_row_count:
-        +column_types:
-          time_window_start: "TIMESTAMP"
-          time_window_end: "TIMESTAMP"
-
-      expected_sample_data_freshness:
+      expected_z_score:
         +column_types:
           time_window_end: "TIMESTAMP"
 
-      expected_sample_data_max:
-        +column_types:
-          time_window_start: "TIMESTAMP"
-          time_window_end: "TIMESTAMP"
-
-      expected_sample_data_max_length:
-        +column_types:
-          time_window_start: "TIMESTAMP"
-          time_window_end: "TIMESTAMP"
-
-      expected_sample_data_z_score:
-        +column_types:
-          time_window_end: "TIMESTAMP"
-
-      expected_sample_data_metrics:
+      expected_metrics:
         +column_types:
           time_window_start: "TIMESTAMP"
           time_window_end: "TIMESTAMP"

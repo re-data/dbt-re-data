@@ -28,8 +28,6 @@ vars:
     name: modified_z_score
     threshold: 3
 
-  re_data:monitored: [] # overwritten by user config
-
   re_data:metrics_base:
     table:
       - row_count

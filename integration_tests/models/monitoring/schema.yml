@@ -1,0 +1,22 @@
+version: 2
+
+models:
+  - name: test_re_data_metrics
+    tests:
+      - dbt_utils.equality:
+          compare_model: ref('expected_metrics')
+
+  - name: test_re_data_z_score
+    tests:
+      - dbt_utils.equality:
+          compare_model: ref('expected_z_score')
+
+  - name: test_re_data_anomalies
+    tests:
+      - dbt_utils.equality:
+          compare_model: ref('expected_anomalies')
+
+  - name: test_re_data_test_history
+    tests:
+     - dbt_utils.equality:
+         compare_model: ref('expected_test_history')

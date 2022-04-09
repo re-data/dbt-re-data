@@ -1,0 +1,8 @@
+table_name,column_name,test_name,status,message,failures_count,failures_table,severity
+RE_DATA_METRICS,---,_buy_events___3,Pass,---,0,"""postgres"".""dq_dbt_test__audit"".""re_data_metric_equal_to_re_dat_8ebec81756f9706388f3b9a801e16d17""",ERROR
+TEST_RE_DATA_Z_SCORE,---,pected_z_score_,Pass,---,0,"""postgres"".""dq_dbt_test__audit"".""dbt_utils_equality_test_re_data_z_score_ref_expected_z_score_""",ERROR
+TEST_RE_DATA_METRICS,---,pected_metrics_,Pass,---,0,"""postgres"".""dq_dbt_test__audit"".""dbt_utils_equality_test_re_data_metrics_ref_expected_metrics_""",ERROR
+TEST_RE_DATA_ANOMALIES,---,cted_anomalies_,Pass,---,0,"""postgres"".""dq_dbt_test__audit"".""dbt_utils_equality_test_re_dat_b4f8abe2e147622b084810c3add59b3b""",ERROR
+RE_DATA_METRICS,---,ref_buy_events_,Pass,---,0,"""postgres"".""dq_dbt_test__audit"".""re_data_metric_expression_is_t_1a8542f1cf052ee683f8c5c853a56e94""",ERROR
+RE_DATA_METRICS,---,ref_buy_events_,Pass,---,0,"""postgres"".""dq_dbt_test__audit"".""re_data_metric_in_range_re_dat_6e3389ae22b015f0473c3d773cd4bb4c""",ERROR
+RE_DATA_METRICS,---,ref_buy_events_,Pass,---,0,"""postgres"".""dq_dbt_test__audit"".""re_data_metric_expression_is_t_a1b88c3ac9cd40545ad3a312814ea9b9""",ERROR
