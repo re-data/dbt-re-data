@@ -1,6 +1,6 @@
 
 {% macro to_big_integer(field) %}
-    cast ({{field}} * 1000 as integer) as {{field}}
+    cast (round({{field}} * 1000) as integer) as {{field}}
 {% endmacro %}
 
 {% macro clean_table_name(field) %}
