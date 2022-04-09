@@ -13,9 +13,9 @@
         {% if tests %}
             {% do re_data.insert_list_to_table(
                 ref('re_data_test_history'),
-                tests
-                )
-            %}
+                tests,
+                ['table_name', 'column_name', 'test_name', 'status', 'execution_time', 'message', 'failures_count', 'failures_json', 'failures_table', 'severity', 'compiled_sql', 'run_at']
+            ) %}
         {% endif %}
 
     {% endif %}
