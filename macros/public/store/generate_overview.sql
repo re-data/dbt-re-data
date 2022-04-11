@@ -22,7 +22,7 @@
     {% else %}
         {{ exceptions.raise_compiler_error("Invalid interval. Got: " ~ interval) }}
     {% endif %}
-    {{ log('[re_data] interval length in seconds is ' ~ interval_length_sec, info=True) }}
+    {{ dbt_utils.log_info('[re_data] interval length in seconds is ' ~ interval_length_sec) }}
     {% set overview_query %}
         with schema_changes_casted as (
             select id, table_name, operation, column_name, data_type, {{ bool_to_string('is_nullable') }}, prev_column_name, prev_data_type, {{ bool_to_string('prev_is_nullable') }}, detected_time

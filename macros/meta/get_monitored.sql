@@ -26,3 +26,30 @@
 
     {{ return(monitored) }}
 {% endmacro %}
+
+{% macro get_owners_config() %}
+    {% set owners_config = var('re_data:owners_config', {}) %}
+    {{ return (owners_config) }}
+{% endmacro %}
+
+{% macro prepare_model_owners(re_data_owners, owners_config) %}
+    {% set owners = {} %}
+    {% set seen_identifiers = {} %}
+    {% for owner in re_data_owners if owners_config.get(owner) %}
+        {% set members = owners_config.get(owner) %}
+        {% for member in members %}
+            {% set identifier = member.get('identifier') %}
+            {% if identifier not in seen_identifiers %}
+            {% do seen_identifiers.update({identifier: true }) %}
+            {% do owners.update({
+                identifier: {
+                    'notify_channel': member.get('type'),
+                    'owner': owner,
+                    'name': member.get('name') 
+                } 
+            }) %}
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+    {{ return (owners) }}
+{% endmacro %}

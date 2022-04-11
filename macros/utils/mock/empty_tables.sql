@@ -46,3 +46,12 @@
     }}
 {% endmacro %}
 
+
+{% macro empty_table() %}
+    {{
+        re_data.empty_table_generic([
+            ('name', 'string')
+        ])
+    }}
+{% endmacro %}
+
