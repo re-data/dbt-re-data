@@ -51,7 +51,7 @@
             {% do run_query(insert_stats_query) %}
 
             {% set finish_timestamp = dbt_utils.current_timestamp() %} 
-            {{ log('[re_data_log] - finished computing metrics for table:' ~ table_name, True)}}
+            {{ log('[re_data_log]' ~ finish_timestamp ~ ' - finished computing metrics for table:' ~ table_name, True)}}
         {% endif %}
     {% endfor %}
 {% endmacro %}
