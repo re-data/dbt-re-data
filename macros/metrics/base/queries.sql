@@ -44,7 +44,6 @@
                     {% endif %}
                     {% do columns_to_query.clear() %}
                 {% endif %}
-
             {% endfor %}
 
             {%- set insert_stats_query = re_data.metrics_base_insert(table_name, time_filter, metrics, ref_model, columns_to_query, table_level=True) -%}
