@@ -46,9 +46,14 @@
    DATEDIFF(second, {{ start_timestamp }}, {{ end_timestamp }})
 {% endmacro %}
 
-{% macro in_time_window(time_column) %}
-    {{ adapter.dispatch('in_time_window', 're_data')(time_column) }}
-{% endmacro %}
+{%- macro in_time_window(time_column) %}
+    {# /* If not time_filter is specified, we compute the metric over the entire table else we filter for the time frame */ #}
+    {% if time_column is none %}
+            true
+    {% else %}
+        {{ adapter.dispatch('in_time_window', 're_data')(time_column) }}
+    {% endif %}
+{% endmacro -%}
 
 {% macro default__in_time_window(time_column) %}
     {{time_column}} >= {{ time_window_start() }} and

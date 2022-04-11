@@ -8,6 +8,7 @@
 
 -- depends_on: {{ ref('re_data_run_started_at') }}
 -- depends_on: {{ ref('re_data_columns_over_time') }}
+-- depends_on: {{ ref('re_data_monitored') }}
 
 {% if execute and not re_data.in_compile() %}
     {% set last_data_points %} 
@@ -49,15 +50,21 @@
     }}
 {% else %}
 
-    with curr_schema as (
+    with curr_monitored_schema as (
         select * from {{ ref('re_data_columns_over_time')}}
         where detected_time = '{{ most_recent_time }}'
+        and table_name in (
+            select {{ full_table_name('name', 'schema', 'database') }} from {{ ref('re_data_monitored')}}
+        )
     ),
 
 
-    prev_schema as (
+    prev_monitored_schema as (
         select * from {{ ref('re_data_columns_over_time')}}
         where detected_time = '{{ prev_most_recent}}'
+        and table_name in (
+            select {{ full_table_name('name', 'schema', 'database') }} from {{ ref('re_data_monitored')}}
+        )
     ),
 
     all_changes as (
@@ -73,7 +80,7 @@
                 prev.data_type as prev_data_type,
                 prev.is_nullable as prev_is_nullable
             
-            from curr_schema curr inner join prev_schema prev on (curr.table_name = prev.table_name and curr.column_name = prev.column_name)
+            from curr_monitored_schema curr inner join prev_monitored_schema prev on (curr.table_name = prev.table_name and curr.column_name = prev.column_name)
             where
                 curr.data_type != prev.data_type or 
                 curr.is_nullable != prev.is_nullable
@@ -94,8 +101,13 @@
                 null as prev_data_type,
                 null as prev_is_nullable
             
-            from curr_schema curr left join prev_schema prev on (curr.table_name = prev.table_name and curr.column_name = prev.column_name)
+            from curr_monitored_schema curr left join prev_monitored_schema prev on (curr.table_name = prev.table_name and curr.column_name = prev.column_name)
             where prev.table_name is null and prev.column_name is null
+            {# note: when a column is added, make sure we only detect for models that were previously monitored,
+            this avoids a situation where a newly monitored model has all its columns detected with 'column_added' operation#}
+            and curr.table_name in (
+                select table_name from prev_monitored_schema
+            )
         
         )
 
@@ -114,7 +126,7 @@
                 prev.data_type as prev_data_type,
                 prev.is_nullable as prev_is_nullable
             
-            from prev_schema prev left join curr_schema curr on (curr.table_name = prev.table_name and curr.column_name = prev.column_name)
+            from prev_monitored_schema prev left join curr_monitored_schema curr on (curr.table_name = prev.table_name and curr.column_name = prev.column_name)
             where curr.table_name is null and curr.column_name is null
 
         )

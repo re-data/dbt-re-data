@@ -14,6 +14,7 @@
         ('time_filter', 'string'),
         ('metrics', 'string'),
         ('columns', 'string'),
-        ('anomaly_detector', 'string')
+        ('anomaly_detector', 'string'),
+        ('owners', 'string')
     ])
 }}

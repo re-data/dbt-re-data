@@ -73,12 +73,7 @@
     from 
         {{ table_name }}
     where
-        {# /* If not time_filter is specified, we compute the metric over the entire table else we filter for the time frame */ #}
-        {% if time_filter is none %}
-            true
-        {% else %}
-            {{ in_time_window(time_filter) }}
-        {% endif %}
+        {{ in_time_window(time_filter) }}
     )
 
     {%- for col_expr in col_exprs %}
