@@ -27,7 +27,7 @@
 {% endmacro %}
 
 {% macro redshift__string_type() %}
-    varchar(65535)
+    varchar(2047)
 {% endmacro %}
 
 {% macro bigquery__string_type() %}
@@ -36,6 +36,18 @@
 
 {% macro snowflake__string_type() %}
     STRING
+{% endmacro %}
+
+{% macro long_string_type() %}
+    {{ adapter.dispatch('long_string_type', 're_data')() }}
+{% endmacro %}
+
+{% macro default__long_string_type() %}
+    {{ re_data.string_type() }}
+{% endmacro %}
+
+{% macro redshift__long_string_type() %}
+    varchar(65535)
 {% endmacro %}
 
 {% macro integer_type() %}

@@ -14,10 +14,10 @@
         ('execution_time', 'numeric'),
         ('message', 'string'),
         ('failures_count', 'numeric'),
-        ('failures_json', 'string'),
-        ('failures_table', 'string'),
+        ('failures_json', 'long_string'),
+        ('failures_table', 'long_string'),
         ('severity', 'string'),
-        ('compiled_sql', 'string'),
+        ('compiled_sql', 'long_string'),
         ('run_at', 'timestamp')
     ])
 }}
