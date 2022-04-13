@@ -7,7 +7,7 @@ def test_deduplication(db, source_schema, debug=True):
 
     print (f"Running setup and tests for {db}")
 
-    dbt_seed(f'--select duplicated expected_deduplicated', db, dbt_vars)
+    dbt_seed(f'--select public_macros.filtering', db, dbt_vars)
     dbt_run(f'--select deduplicated', db, dbt_vars)
     dbt_test(f'--select deduplicated', db, dbt_vars)
 
@@ -18,7 +18,7 @@ def test_get_duplicates(db, source_schema, debug=True):
 
     print (f"Running setup and tests for {db}")
 
-    dbt_seed(f'--select duplicates expected_duplicates', db, dbt_vars)
+    dbt_seed(f'--select public_macros.filtering', db, dbt_vars)
     dbt_run(f'--select duplicates', db, dbt_vars)
     dbt_test(f'--select duplicates', db, dbt_vars)
 

@@ -20,7 +20,7 @@
 
             {% set columns = run_query(columns_query) %}
 
-            {{ log('[re_data_log] - start computing metrics for table:' ~ table_name, True)}}
+            {{ dbt_utils.log_info('[re_data_log] - start computing metrics for table:' ~ table_name) }}
 
             {% set columns_to_query = [] %}
             {% set size = columns_to_query| length %}
@@ -44,14 +44,12 @@
                     {% endif %}
                     {% do columns_to_query.clear() %}
                 {% endif %}
-
             {% endfor %}
 
             {%- set insert_stats_query = re_data.metrics_base_insert(table_name, time_filter, metrics, ref_model, columns_to_query, table_level=True) -%}
             {% do run_query(insert_stats_query) %}
 
-            {% set finish_timestamp = dbt_utils.current_timestamp() %} 
-            {{ log('[re_data_log] - finished computing metrics for table:' ~ table_name, True)}}
+            {{ dbt_utils.log_info('[re_data_log] - finished computing metrics for table:' ~ table_name) }}
         {% endif %}
     {% endfor %}
 {% endmacro %}

@@ -15,3 +15,15 @@ select
     '' as value,
     detected_time as time_window_end
 from {{ ref('re_data_schema_changes') }}
+
+union all
+
+select
+    'test' as type,
+    table_name as model,
+    {{ generate_failed_test_message('test_name', 'column_name') }},
+    status as value,
+    run_at as time_window_end
+
+from {{ ref('re_data_test_history') }}
+where status = 'Fail' or status = 'Error'

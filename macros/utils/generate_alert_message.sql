@@ -50,3 +50,12 @@
         else ''
     end
 {% endmacro %}
+
+{% macro generate_failed_test_message(test_name, column_name) %}
+    case 
+        when {{ column_name }} is null
+            then 'Test ' || {{ test_name }} || ' failed.'
+        else
+            'Test ' || {{ test_name }} || ' failed for column ' || {{ column_name }} || '.'
+    end
+{% endmacro %}

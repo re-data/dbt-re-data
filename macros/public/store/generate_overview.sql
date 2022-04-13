@@ -22,7 +22,7 @@
     {% else %}
         {{ exceptions.raise_compiler_error("Invalid interval. Got: " ~ interval) }}
     {% endif %}
-    {{ log('[re_data] interval length in seconds is ' ~ interval_length_sec, info=True) }}
+    {{ dbt_utils.log_info('[re_data] interval length in seconds is ' ~ interval_length_sec) }}
     {% set overview_query %}
         with schema_changes_casted as (
             select id, table_name, operation, column_name, data_type, {{ bool_to_string('is_nullable') }}, prev_column_name, prev_data_type, {{ bool_to_string('prev_is_nullable') }}, detected_time
@@ -80,7 +80,9 @@
     (
         select
             {{ overview_select_base('test', 'run_at')}}
-            {{ to_single_json(['status', 'test_name', 'run_at']) }} as {{ re_data.quote_column('data') }}
+            {{ to_single_json([
+                'status', 'test_name', 'run_at', 'execution_time', 'message', 'failures_count', 'failures_json', 'failures_table', 'severity', 'compiled_sql'
+            ]) }} as {{ re_data.quote_column('data') }}
         from
             {{ ref('re_data_test_history') }}
         where date(run_at) between '{{start_date}}' and '{{end_date}}' 

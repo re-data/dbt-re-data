@@ -1,11 +1,9 @@
-
-
 {% macro insert_list_to_table(table, list, params, insert_size=100) %}
 
     {% set single_insert_list = [] %}
     {% for el in list %}
         {% do single_insert_list.append(el) %}
-        {% set single_insert_list_size = single_insert_list | length%}
+        {% set single_insert_list_size = single_insert_list | length %}
         {% if single_insert_list_size == insert_size or loop.last %}
 
             {% set insert_query %}
@@ -17,11 +15,11 @@
                             NULL
                         {%- else -%}
                             {%- if row[p] is string -%}
-                                '{{row[p]}}'
+                                {{- re_data.quote_string(row[p]) -}}
                             {%- elif row[p] is number -%}
                                 {{-row[p]-}}
                             {%- else -%}
-                                '{{- tojson(row[p]) -}}'
+                                {{- re_data.quote_string(tojson(row[p])) -}}
                             {%- endif -%}
                         {%- endif -%}
                         {%- if not loop.last -%},{%- endif -%}
@@ -32,7 +30,6 @@
             {% endset %}
 
             {% do run_query(insert_query) %}
-
             {% do single_insert_list.clear() %}
         {% endif %}
     {% endfor %}

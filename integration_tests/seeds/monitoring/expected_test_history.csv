@@ -1,0 +1,17 @@
+table_name,column_name,test_name,status,message,failures_count,severity
+BUY_EVENTS,---,ts_row_count__1,Pass,---,0,ERROR
+TEST_RE_DATA_Z_SCORE,---,pected_z_score_,Pass,---,0,ERROR
+TEST_RE_DATA_METRICS,---,pected_metrics_,Pass,---,0,ERROR
+TEST_RE_DATA_ANOMALIES,---,cted_anomalies_,Pass,---,0,ERROR
+BUY_EVENTS,---,null__freshness,Pass,---,0,ERROR
+BUY_EVENTS,VALUE2,alue2__min__200,Pass,---,0,ERROR
+BUY_EVENTS,---,0__row_count__0,Pass,---,0,ERROR
+BUY_EVENTS,---,_table_rows__10,Pass,---,0,ERROR
+BUY_EVENTS,VALUE1,ulls_percent__0,Pass,---,0,ERROR
+BUY_EVENTS,VALUE1,alue1__min__100,Pass,---,0,ERROR
+BUY_EVENTS,VALUE1,__nulls_percent,Pass,---,0,ERROR
+BUY_EVENTS,VALUE1,alue1__min__107,Pass,---,0,ERROR
+RE_DATA_METRICS,---,_buy_events___3,Pass,---,0,ERROR
+RE_DATA_METRICS,---,ref_buy_events_,Pass,---,0,ERROR
+RE_DATA_METRICS,---,ref_buy_events_,Pass,---,0,ERROR
+RE_DATA_METRICS,---,ref_buy_events_,Pass,---,0,ERROR

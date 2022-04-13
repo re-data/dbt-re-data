@@ -1,0 +1,49 @@
+version: 2
+
+models:
+  - name: buy_events
+    tests:
+      - re_data.assert_in_range:
+          metric: row_count
+          min_value: 0
+          max_value: 10
+
+      - re_data.assert_equal:
+          metric: row_count
+          value: 1
+
+      - re_data.assert_false:
+          metric: freshness
+          expression: value is null
+      
+      - re_data.assert_greater_equal:
+          metric: my_distinct_table_rows
+          value: 10
+
+    columns:
+      - name: value1
+        tests:
+          - re_data.assert_in_range:
+              metric: nulls_percent
+              min_value: 0
+              max_value: 10
+
+          - re_data.assert_true:
+              metric: nulls_percent
+              expression: value = 0
+          
+          - re_data.assert_less:
+              metric: min
+              value: 100
+              where: time_window_start >= '2020-05-02'
+          
+          - re_data.assert_less_equal:
+              metric: min
+              value: 107
+
+      - name: value2
+        tests:
+          - re_data.assert_greater:
+              metric: min
+              value: 200
+              where: time_window_start >= '2020-05-02'

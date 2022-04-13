@@ -8,7 +8,7 @@ def test_validate_regex(db, source_schema, debug=True):
     print (f"Running setup and tests for {db}")
 
     dbt_seed(
-        f'--select public_macros.validating expected.validating', db, dbt_vars
+        f'--select public_macros.validating', db, dbt_vars
     )
 
     dbt_run(f'--select public_macros.validating', db, dbt_vars)

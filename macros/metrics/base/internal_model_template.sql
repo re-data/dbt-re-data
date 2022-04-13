@@ -8,7 +8,7 @@
     )
 }}
 
-{{ empty_last_base_metrics() }}
+{{ re_data.empty_last_base_metrics() }}
 
 {% endmacro %}
 
@@ -26,6 +26,6 @@
         {{ re_data.metrics_base_compute_for_thread(num, part_name) }}
     {% endif %}
 
-    {{ empty_last_base_metrics() }}
+    {{ re_data.empty_last_base_metrics() }}
 
 {% endmacro %}

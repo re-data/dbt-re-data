@@ -10,7 +10,7 @@ RUN_TIME = datetime(2021, 5, 2, 0, 0, 0)
 DBT_VARS = {
     're_data:time_window_start': (RUN_TIME - timedelta(days=1)).strftime("%Y-%m-%d %H:%M:%S"),
     're_data:time_window_end': RUN_TIME.strftime("%Y-%m-%d %H:%M:%S"),
-    're_data:monitoring_test': True
+    're_data:save_test_history': True
 }
 
 def test_monitoring(db, source_schema):
@@ -23,11 +23,15 @@ def test_monitoring(db, source_schema):
     
     print (f"Running setup and tests for {db}")
 
-    dbt_seed('', db, dbt_vars)
+    dbt_seed('--select monitoring', db, dbt_vars)
     dbt_run('--models transformed', db, dbt_vars)
+    dbt_command(
+        f'dbt run-operation create_test_source_tables',
+        db, dbt_vars
+    )
 
     print (f"Computing re_data metrics for {db}") 
-    dbt_run('--exclude transformed ', db, dbt_vars)
+    dbt_run('--select package:re_data', db, dbt_vars)
 
     dbt_command(
         f'dbt run-operation schema_change_buy_events_add_column',
@@ -39,11 +43,15 @@ def test_monitoring(db, source_schema):
     dbt_vars['re_data:time_window_end'] = (RUN_TIME + timedelta(days=1)).strftime("%Y-%m-%d %H:%M:%S")
 
     dbt_command(
-        'dbt run --exclude transformed --fail-fast',
+        'dbt run --select package:re_data --fail-fast',
         db, dbt_vars
     )
 
-    dbt_test('--exclude test_re_data_test_history', db, dbt_vars)
+    dbt_command(
+        'dbt run --select monitoring.*', db, dbt_vars
+    )
+
+    dbt_test('--select test_re_data_anomalies test_re_data_metrics test_re_data_z_score re_data_metrics transformed', db, dbt_vars)
 
     # tests test_history seperately, because those are actually added to DB after running
     # dbt test command

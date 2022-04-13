@@ -6,5 +6,15 @@
     )
 }}
 
-{{ empty_code_monitored() }}
- 
+{{
+    re_data.empty_table_generic([
+        ('name', 'string'),
+        ('schema', 'string'),
+        ('database', 'string'),
+        ('time_filter', 'string'),
+        ('metrics', 'string'),
+        ('columns', 'string'),
+        ('anomaly_detector', 'string'),
+        ('owners', 'string')
+    ])
+}}
