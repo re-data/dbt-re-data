@@ -22,11 +22,11 @@
     {% set monitored_query %}
         select
             {{ full_table_name('name', 'schema', 'database') }} as {{ re_data.quote_column('model') }},
-            time_filter,
-            metrics,
-            columns,
-            anomaly_detector,
-            owners
+            time_filter as {{ re_data.quote_column('time_filter') }},
+            metrics as {{ re_data.quote_column('metrics') }},
+            columns as {{ re_data.quote_column('columns') }},
+            anomaly_detector as {{ re_data.quote_column('anomaly_detector') }},
+            owners as {{ re_data.quote_column('owners') }}
         from {{ ref('re_data_monitored') }}
     {% endset %}
     {% set query_result = run_query(monitored_query) %}
