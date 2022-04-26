@@ -1,8 +1,8 @@
 name: "re_data"
-version: "0.7.1"
+version: "0.8.0"
 config-version: 2
 
-require-dbt-version: [">=0.20.0", "<1.1.0"]
+require-dbt-version: [">=1.0.0", "<1.2.0"]
 
 profile: "re_data_postgres"
 
