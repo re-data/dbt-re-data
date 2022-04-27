@@ -76,6 +76,11 @@
             {{ to_single_json(['type', 'model', 'message', 'value', 'time_window_end']) }} as {{ re_data.quote_column('data') }}
         from
             {{ ref('re_data_alerts') }}
+        where
+            case
+                when type = 'anomaly' then time_window_end between '{{ start_date }}' and '{{ end_date }}'
+                else time_window_end >= '{{ start_date }}'
+            end
     ) union all
     (
         select

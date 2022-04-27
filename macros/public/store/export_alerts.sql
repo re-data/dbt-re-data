@@ -10,7 +10,7 @@
         where
             case
                 when type = 'anomaly' then time_window_end between '{{ start_date }}' and '{{ end_date }}'
-                else true
+                else time_window_end >= '{{ start_date }}'
             end
         order by time_window_end desc
     {% endset %}
