@@ -2,7 +2,7 @@
     (
         case 
             when {{column}} is null then 'null'
-            else '"' || replace(cast({{column}} as {{string_type()}}), '"', {{escape_seq_for_json('"')}}) || '"'
+            else '"' || replace(replace(cast({{column}} as {{string_type()}}), '"', {{escape_seq_for_json('"') }}), {{ re_data.quote_string("\\'") }}, {{ re_data.quote_string("'")}} ) || '"'
         end
     )
 {% endmacro %}
