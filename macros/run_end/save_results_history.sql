@@ -63,9 +63,9 @@
         'message': el.message,
         'failures_count': el.failures,
         'failures_json': '',
-        'failures_table': el.node.relation_name,
+        'failures_table': el.node.relation_name or none,
         'severity': el.node.config.severity,
-        'compiled_sql': el.node.compiled_sql,
+        'compiled_sql': el.node.compiled_sql or none,
         'run_at': run_started_at_str,
         })
     }}

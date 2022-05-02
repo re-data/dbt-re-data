@@ -2,7 +2,11 @@
     (
         case 
             when {{column}} is null then 'null'
-            else '"' || replace(replace(cast({{column}} as {{string_type()}}), '"', {{escape_seq_for_json('"') }}), {{ re_data.quote_string("\\'") }}, {{ re_data.quote_string("'")}} ) || '"'
+            else '"' ||
+                regexp_replace(
+                    replace(cast({{column}} as {{string_type()}}), '"', {{escape_seq_for_json('"') }}),
+                    '\n', {{ quote_new_line() }} {% if target.type == 'postgres' %}, 'g' {% endif %}
+                ) || '"'
         end
     )
 {% endmacro %}
@@ -11,7 +15,7 @@
     '{' ||
     {%- for column in columns %}
         '"{{ column }}": ' ||
-        {{ re_data.clean_blacklist(to_json_string_value_or_null(column), ['\n'], ' ') }} 
+        {{ to_json_string_value_or_null(column) }}
         {%- if not loop.last %} || ',' || {%- endif %}
     {%- endfor %}
     || '}'
