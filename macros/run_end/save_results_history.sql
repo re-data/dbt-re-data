@@ -54,25 +54,6 @@
 
     {% set failures_json = none %}
 
-    {% if var.has_var('re_data:query_test_failures') %}
-        {% set query_failures = var('re_data:query_test_failures') %}
-    {% else %}
-        {% set query_failures = true %}
-    {% endif %}
-
-    {% if el.failures and el.failures > 0 and el.node.relation_name and query_failures %}
-        {% if var.has_var('re_data:test_history_failures') %}
-            {% set limit_count = var('re_data:test_history_failures_limit')%}
-        {% else %}
-            {% set limit_count = 10 %}
-        {% endif %}
-
-        {% set failures_query %}
-            select * from {{ el.node.relation_name}} limit {{ limit_count }}
-        {% endset %}
-        {% set failures_list = re_data.agate_to_list(run_query(failures_query)) %}
-    {% endif %}
-
     {{ return ({
         'table_name': table_name,
         'column_name': el.node.column_name or none,
@@ -81,7 +62,7 @@
         'execution_time': el.execution_time,
         'message': el.message,
         'failures_count': el.failures,
-        'failures_json': '' ~ failures_list,
+        'failures_json': '',
         'failures_table': el.node.relation_name,
         'severity': el.node.config.severity,
         'compiled_sql': el.node.compiled_sql,
