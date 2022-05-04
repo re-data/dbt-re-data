@@ -7,3 +7,7 @@
     $${{ str }}$$
 {% endmacro %}
 
+
+{%- macro quote_new_line() %}{{ adapter.dispatch('quote_new_line', 're_data')() }}{% endmacro %}
+
+{%- macro default__quote_new_line() %}'\134\134n'{% endmacro %}
