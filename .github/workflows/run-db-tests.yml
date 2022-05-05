@@ -49,7 +49,7 @@ jobs:
         working-directory: ./integration_tests
         run: |
           pip install -r requirements.txt
-          pip install dbt-${{ matrix.database }}==1.0.0
+          pip install dbt-${{ matrix.database }}==1.1.0
           dbt deps
 
       - name: Drop schemas
@@ -139,6 +139,6 @@ jobs:
         working-directory: ./integration_tests
         run: |
           pip install -r requirements.txt
-          pip install dbt-${{ matrix.database }}==1.0.0
+          pip install dbt-${{ matrix.database }}==1.1.0
           dbt deps
           dbt run-operation drop_all_schemas --args "{ schema_name: ${{ env.DQ_SCHEMA }} }" --profile re_data_${{ matrix.database }} --vars "{ source_schema: ${{ env.DQ_SCHEMA }} }"
