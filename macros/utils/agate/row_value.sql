@@ -7,7 +7,14 @@
     {% set col_names = table.column_names %}
     {% set query_result = [] %}
     {% for row in table.rows %}
-        {% do query_result.append('' ~ row.dict()) %}
+        {% set pairs = [] %}
+        {% for col_name in col_names %}
+            {% set value = row.get(col_name) | string %}
+            {% do pairs.append('"' ~ col_name ~ '":' ~ '"' ~ (value | replace('"', '\\\"') ) ~ '"') %}
+        {% endfor %}
+        {% set joined_pairs = '{' ~ (pairs | join(',')) ~ '}' %}
+        {% do query_result.append(joined_pairs) %}
     {% endfor %}
+    {% set query_result = '[' ~ (query_result | join(',')) ~ ']' %}
     {{ return (query_result) }}
 {% endmacro %}
