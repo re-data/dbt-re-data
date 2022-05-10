@@ -32,6 +32,15 @@
     }}
 {% endmacro %}
 
+{% macro empty_last_table_samples() %}
+    {{
+        re_data.empty_table_generic([
+            ('table_name', 'string'),
+            ('sample_data', 'string')
+        ])
+    }}
+{% endmacro %}
+
 {% macro empty_columns_table() %}
     {{
         re_data.empty_table_generic([

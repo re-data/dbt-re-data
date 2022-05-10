@@ -12,7 +12,9 @@
             {% set for_cols = fromjson(re_data.row_value(mtable, 'columns')) %}
             {% set for_cols_dict = re_data.dict_from_list(for_cols) %}
             {% set table_name = re_data.full_table_name_values(name, schema, database) %}
- 
+
+            -- (todo: dejii): possible optimization: query re_data_columns only once before the loop, and store results in an efficient way (e.g. in a dict) and look up using a key (name_schema_database)
+            -- currently, we query re_data_columns for each table
             {% set columns_query %}
                 select * from {{ ref('re_data_columns') }}
                 where name = '{{ name }}' and schema = '{{ schema }}' and database = '{{ database }}'

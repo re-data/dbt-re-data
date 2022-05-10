@@ -1,0 +1,1 @@
+{{ re_data_last_table_samples() }}
