@@ -14,7 +14,10 @@
         )
     }}
 
-    {% if not re_data.in_compile() %}
+    {% if var.has_var('re_data:store_table_samples') %}
+        {% set store_samples = var('re_data:store_table_samples') %}
+    {% endif %}
+    {% if not re_data.in_compile() and store_samples is sameas true %}
         {%- set tables = run_query(re_data.get_tables()) %}
 
         {% set samples_list = [] %}
