@@ -6,7 +6,6 @@
             test_name,
             run_at,
             status,
-            run_at, 
             execution_time, 
             message, 
             failures_count, 
