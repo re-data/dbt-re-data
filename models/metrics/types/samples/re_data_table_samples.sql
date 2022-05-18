@@ -1,6 +1,6 @@
 {{
     config(
-        materialized='incremental',
+        materialized='table',
         unique_key = 'table_name',
         on_schema_change='sync_all_columns',
     )
