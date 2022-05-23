@@ -59,7 +59,7 @@
     {% endif %}
 
     {% if el.failures and el.failures > 0 and el.node.relation_name and query_failures %}
-        {% if var.has_var('re_data:test_history_failures') %}
+        {% if var.has_var('re_data:test_history_failures_limit') %}
             {% set limit_count = var('re_data:test_history_failures_limit')%}
         {% else %}
             {% set limit_count = 10 %}
