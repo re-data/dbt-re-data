@@ -16,7 +16,7 @@ select
     cols.is_nullable,
     cast ({{dbt_utils.current_timestamp_in_utc()}} as {{ timestamp_type() }} ) as detected_time
 from
-    {{ ref('re_data_columns')}} cols, {{ ref('re_data_monitored')}} tables
+    {{ ref('re_data_columns')}} cols, {{ ref('re_data_selected')}} tables
 where
     cols.name = tables.name and cols.schema = tables.schema and cols.database = tables.database
 )

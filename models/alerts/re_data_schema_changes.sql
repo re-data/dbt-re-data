@@ -9,6 +9,7 @@
 -- depends_on: {{ ref('re_data_run_started_at') }}
 -- depends_on: {{ ref('re_data_columns_over_time') }}
 -- depends_on: {{ ref('re_data_monitored') }}
+-- depends_on: {{ ref('re_data_selected') }}
 
 {% if execute and not re_data.in_compile() %}
     {% set last_data_points %} 
@@ -54,7 +55,7 @@
         select * from {{ ref('re_data_columns_over_time')}}
         where detected_time = '{{ most_recent_time }}'
         and table_name in (
-            select {{ full_table_name('name', 'schema', 'database') }} from {{ ref('re_data_monitored')}}
+            select {{ full_table_name('name', 'schema', 'database') }} from {{ ref('re_data_selected')}}
         )
     ),
 
@@ -63,7 +64,7 @@
         select * from {{ ref('re_data_columns_over_time')}}
         where detected_time = '{{ prev_most_recent}}'
         and table_name in (
-            select {{ full_table_name('name', 'schema', 'database') }} from {{ ref('re_data_monitored')}}
+            select {{ full_table_name('name', 'schema', 'database') }} from {{ ref('re_data_selected')}}
         )
     ),
 

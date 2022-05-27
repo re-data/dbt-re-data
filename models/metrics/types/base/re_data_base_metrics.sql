@@ -17,6 +17,7 @@
 -- depends_on: {{ ref('re_data_last_base_metrics_part3') }}
 -- depends_on: {{ ref('re_data_run_started_at') }}
 -- depends_on: {{ ref('re_data_monitored') }}
+-- depends_on: {{ ref('re_data_selected') }}
 
 with 
 

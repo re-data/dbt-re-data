@@ -6,6 +6,7 @@
 
 -- depends_on: {{ ref('re_data_run_started_at') }}
 -- depends_on: {{ ref('re_data_monitored') }}
+-- depends_on: {{ ref('re_data_selected') }}
 
 {% if execute %}
     {% set schemas = run_query(re_data.get_schemas()) %}
