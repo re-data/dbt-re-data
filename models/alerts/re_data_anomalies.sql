@@ -29,7 +29,7 @@ select
     {{ re_data.generate_metric_value_text('z.metric', 'z.last_value') }} as last_value_text
 from
     {{ ref('re_data_z_score')}} z 
-left join {{ ref('re_data_monitored') }} m 
+left join {{ ref('re_data_selected') }} m 
 on {{ split_and_return_nth_value('table_name', '.', 1) }} = m.database
 and {{ split_and_return_nth_value('table_name', '.', 2) }} = m.schema
 and {{ split_and_return_nth_value('table_name', '.', 3) }} = m.name

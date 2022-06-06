@@ -27,7 +27,7 @@
             columns as {{ re_data.quote_column('columns') }},
             anomaly_detector as {{ re_data.quote_column('anomaly_detector') }},
             owners as {{ re_data.quote_column('owners') }}
-        from {{ ref('re_data_monitored') }}
+        from {{ ref('re_data_selected') }}
     {% endset %}
     {% set query_result = run_query(monitored_query) %}
     {% set monitored_file_path = monitored_path or 'target/re_data/monitored.json' %}

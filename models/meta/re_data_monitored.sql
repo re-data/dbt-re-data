@@ -15,6 +15,7 @@
         ('metrics', 'string'),
         ('columns', 'string'),
         ('anomaly_detector', 'string'),
-        ('owners', 'string')
+        ('owners', 'string'),
+        ('selected', 'boolean')
     ])
 }}

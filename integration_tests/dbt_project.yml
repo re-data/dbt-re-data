@@ -23,6 +23,13 @@ vars:
     threshold: 0.6
   re_data:max_columns_in_query: 1
 
+  re_data:select:
+    - buy_events
+    - sample_table
+    - sample_without_time_filter
+    - sample_with_anomaly
+    - re_data_source_test_table
+
   re_data:metrics_base:
     table:
       - row_count

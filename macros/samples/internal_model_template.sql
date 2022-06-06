@@ -6,7 +6,7 @@
 
 
 {% macro re_data_last_table_samples() %}
-    {{ re_data.generate_depends(['re_data_monitored', 're_data_columns', 're_data_run_started_at', 're_data_last_table_samples_part']) }}
+    {{ re_data.generate_depends(['re_data_selected', 're_data_monitored', 're_data_columns', 're_data_run_started_at', 're_data_last_table_samples_part']) }}
 
     {{
         config(
