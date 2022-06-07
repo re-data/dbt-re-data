@@ -18,3 +18,6 @@ def dbt_run(args, for_db, dbt_vars):
 
 def dbt_test(args, for_db, dbt_vars):
     dbt_command(f'dbt test --store-failures --fail-fast {args}', for_db, dbt_vars, threads=4)
+
+def dbt_build(args, for_db, dbt_vars):
+    dbt_command(f'dbt build --full-refresh --store-failures --fail-fast {args}', for_db, dbt_vars, threads=4)
