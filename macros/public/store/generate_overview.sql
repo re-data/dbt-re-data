@@ -6,7 +6,7 @@
     {{ timestamp_col }} as {{ re_data.quote_column('computed_on') }},
 {% endmacro %}
 
-{% macro generate_overview(start_date, end_date, interval, overview_path=None) %}
+{% macro generate_overview(start_date, end_date, interval, overview_path=None, monitored_path=None) %}
 -- depends_on: {{ ref('re_data_anomalies') }}
 -- depends_on: {{ ref('re_data_base_metrics') }}
 -- depends_on: {{ ref('re_data_schema_changes') }}
@@ -87,5 +87,7 @@
 
     {% set overview_result = run_query(overview_query) %}
     {% set overview_file_path = overview_path or 'target/re_data/overview.json' %}
-    {% do overview_result.to_json(overview_file_path) %}
+    {% do overview_result.to_json(overview_path) %}
+    {% do save_monitored(monitored_path) %}
+
 {% endmacro %}
