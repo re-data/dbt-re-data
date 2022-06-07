@@ -5,7 +5,8 @@
         schema_name + '_re_internal',
         schema_name + '_raw',
         schema_name + '_expected',
-        schema_name + '_dbt_test__audit'
+        schema_name + '_dbt_test__audit',
+        schema_name + '_seeds'
     ] %}
     {{ return (schemas) }}
 {% endmacro %}
