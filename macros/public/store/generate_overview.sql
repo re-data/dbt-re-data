@@ -88,6 +88,6 @@
     {% set overview_result = run_query(overview_query) %}
     {% set overview_file_path = overview_path or 'target/re_data/overview.json' %}
     {% do overview_result.to_json(overview_path) %}
-    {% do save_monitored(monitored_path) %}
+    {{ save_monitored(monitored_path) }}
 
 {% endmacro %}
