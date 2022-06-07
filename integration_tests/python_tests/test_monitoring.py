@@ -3,7 +3,7 @@ import copy
 import yaml
 import json
 from datetime import datetime, timedelta
-from .utils.run import dbt_seed, dbt_run, dbt_test, dbt_command
+from .utils.run import dbt_seed, dbt_run, dbt_test, dbt_command, dbt_build
 
 RUN_TIME = datetime(2021, 5, 2, 0, 0, 0)
 
@@ -52,6 +52,8 @@ def test_monitoring(db, source_schema):
     )
 
     dbt_test('--select test_re_data_anomalies test_re_data_metrics test_re_data_z_score re_data_metrics transformed', db, dbt_vars)
+    # dbt build will "duplicate" saved test result history
+    dbt_build('--select test_re_data_anomalies test_re_data_metrics test_re_data_z_score re_data_metrics transformed', db, dbt_vars)
 
     # tests test_history seperately, because those are actually added to DB after running
     # dbt test command
