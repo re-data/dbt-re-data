@@ -2,7 +2,7 @@
 {% macro save_test_history(results) %}
     -- depends_on: {{ ref('re_data_test_history') }}
     {% set command = flags.WHICH %}
-    {% if execute and results and command == 'test' %}
+    {% if execute and results and command in ('test', 'build') %}
         {% set tests = [] %}
         {% for el in results %}
             {% if el.node.resource_type.value == 'test' %}
