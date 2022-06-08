@@ -20,14 +20,16 @@
     {% for el in both %}
         {% if el.resource_type in ['model', 'seed', 'source'] %}
             {% if el.config.get('re_data_monitored') %}
+                {% set target_name = el.identifier or el.alias or el.name %}
+
                 {% if select_all %}
                     {% set selected = true %}
                 {% else %}
-                    {% set selected = selected_nodes.get(el.name, false) %}
+                    {% set selected = selected_nodes.get(target_name, false) %}
                 {% endif %}
 
                 {% do monitored.append({
-                    'name': re_data.name_in_db(el.identifier or el.alias or el.name),
+                    'name': re_data.name_in_db(target_name),
                     'schema': re_data.name_in_db(el.schema),
                     'database': re_data.name_in_db(el.database),
                     'time_filter': el.config.get('re_data_time_filter', none),
