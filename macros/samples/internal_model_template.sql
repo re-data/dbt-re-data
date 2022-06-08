@@ -26,7 +26,7 @@
             {% set schema = re_data.row_value(sample_table, 'schema') %}
             {% set database = re_data.row_value(sample_table, 'database') %}
             {% set time_filter = re_data.row_value(sample_table, 'time_filter') %}    
-            {% set table_name = re_data.full_table_name_values(name, schema, database) %}
+            {% set table_name = (database + '.' + schema + '.' + name) | lower %}
 
             {% set samples_query %}
                 select * from {{ table_name }}
