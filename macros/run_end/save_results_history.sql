@@ -36,7 +36,7 @@
             {% set node_name = re_data.priv_full_name_from_depends(el.node, name) %}
             {% set schema = graph.nodes.get(node_name)['schema'] %}
             {% set database = graph.nodes.get(node_name)['database'] %}
-            {% set table_name = database + '.' + schema + '.' + name %} 
+            {% set table_name = database + '.' + schema + '.' + name | lower %} 
             
         {% elif any_source %}
             {% set package_name = any_source[0][0] %}
@@ -44,7 +44,7 @@
             {% set node_name = re_data.priv_full_name_from_depends(el.node, name) %}
             {% set schema = graph.sources.get(node_name)['schema'] %}
             {% set database = graph.sources.get(node_name)['database'] %}
-            {% set table_name = database + '.' + schema + '.' + name %}
+            {% set table_name = database + '.' + schema + '.' + name | lower %}
         {% else %}
             {% set table_name = none %}
         {% endif %}
