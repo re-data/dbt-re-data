@@ -30,31 +30,35 @@ vars:
     - sample_with_anomaly
     - re_data_source_test_table
 
-  re_data:metrics_base:
-    table:
-      - row_count
-      - freshness
-      - my_distinct_table_rows
+  re_data:metrics_groups:
+    integration_test_group:
+      table:
+        - row_count
+        - freshness
+        - my_distinct_table_rows
 
-    column:
-      numeric:
-        - min
-        - max
-        - avg
-        - stddev
-        - variance
-        - nulls_count
-        - nulls_percent
-        - diff # my own custom metric
+      column:
+        numeric:
+          - min
+          - max
+          - avg
+          - stddev
+          - variance
+          - nulls_count
+          - nulls_percent
+          - diff # my own custom metric
 
-      text:
-        - min_length
-        - max_length
-        - avg_length
-        - nulls_count
-        - nulls_percent
-        - missing_percent
-        - missing_count
+        text:
+          - min_length
+          - max_length
+          - avg_length
+          - nulls_count
+          - nulls_percent
+          - missing_percent
+          - missing_count
+  
+  re_data:metrics_default_groups:
+    - integration_test_group
 
 seeds:
   +schema: seeds

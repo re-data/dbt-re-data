@@ -29,53 +29,30 @@ vars:
 
   re_data:store_table_samples: false
 
-  re_data:metrics_base:
-    table:
-      - row_count
-      - freshness
+  re_data:metrics_groups:
+    - table_metrics:
+        table:
+          - row_count
+          - freshness
 
-    column:
-      numeric:
-        - min
-        - max
-        - avg
-        - stddev
-        - variance
-        - nulls_count
-        - nulls_percent
-      text:
-        - min_length
-        - max_length
-        - avg_length
-        - nulls_count
-        - missing_count
-        - nulls_percent
-        - missing_percent
-
-    re_data:metrics_groups:
-      - table_metrics:
-          table:
-            - row_count
-            - freshness
-
-      - column_metrics:
-          column:
-            numeric:
-              - min
-              - max
-              - avg
-              - stddev
-              - variance
-              - nulls_count
-              - nulls_percent
-            text:
-              - min_length
-              - max_length
-              - avg_length
-              - nulls_count
-              - missing_count
-              - nulls_percent
-              - missing_percent
+    - column_metrics:
+        column:
+          numeric:
+            - min
+            - max
+            - avg
+            - stddev
+            - variance
+            - nulls_count
+            - nulls_percent
+          text:
+            - min_length
+            - max_length
+            - avg_length
+            - nulls_count
+            - missing_count
+            - nulls_percent
+            - missing_percent
 
       re_data:metrics_default_groups:
         - default_table_metrics
