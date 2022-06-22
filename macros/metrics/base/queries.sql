@@ -8,6 +8,7 @@
             {% set schema = re_data.row_value(mtable, 'schema') %}
             {% set database = re_data.row_value(mtable, 'database') %}
             {% set time_filter = re_data.row_value(mtable, 'time_filter') %}    
+            {% set time_filter_data_type = re_data.row_value(mtable, 'time_filter_data_type') %}
             {% set metrics = fromjson(re_data.row_value(mtable, 'metrics')) %}
             {% set for_cols = fromjson(re_data.row_value(mtable, 'columns')) %}
             {% set for_cols_dict = re_data.dict_from_list(for_cols) %}
@@ -39,7 +40,7 @@
 
                 {% if columns_size == var('re_data:max_columns_in_query') %}
                 {# /* Some balance size between making sure query will not crash &  */ #}
-                    {%- set insert_stats_query = re_data.metrics_base_insert(table_name, time_filter, metrics, ref_model, columns_to_query) -%}
+                    {%- set insert_stats_query = re_data.metrics_base_insert(table_name, time_filter, time_filter_data_type, metrics, ref_model, columns_to_query) -%}
 
                     {% if insert_stats_query %}
                         {% do run_query(insert_stats_query) %}
@@ -48,7 +49,7 @@
                 {% endif %}
             {% endfor %}
 
-            {%- set insert_stats_query = re_data.metrics_base_insert(table_name, time_filter, metrics, ref_model, columns_to_query, table_level=True) -%}
+            {%- set insert_stats_query = re_data.metrics_base_insert(table_name, time_filter, time_filter_data_type, metrics, ref_model, columns_to_query, table_level=True) -%}
             {% do run_query(insert_stats_query) %}
 
             {{ dbt_utils.log_info('[re_data_log] - finished computing metrics for table:' ~ table_name) }}
@@ -56,9 +57,9 @@
     {% endfor %}
 {% endmacro %}
 
-{% macro metrics_base_insert(table_name, time_filter, metrics, ref_model, columns, table_level=False) %}
+{% macro metrics_base_insert(table_name, time_filter, time_filter_data_type, metrics, ref_model, columns, table_level=False) %}
 
-    {% set col_exprs = re_data.metrics_base_expressions(table_name, time_filter, metrics, columns, table_level) %}
+    {% set col_exprs = re_data.metrics_base_expressions(table_name, time_filter, time_filter_data_type, metrics, columns, table_level) %}
     {% if col_exprs == [] %}
         {{ return ('') }}
     {% endif %}

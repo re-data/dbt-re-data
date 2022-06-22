@@ -33,6 +33,7 @@
                     'schema': re_data.name_in_db(el.schema),
                     'database': re_data.name_in_db(el.database),
                     'time_filter': el.config.get('re_data_time_filter', none),
+                    'time_filter_data_type': el.config.get('re_data_time_filter_data_type', none),
                     'metrics': re_data.metrics_in_db(el.config.get('re_data_metrics', {})),
                     'columns': re_data.columns_in_db(el.config.get('re_data_columns', [])),
                     'anomaly_detector': el.config.get('re_data_anomaly_detector', var('re_data:anomaly_detector', {})),

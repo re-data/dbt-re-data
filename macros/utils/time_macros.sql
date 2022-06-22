@@ -1,11 +1,19 @@
 
-{% macro time_window_start() %}
-    cast('{{- var('re_data:time_window_start') -}}' as timestamp) 
+{% macro time_window_start(time_column_data_type = none) %}
+    {% if time_column_data_type is none %}
+        cast('{{- var('re_data:time_window_start') -}}' as TIMESTAMP)
+    {% else %}
+        cast('{{- var('re_data:time_window_start') -}}' as '{{- time_column_data_type -}}')
+    {% endif %}
 {% endmacro %}
 
 
-{% macro time_window_end() %}
-    cast('{{- var('re_data:time_window_end') -}}' as timestamp)
+{% macro time_window_end(time_column_data_type = none) %}
+    {% if time_column_data_type is none %}
+        cast('{{- var('re_data:time_window_end') -}}' as TIMESTAMP)
+    {% else %}
+        cast('{{- var('re_data:time_window_end') -}}' as '{{- time_column_data_type -}}')
+    {% endif %}
 {% endmacro %}
 
 
@@ -46,23 +54,18 @@
    DATEDIFF(second, {{ start_timestamp }}, {{ end_timestamp }})
 {% endmacro %}
 
-{%- macro in_time_window(time_column) %}
+{%- macro in_time_window(time_column, time_column_data_type) %}
     {# /* If not time_filter is specified, we compute the metric over the entire table else we filter for the time frame */ #}
     {% if time_column is none %}
             true
     {% else %}
-        {{ adapter.dispatch('in_time_window', 're_data')(time_column) }}
+        {{ adapter.dispatch('in_time_window', 're_data')(time_column, time_column_data_type) }}
     {% endif %}
 {% endmacro -%}
 
-{% macro default__in_time_window(time_column) %}
-    {{time_column}} >= {{ time_window_start() }} and
-    {{time_column}} < {{ time_window_end() }}
-{% endmacro %}
-
-{% macro bigquery__in_time_window(time_column) %}
-    timestamp({{time_column}}) >= {{ time_window_start() }} and
-    timestamp({{time_column}}) < {{ time_window_end() }}
+{% macro default__in_time_window(time_column, time_column_data_type) %}
+    {{time_column}} >= {{ time_window_start(time_column_data_type) }} and
+    {{time_column}} < {{ time_window_end(time_column_data_type) }}
 {% endmacro %}
 
 

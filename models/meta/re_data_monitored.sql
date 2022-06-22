@@ -12,6 +12,7 @@
         ('schema', 'string'),
         ('database', 'string'),
         ('time_filter', 'string'),
+        ('time_filter_data_type', 'string'),
         ('metrics', 'string'),
         ('columns', 'string'),
         ('anomaly_detector', 'string'),
