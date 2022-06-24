@@ -61,8 +61,8 @@
 {% endmacro %}
 
 {% macro bigquery__in_time_window(time_column) %}
-    timestamp({{time_column}}) >= {{ time_window_start() }} and
-    timestamp({{time_column}}) < {{ time_window_end() }}
+    cast({{time_column}} as timestamp) >= {{ time_window_start() }} and
+    cast({{time_column}} as timestamp) < {{ time_window_end() }}
 {% endmacro %}
 
 
