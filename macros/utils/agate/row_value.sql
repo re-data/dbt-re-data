@@ -10,7 +10,7 @@
         {% set pairs = [] %}
         {% for col_name in col_names %}
             {% set value = row.get(col_name) | string %}
-            {% do pairs.append('"' ~ (col_name | lower) ~ '":' ~ '"' ~ (value | replace('"', '\\\"') ) ~ '"') %}
+            {% do pairs.append('"' ~ (col_name | lower) ~ '":' ~ '"' ~ (value | replace('"', '\\\"') | replace('\n', '\\n') ) ~ '"') %}
         {% endfor %}
         {% set joined_pairs = '{' ~ (pairs | join(',')) ~ '}' %}
         {% do query_result.append(joined_pairs) %}
