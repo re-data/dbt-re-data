@@ -31,3 +31,7 @@
 {% macro redshift__freshness_expression(time_filter) %}
     DATEDIFF(second, max({{time_filter}}), {{- time_window_end() -}})
 {% endmacro %}
+
+{% macro trino__freshness_expression(time_filter) %}
+   DATE_DIFF('second', cast({{ time_window_end() }} as timestamp), cast(max({{ time_filter }}) as timestamp))
+{% endmacro %}

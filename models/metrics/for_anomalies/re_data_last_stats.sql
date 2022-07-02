@@ -7,9 +7,9 @@ with median_value as (
         metric,
         interval_length_sec,
         avg(value) {% if target.type != 'postgres' %} over(partition by {{ columns_to_group_by }}) {% endif %} as last_avg,
-        {{ fivetran_utils.percentile(percentile_field='value', partition_field=columns_to_group_by, percent='0.25') }} as last_first_quartile,
-        {{ fivetran_utils.percentile(percentile_field='value', partition_field=columns_to_group_by, percent='0.5') }} as last_median,
-        {{ fivetran_utils.percentile(percentile_field='value', partition_field=columns_to_group_by, percent='0.75') }} as last_third_quartile
+        {{ percentile(percentile_field='value', partition_field=columns_to_group_by, percent='0.25') }} as last_first_quartile,
+        {{ percentile(percentile_field='value', partition_field=columns_to_group_by, percent='0.5') }} as last_median,
+        {{ percentile(percentile_field='value', partition_field=columns_to_group_by, percent='0.75') }} as last_third_quartile
     from
         {{ ref('re_data_base_metrics') }}
     where
@@ -47,7 +47,7 @@ with median_value as (
         metric,
         interval_length_sec,
         avg(absolute_deviation_from_mean) {% if target.type != 'postgres' %} over(partition by {{ columns_to_group_by }}) {% endif %} as mean_absolute_deviation,
-        {{ fivetran_utils.percentile(percentile_field='absolute_deviation_from_median', partition_field=columns_to_group_by, percent='0.5') }} as median_absolute_deviation
+        {{ percentile(percentile_field='absolute_deviation_from_median', partition_field=columns_to_group_by, percent='0.5') }} as median_absolute_deviation
     from
         abs_deviation
     {% if target.type == 'postgres' %} 

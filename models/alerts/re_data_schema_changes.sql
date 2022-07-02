@@ -53,7 +53,7 @@
 
     with curr_monitored_schema as (
         select * from {{ ref('re_data_columns_over_time')}}
-        where detected_time = '{{ most_recent_time }}'
+        where detected_time = timestamp '{{ most_recent_time }}'
         and table_name in (
             select {{ full_table_name('name', 'schema', 'database') }} from {{ ref('re_data_selected')}}
         )
@@ -62,7 +62,7 @@
 
     prev_monitored_schema as (
         select * from {{ ref('re_data_columns_over_time')}}
-        where detected_time = '{{ prev_most_recent}}'
+        where detected_time = timestamp '{{ prev_most_recent}}'
         and table_name in (
             select {{ full_table_name('name', 'schema', 'database') }} from {{ ref('re_data_selected')}}
         )
@@ -143,7 +143,7 @@
             all_changes.prev_column_name,
             all_changes.prev_data_type,
             all_changes.prev_is_nullable,
-            {{dbt_utils.current_timestamp_in_utc()}} as detected_time
+            cast({{dbt_utils.current_timestamp_in_utc()}} as {{ timestamp_type() }}) as detected_time
         from all_changes
     )
 

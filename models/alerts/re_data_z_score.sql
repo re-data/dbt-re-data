@@ -30,7 +30,7 @@ with z_score_without_id as (
         stats.last_first_quartile,
         stats.last_third_quartile,
         {{ time_window_end() }} as time_window_end,
-        {{dbt_utils.current_timestamp_in_utc()}} as computed_on
+        cast( {{dbt_utils.current_timestamp_in_utc()}} as {{ timestamp_type() }} ) as computed_on
     from
         {{ ref('re_data_last_stats') }} as stats,
         {{ ref('re_data_last_metrics') }} as last_metric

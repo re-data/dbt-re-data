@@ -17,6 +17,10 @@
     {{ time_window_start() }} - interval '{{var('re_data:anomaly_detection_look_back_days')}} days'
 {% endmacro %}
 
+{% macro trino__anamaly_detection_time_window_start() %}
+    {{ time_window_start() }} - interval '{{var('re_data:anomaly_detection_look_back_days')}}' day
+{% endmacro %}
+
 {% macro bigquery__anamaly_detection_time_window_start() %}
     DATE_ADD({{ time_window_start() }}, INTERVAL -{{var('re_data:anomaly_detection_look_back_days')}} DAY)
 {% endmacro %}
@@ -42,6 +46,10 @@
    timediff(second, {{ start_timestamp }}, {{ end_timestamp }})
 {% endmacro %}
 
+{% macro trino__interval_length_sec(start_timestamp, end_timestamp) %}
+   date_diff('second', {{ start_timestamp }}, {{ end_timestamp }})
+{% endmacro %}
+
 {% macro redshift__interval_length_sec(start_timestamp, end_timestamp) %}
    DATEDIFF(second, {{ start_timestamp }}, {{ end_timestamp }})
 {% endmacro %}
@@ -65,6 +73,10 @@
     timestamp({{time_column}}) < {{ time_window_end() }}
 {% endmacro %}
 
+{% macro trino__in_time_window(time_column) %}
+    cast({{time_column}} as timestamp) >= {{ time_window_start() }} and
+    cast({{time_column}} as timestamp) < {{ time_window_end() }}
+{% endmacro %}
 
 {% macro format_timestamp(column_name) %}
     {{ adapter.dispatch('format_timestamp', 're_data')(column_name) }}
@@ -76,4 +88,8 @@
 
 {% macro bigquery__format_timestamp(column_name) %}
     FORMAT_TIMESTAMP('%Y-%m-%d %H:%I:%S', {{column_name}})
+{% endmacro %}
+
+{% macro trino__format_timestamp(column_name) %}
+    FORMAT_DATETIME('%Y-%m-%d %H:%i:%S', {{column_name}})
 {% endmacro %}

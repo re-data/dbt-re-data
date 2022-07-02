@@ -22,6 +22,10 @@
     format('%.2f', {{ val }})
 {% endmacro %}
 
+{% macro trino__to_2dp(val) %}
+    format('%.2f', {{ val }})
+{% endmacro %}
+
 {% macro seconds_to_hours(val) %}
     cast({{ val }} as {{ numeric_type() }}) / 3600
 {% endmacro %}

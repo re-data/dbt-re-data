@@ -39,7 +39,7 @@
             {{ to_single_json(['metric', 'value', 'time_window_end', 'interval_length_sec']) }} as {{ re_data.quote_column('data') }}
         from
             {{ ref('re_data_base_metrics') }}
-            where date(time_window_end) between '{{start_date}}' and '{{end_date}}'
+            where date(time_window_end) between date '{{start_date}}' and date '{{end_date}}'
             and interval_length_sec = {{interval_length_sec}}
     ) union all 
     (
@@ -48,7 +48,7 @@
             {{ to_single_json(['id', 'metric', 'z_score_value', 'last_value', 'last_avg', 'last_stddev', 'time_window_end', 'interval_length_sec']) }} as {{ re_data.quote_column('data') }}
         from
             {{ ref('re_data_anomalies') }}
-            where date(time_window_end) between '{{start_date}}' and '{{end_date}}'
+            where date(time_window_end) between date '{{start_date}}' and date '{{end_date}}'
             and interval_length_sec = {{interval_length_sec}}
     ) union all
     (
@@ -57,7 +57,7 @@
             {{ to_single_json(['id', 'operation', 'data_type', 'is_nullable', 'prev_column_name', 'prev_data_type', 'prev_is_nullable', 'detected_time']) }} as {{ re_data.quote_column('data') }}
         from
             schema_changes_casted
-            where date(detected_time) >= '{{start_date}}'
+            where date(detected_time) >= date '{{start_date}}'
     ) union all
     (
         select
