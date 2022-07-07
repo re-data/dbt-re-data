@@ -55,8 +55,8 @@ vars:
             - missing_percent
 
       re_data:metrics_default_groups:
-        - default_table_metrics
-        - default_column_metrics
+        - table_metrics
+        - column_metrics
 
 models:
   re_data:
