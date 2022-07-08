@@ -67,7 +67,7 @@
     with temp_table_metrics as (
     select 
         {%- for col_expr in col_exprs %}
-            ( {{ col_expr.expr }} ) as {{ col_expr.col_name + '___' + col_expr.metric }}
+            ( {{ col_expr.expr }} ) as {{ re_data.quote_column_name(col_expr.col_name + '___' + col_expr.metric) }}
             {%- if not loop.last %},{%- endif %}
         {% endfor %}
     from 
@@ -79,7 +79,7 @@
     {%- for col_expr in col_exprs %}
         {% set final_metric_name = get_final_metric_name(col_expr.metric, time_filter) %}
         
-        select '{{table_name}}' as table_name, '{{ col_expr.col_name }}' as column_name, '{{ final_metric_name }}' as metric, {{ col_expr.col_name + '___' + col_expr.metric }} as value
+        select '{{table_name}}' as table_name, '{{ col_expr.col_name }}' as column_name, '{{ final_metric_name }}' as metric, {{ re_data.quote_column_name(col_expr.col_name + '___' + col_expr.metric) }} as value
         from temp_table_metrics
         {% if not loop.last %}union all{% endif %}
     {% endfor %}
