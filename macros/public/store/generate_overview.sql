@@ -57,7 +57,7 @@
             {{ to_single_json(['id', 'operation', 'data_type', 'is_nullable', 'prev_column_name', 'prev_data_type', 'prev_is_nullable', 'detected_time']) }} as {{ re_data.quote_column('data') }}
         from
             schema_changes_casted
-            where date(detected_time) >= date '{{start_date}}'
+            where {{ in_date_window('detected_time', start_date, none) }}
     ) union all
     (
         select
@@ -78,8 +78,8 @@
             {{ ref('re_data_alerts') }}
         where
             case
-                when type = 'anomaly' then time_window_end between '{{ start_date }}' and '{{ end_date }}'
-                else time_window_end >= '{{ start_date }}'
+                when type = 'anomaly' then {{ in_date_window('time_window_end', start_date, end_date)  }} 
+                else {{ in_date_window('time_window_end', start_date, none) }}
             end
     )
     order by {{ re_data.quote_column('computed_on')}} desc
