@@ -77,3 +77,24 @@
 {% macro bigquery__format_timestamp(column_name) %}
     FORMAT_TIMESTAMP('%Y-%m-%d %H:%I:%S', {{column_name}})
 {% endmacro %}
+
+/*
+provide a common way to compare time vs a range: start_date <= target <= end_date
+if start_date is none: target <= end_date
+if end_date is none: target >= start_date
+think none as infinity
+*/
+{%- macro in_date_window(target, start_date, end_date) %}
+  {{ adapter.dispatch('in_date_window','re_data')(target, start_date, end_date) }}
+{% endmacro -%}
+
+{% macro default__in_date_window(target, start_date, end_date) %}
+  {% if start_date is not none and end_date is not none %}
+    {{target}} between {{start_date}} and {{end_date}}
+  {% elif start_date is none %}
+    {{target}} <=  {{end_date}}
+  {% elif end_date is none %}
+    {{target}} >= {{start_date}}
+  {% endif %}
+{% endmacro %}
+

@@ -9,8 +9,8 @@
         from {{ ref('re_data_alerts') }}
         where
             case
-                when type = 'anomaly' then time_window_end between '{{ start_date }}' and '{{ end_date }}'
-                else time_window_end >= '{{ start_date }}'
+                when type = 'anomaly' then {{ in_date_window('time_window_end', start_date, end_date) }}
+                else {{ in_date_window('time_window_end', start_date, none) }}
             end
         order by time_window_end desc
     {% endset %}

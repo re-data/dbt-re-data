@@ -15,7 +15,7 @@
             compiled_sql
         from
             {{ ref('re_data_test_history') }}
-        where date(run_at) between '{{start_date}}' and '{{end_date}}' 
+        where {{ in_date_window('run_at', start_date, end_date) }} 
     {% endset %}
 
     {% set query_result = run_query(tests_history_query) %}

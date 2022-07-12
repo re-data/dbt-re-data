@@ -18,8 +18,8 @@ select
     z.last_median_absolute_deviation,
     z.last_mean_absolute_deviation,
     z.last_iqr,
-    z.last_first_quartile - (cast( {{ fivetran_utils.json_extract('m.anomaly_detector', 'whisker_boundary_multiplier') }} as {{numeric_type()}} ) * z.last_iqr) lower_bound,
-    z.last_third_quartile + (cast( {{ fivetran_utils.json_extract('m.anomaly_detector', 'whisker_boundary_multiplier') }} as {{numeric_type()}} ) * z.last_iqr) upper_bound,
+    z.last_first_quartile - (cast( {{ json_extract('m.anomaly_detector', 'whisker_boundary_multiplier') }} as {{numeric_type()}} ) * z.last_iqr) lower_bound,
+    z.last_third_quartile + (cast( {{ json_extract('m.anomaly_detector', 'whisker_boundary_multiplier') }} as {{numeric_type()}} ) * z.last_iqr) upper_bound,
     z.last_first_quartile,
     z.last_third_quartile,
     z.time_window_end,
@@ -35,15 +35,15 @@ and {{ split_and_return_nth_value('table_name', '.', 2) }} = m.schema
 and {{ split_and_return_nth_value('table_name', '.', 3) }} = m.name
 where
     case 
-        when {{ fivetran_utils.json_extract('m.anomaly_detector', 'name') }} = 'z_score' 
-            then abs(z_score_value) > cast({{ fivetran_utils.json_extract('m.anomaly_detector', 'threshold') }} as {{ numeric_type() }})
-        when {{ fivetran_utils.json_extract('m.anomaly_detector', 'name') }} = 'modified_z_score' 
-            then abs(modified_z_score_value) > cast( {{ fivetran_utils.json_extract('m.anomaly_detector', 'threshold') }} as {{numeric_type()}} )
-        when {{ fivetran_utils.json_extract('m.anomaly_detector', 'name') }} = 'boxplot' 
+        when {{ json_extract('m.anomaly_detector', 'name') }} = 'z_score' 
+            then abs(z_score_value) > cast({{ json_extract('m.anomaly_detector', 'threshold') }} as {{ numeric_type() }})
+        when {{ json_extract('m.anomaly_detector', 'name') }} = 'modified_z_score' 
+            then abs(modified_z_score_value) > cast( {{ json_extract('m.anomaly_detector', 'threshold') }} as {{numeric_type()}} )
+        when {{ json_extract('m.anomaly_detector', 'name') }} = 'boxplot' 
             then (
-                z.last_value < z.last_first_quartile - (cast( {{ fivetran_utils.json_extract('m.anomaly_detector', 'whisker_boundary_multiplier') }} as {{numeric_type()}} ) * z.last_iqr)
+                z.last_value < z.last_first_quartile - (cast( {{ json_extract('m.anomaly_detector', 'whisker_boundary_multiplier') }} as {{numeric_type()}} ) * z.last_iqr)
                 or 
-                z.last_value > z.last_third_quartile + (cast( {{ fivetran_utils.json_extract('m.anomaly_detector', 'whisker_boundary_multiplier') }} as {{numeric_type()}} ) * z.last_iqr)
+                z.last_value > z.last_third_quartile + (cast( {{ json_extract('m.anomaly_detector', 'whisker_boundary_multiplier') }} as {{numeric_type()}} ) * z.last_iqr)
             )
         else false
     end
