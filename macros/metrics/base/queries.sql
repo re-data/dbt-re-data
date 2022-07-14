@@ -9,7 +9,8 @@
             {% set database = re_data.row_value(mtable, 'database') %}
             {% set time_filter = re_data.row_value(mtable, 'time_filter') %}    
             {% set metrics = fromjson(re_data.row_value(mtable, 'metrics')) %}
-            {% set for_cols = fromjson(re_data.row_value(mtable, 'columns')) %}
+            {% set columns_db = re_data.row_value(mtable, 'columns') %}
+            {% set for_cols = fromjson(columns_db) if columns_db is not none else none %}
             {% set for_cols_dict = re_data.dict_from_list(for_cols) %}
             {% set table_name = re_data.full_table_name_values(name, schema, database) %}
 
@@ -30,8 +31,7 @@
             {% for column in columns %}
                 {% set column_name = re_data.row_value(column, 'column_name') %}
                 
-
-                {% if not for_cols_dict or (for_cols_dict.get(column_name)) %}
+                {% if for_cols is none or for_cols_dict.get(column_name) %}
                     {% do columns_to_query.append(column) %}
                 {% endif %}
 

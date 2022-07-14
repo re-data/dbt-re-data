@@ -39,7 +39,7 @@
                     'metrics_groups': metrics_groups,
                     'additional_metrics': re_data.metrics_in_db(additional_metrics),
                     'metrics': re_data.metrics_in_db(re_data.final_metrics(metrics_groups, additional_metrics)),
-                    'columns': re_data.columns_in_db(el.config.get('re_data_columns', [])),
+                    'columns': re_data.columns_in_db(el.config.get('re_data_columns', none)),
                     'anomaly_detector': el.config.get('re_data_anomaly_detector', var('re_data:anomaly_detector', {})),
                     'owners': re_data.prepare_model_owners(el.config.get('re_data_owners', []), owners_config),
                     'selected': selected

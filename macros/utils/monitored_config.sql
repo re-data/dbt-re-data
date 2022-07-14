@@ -2,6 +2,9 @@
 
 {% macro columns_in_db(columns) %}
     {% set translated = [] %}
+    {% if columns is none %}
+        {{ return (none) }}
+    {% endif %}
     {% for col in columns %}
         {% do translated.append(re_data.name_in_db(col))%}
     {% endfor %}
