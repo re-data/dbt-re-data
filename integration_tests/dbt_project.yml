@@ -24,7 +24,7 @@ vars:
   re_data:max_columns_in_query: 1
 
   re_data:select:
-    - buy_events
+    - tag:testtag
     - sample_table
     - sample_without_time_filter
     - sample_with_anomaly
