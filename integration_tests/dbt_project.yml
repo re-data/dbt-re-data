@@ -57,7 +57,7 @@ vars:
           - missing_percent
           - missing_count
   
-  re_data:metrics_default_groups:
+  re_data:default_metrics:
     - integration_test_group
 
 seeds:
