@@ -50,5 +50,5 @@ select
     cast (
         {{ interval_length_sec('time_window_start', 'time_window_end') }} as {{ integer_type() }}
     ) as interval_length_sec,
-    {{- dbt_utils.current_timestamp_in_utc() -}} as computed_on
+    cast ({{- dbt_utils.current_timestamp_in_utc() -}} as {{ timestamp_type() }}) as computed_on
 from with_time_window
