@@ -21,7 +21,6 @@
     {%- set metrics_to_compute = [] %}
     {% set data_kind = re_data.get_column_type(column) %}
     {% set column_name = re_data.row_value(column, 'column_name') %}
-    {% do metrics_to_compute.extend(var('re_data:metrics_base').get('column', {}).get(data_kind, [])) %}
     {% do metrics_to_compute.extend(metrics.get('column', {}).get(column_name, [])) %}    
 
     {% for metric_value in metrics_to_compute %}
@@ -38,7 +37,6 @@
 {% macro metrics_base_expresion_table_all(table_name, time_filter, metrics) %}
     {%- set table_expr = [] %}
     {%- set metrics_to_compute = [] %}
-    {% do metrics_to_compute.extend(var('re_data:metrics_base').get('table', [])) %}
     {% do metrics_to_compute.extend(metrics.get('table', [])) %}
 
     {% for metric_value in metrics_to_compute %}

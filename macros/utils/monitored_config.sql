@@ -19,3 +19,17 @@
     {% endif %}
     {{ return (metrics) }}
 {% endmacro %}
+
+{% macro final_metrics(metrics_groups, additional_metrics) %}
+    {% set final_metrics_dict = dict() %}
+    {% set all_metrics_groups = var('re_data:metrics_groups')%}
+
+    {% for group in metrics_groups %}
+        {% set value = all_metrics_groups.get(group) %}
+        {% do final_metrics_dict.update(value) %}
+    {% endfor %}
+
+    {% do final_metrics_dict.update(additional_metrics) %}
+    {{ return (final_metrics_dict) }}
+
+{% endmacro %}

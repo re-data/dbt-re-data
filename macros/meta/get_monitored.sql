@@ -28,12 +28,17 @@
                     {% set selected = selected_nodes.get(target_name, false) %}
                 {% endif %}
 
+                {% set metrics_groups = el.config.get('re_data_metrics_groups', var('re_data:default_metrics')) %}
+                {% set additional_metrics = el.config.get('re_data_metrics', {}) %}
+
                 {% do monitored.append({
                     'name': re_data.name_in_db(target_name),
                     'schema': re_data.name_in_db(el.schema),
                     'database': re_data.name_in_db(el.database),
                     'time_filter': el.config.get('re_data_time_filter', none),
-                    'metrics': re_data.metrics_in_db(el.config.get('re_data_metrics', [])),
+                    'metrics_groups': metrics_groups,
+                    'additional_metrics': re_data.metrics_in_db(additional_metrics),
+                    'metrics': re_data.metrics_in_db(re_data.final_metrics(metrics_groups, additional_metrics)),
                     'columns': re_data.columns_in_db(el.config.get('re_data_columns', [])),
                     'anomaly_detector': el.config.get('re_data_anomaly_detector', var('re_data:anomaly_detector', {})),
                     'owners': re_data.prepare_model_owners(el.config.get('re_data_owners', []), owners_config),
