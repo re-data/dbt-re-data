@@ -90,11 +90,11 @@ think none as infinity
 
 {% macro default__in_date_window(target, start_date, end_date) %}
   {% if start_date is not none and end_date is not none %}
-    {{target}} between {{start_date}} and {{end_date}}
+    {{target}} between '{{start_date}}' and '{{end_date}}'
   {% elif start_date is none %}
-    {{target}} <=  {{end_date}}
+    {{target}} <= '{{end_date}}'
   {% elif end_date is none %}
-    {{target}} >= {{start_date}}
+    {{target}} >= '{{start_date}}'
   {% endif %}
 {% endmacro %}
 

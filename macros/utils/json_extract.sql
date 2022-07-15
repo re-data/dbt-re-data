@@ -7,6 +7,6 @@
 -- use fivetran_utils by default
 {% macro default__json_extract(string, string_path) %}
 
-  fivetran_utils.json_extract(string, string_path)
+  {{ fivetran_utils.json_extract(string, string_path) }}
 
 {% endmacro %}

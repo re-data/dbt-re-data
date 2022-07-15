@@ -6,6 +6,6 @@
 
 -- use fivetran_utils by default
 {% macro default__percentile(percentile_field, partition_field, percent)  %}
-    fivetran_utils.percentile(percentile_field, partition_field, percent)
+    {{ fivetran_utils.percentile(percentile_field, partition_field, percent) }}
 {% endmacro %}
 
