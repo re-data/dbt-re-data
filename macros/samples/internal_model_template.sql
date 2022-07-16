@@ -22,21 +22,18 @@
 
         {% set samples_list = [] %}
         {%- for sample_table in tables %}
-            {% set name = re_data.row_value(sample_table, 'name') %}
-            {% set schema = re_data.row_value(sample_table, 'schema') %}
-            {% set database = re_data.row_value(sample_table, 'database') %}
-            {% set time_filter = re_data.row_value(sample_table, 'time_filter') %}    
-            {% set table_name = (database + '.' + schema + '.' + name) | lower %}
+
+            {% set model = get_model_config(sample_table) %}
 
             {% set samples_query %}
-                select * from {{ table_name }}
-                {{ order_by_if_time_filter(time_filter) }}
+                select * from {{ model.table_name }}
+                {{ order_by_if_time_filter(model.time_filter) }}
                 limit 10
             {% endset %}
 
             {% set samples = re_data.agate_to_list(run_query(samples_query)) %}
             {% do samples_list.append({
-                'table_name': table_name,
+                'table_name': model.model_name,
                 'sample_data': samples,
             }) %}
 
