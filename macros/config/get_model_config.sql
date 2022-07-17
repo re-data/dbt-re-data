@@ -23,7 +23,15 @@
     {% endset %}
     {% set columns = run_query(columns_query) %}
 
-    {% do model.update({'columns': columns}) %}/
+    {% set columns_info = {} %}
+    {% for col in columns %}
+        {% set column_name = re_data.row_value(col, 'column_name') %}
+        {% set data_type = re_data.get_column_type(col) %}
+        {% do columns_info.update({column_name: { 'data_type': data_type }}) %}
+    {% endfor %}
+
+    {% do model.update({'columns_info': columns_info}) %}
+    {% do model.update({'columns': columns}) %}
 
     {{ return(model) }}
 {% endmacro %}

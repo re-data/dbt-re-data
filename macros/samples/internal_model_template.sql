@@ -24,9 +24,16 @@
         {%- for sample_table in tables %}
 
             {% set model = get_model_config(sample_table) %}
+            {% set columns_to_sample = [] %}
+
+            {% for key, value in model.columns_info.items() %}
+                {% if value.data_type in ['numeric', 'text'] %}
+                    {% do columns_to_sample.append(key) %}
+                {% endif %}
+            {% endfor %}
 
             {% set samples_query %}
-                select * from {{ model.table_name }}
+                select {{ print_list(columns_to_sample)}} from {{ model.table_name }}
                 {{ order_by_if_time_filter(model.time_filter) }}
                 limit 10
             {% endset %}

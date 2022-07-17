@@ -19,9 +19,9 @@
 
     {%- set col_expr = [] %}
     {%- set metrics_to_compute = [] %}
-    {% set data_kind = re_data.get_column_type(column) %}
     {% set column_name = re_data.row_value(column, 'column_name') %}
-    {% do metrics_to_compute.extend(model.metrics.get('group').get('column', {}).get(data_kind, [])) %}
+    {% set data_type = model.columns_info[column_name].data_type %}
+    {% do metrics_to_compute.extend(model.metrics.get('group').get('column', {}).get(data_type, [])) %}
     {% do metrics_to_compute.extend(model.metrics.get('additional').get('column', {}).get(column_name, [])) %} 
 
     {% for metric_value in metrics_to_compute %}
