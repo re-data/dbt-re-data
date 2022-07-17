@@ -51,9 +51,9 @@ def test_monitoring(db, source_schema):
         'dbt run --select monitoring.*', db, dbt_vars
     )
 
-    dbt_test('--select test_re_data_anomalies test_re_data_metrics test_re_data_z_score re_data_metrics transformed', db, dbt_vars)
+    dbt_test('--select test_re_data_anomalies test_re_data_metrics test_re_data_z_score test_re_data_table_samples re_data_metrics transformed', db, dbt_vars)
     # dbt build will "duplicate" saved test result history
-    dbt_build('--select test_re_data_anomalies test_re_data_metrics test_re_data_z_score re_data_metrics transformed', db, dbt_vars)
+    dbt_build('--select test_re_data_anomalies test_re_data_metrics test_re_data_z_score test_re_data_table_samples re_data_metrics transformed', db, dbt_vars)
 
     # tests test_history seperately, because those are actually added to DB after running
     # dbt test command
