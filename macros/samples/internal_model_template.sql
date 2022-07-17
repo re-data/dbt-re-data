@@ -25,8 +25,7 @@
 
             {% set model = get_model_config(sample_table) %}
             {% set columns_to_sample = [] %}
-
-            {% for key, value in model.columns_info.items() %}
+            {% for key, value in model.columns_info.items() | sort %}
                 {% if value.data_type in ['numeric', 'text'] %}
                     {% do columns_to_sample.append(key) %}
                 {% endif %}
