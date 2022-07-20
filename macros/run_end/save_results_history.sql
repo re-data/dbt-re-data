@@ -1,5 +1,11 @@
 
-{% macro save_test_history(results) %}
+{% macro save_test_history(results) -%}
+
+{{ adapter.dispatch('save_test_history_impl', 're_data') (results) }}
+
+{%- endmacro %}
+
+{% macro save_test_history_impl(results) %}
     -- depends_on: {{ ref('re_data_test_history') }}
     {% set command = flags.WHICH %}
     {% if execute and results and command in ('test', 'build') %}
