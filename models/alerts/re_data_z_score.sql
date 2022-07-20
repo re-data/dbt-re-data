@@ -48,13 +48,13 @@ with z_score_without_id as (
     )
 
 select
-    {{ dbt_utils.surrogate_key([
+    cast ({{ dbt_utils.surrogate_key([
       'table_name',
       'column_name',
       'metric',
       'interval_length_sec',
       'time_window_end'
-    ]) }} as id,
+    ]) }} as {{ string_type() }} ) as id,
     table_name,
     column_name,
     metric,

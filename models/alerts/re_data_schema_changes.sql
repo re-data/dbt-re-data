@@ -148,11 +148,11 @@
     )
 
     select 
-        {{ dbt_utils.surrogate_key([
+        cast ({{ dbt_utils.surrogate_key([
         'table_name',
         'column_name',
         'detected_time'
-        ]) }} as id,
+        ]) }} as {{ string_type() }} ) as id,
         table_name,
         operation,
         column_name,

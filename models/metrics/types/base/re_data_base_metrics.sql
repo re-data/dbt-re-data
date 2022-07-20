@@ -34,13 +34,13 @@ with_time_window as (
     {% endfor %}
 )
 select
-    {{ dbt_utils.surrogate_key([
+    cast ({{ dbt_utils.surrogate_key([
         'table_name',
         'column_name',
         'metric',
         'time_window_start',
         'time_window_end'
-    ]) }} as id,
+    ]) }} as {{ string_type() }} ) as id,
     cast (table_name as {{ string_type() }} ) as table_name,
     cast (column_name as {{ string_type() }} ) as column_name,
     cast (metric as {{ string_type() }} ) as metric,

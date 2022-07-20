@@ -12,6 +12,8 @@
         ('schema', 'string'),
         ('database', 'string'),
         ('time_filter', 'string'),
+        ('metrics_groups', 'string'),
+        ('additional_metrics', 'string'),
         ('metrics', 'string'),
         ('columns', 'string'),
         ('anomaly_detector', 'string'),

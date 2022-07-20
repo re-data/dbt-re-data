@@ -20,3 +20,8 @@ models:
     tests:
      - dbt_utils.equality:
          compare_model: ref('expected_test_history')
+
+  - name: test_re_data_table_samples
+    tests:
+     - dbt_utils.equality:
+         compare_model: ref('expected_table_samples')

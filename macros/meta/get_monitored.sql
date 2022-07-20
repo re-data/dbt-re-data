@@ -9,11 +9,19 @@
     {% set select_all = true %}
 
     {% set selected_nodes = none %}
+    {% set selected_tags = none %}
+
     {% if select_var is not none %}
         {% set select_all = false %}
         {% set selected_nodes = dict() %}
+        {% set selected_tags = dict() %}
+
         {% for el in select_var %}
-            {% do selected_nodes.update({el: True}) %}
+            {% if el.startswith('tag:') %}
+                {% do selected_tags.update({el[4:]: True}) %}
+            {% else %}
+                {% do selected_nodes.update({el: True}) %}
+            {% endif %}
         {% endfor %}
     {% endif %}
 
@@ -25,16 +33,30 @@
                 {% if select_all %}
                     {% set selected = true %}
                 {% else %}
-                    {% set selected = selected_nodes.get(target_name, false) %}
+                    {% set selected_name = selected_nodes.get(target_name, false) %}
+                    {% set selected_tag = [] %}
+
+                    {% for tag in el.config.tags %}
+                        {% if selected_tags.get(tag, false) %}
+                            {% do selected_tag.append(true) %}
+                        {% endif %}
+                    {% endfor %}
+                    
+                    {% set selected = selected_name or (selected_tag | length > 0) %}
                 {% endif %}
+
+                {% set metrics_groups = el.config.get('re_data_metrics_groups', var('re_data:default_metrics')) %}
+                {% set additional_metrics = el.config.get('re_data_metrics', {}) %}
 
                 {% do monitored.append({
                     'name': re_data.name_in_db(target_name),
                     'schema': re_data.name_in_db(el.schema),
                     'database': re_data.name_in_db(el.database),
                     'time_filter': el.config.get('re_data_time_filter', none),
-                    'metrics': re_data.metrics_in_db(el.config.get('re_data_metrics', {})),
-                    'columns': re_data.columns_in_db(el.config.get('re_data_columns', [])),
+                    'metrics_groups': metrics_groups,
+                    'additional_metrics': re_data.metrics_in_db(additional_metrics),
+                    'metrics': re_data.metrics_in_db(re_data.final_metrics(metrics_groups, additional_metrics)),
+                    'columns': re_data.columns_in_db(el.config.get('re_data_columns', none)),
                     'anomaly_detector': el.config.get('re_data_anomaly_detector', var('re_data:anomaly_detector', {})),
                     'owners': re_data.prepare_model_owners(el.config.get('re_data_owners', []), owners_config),
                     'selected': selected

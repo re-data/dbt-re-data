@@ -3,7 +3,7 @@
     {% do re_data.insert_list_to_table(
         this,
         monitored,
-        ['name', 'schema', 'database', 'time_filter', 'metrics', 'columns', 'anomaly_detector', 'owners', 'selected']
+        ['name', 'schema', 'database', 'time_filter', 'metrics_groups', 'additional_metrics', 'metrics', 'columns', 'anomaly_detector', 'owners', 'selected']
     ) %}
 
     {{ return('') }}
