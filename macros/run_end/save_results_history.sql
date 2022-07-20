@@ -5,7 +5,7 @@
 
 {%- endmacro %}
 
-{% macro save_test_history_impl(results) %}
+{% macro default__save_test_history_impl(results) %}
     -- depends_on: {{ ref('re_data_test_history') }}
     {% set command = flags.WHICH %}
     {% if execute and results and command in ('test', 'build') %}
