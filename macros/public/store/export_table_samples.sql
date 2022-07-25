@@ -1,7 +1,7 @@
 {% macro export_table_samples(start_date, end_date, table_samples_path=None) %}
     {% set table_samples_query %}
         select
-            table_name,
+            lower(table_name) as table_name,
             sample_data,
             sampled_on
         from
