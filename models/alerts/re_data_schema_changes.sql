@@ -154,7 +154,7 @@
         'detected_time'
         ]) }} as {{ string_type() }} ) as id,
         table_name,
-        operation,
+        cast (operation as {{ string_type() }}) as operation,
         column_name,
         data_type,
         is_nullable,
