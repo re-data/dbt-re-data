@@ -1,4 +1,4 @@
-{% macro insert_list_to_table(table, list, params, insert_size=100) %}
+{% macro insert_list_to_table(table, list, params, dtype=None,insert_size=100) %}
 
     {% set single_insert_list = [] %}
     {% for el in list %}
@@ -15,7 +15,12 @@
                             NULL
                         {%- else -%}
                             {%- if row[p] is string -%}
-                                {{- re_data.quote_string(row[p]) -}}
+                                {%- if dtype and p in dtype -%}
+                                  {% set cast_type = dtype[p] %}
+                                  cast ({{ re_data.quote_string(row[p]) }} as {{ cast_type }})
+                                {%- else %}
+                                  {{- re_data.quote_string(row[p]) -}}
+                                {%- endif -%}
                             {%- elif row[p] is number -%}
                                 {{-row[p]-}}
                             {%- else -%}
