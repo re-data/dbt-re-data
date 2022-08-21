@@ -17,15 +17,43 @@
 {% macro redshift__get_monitored_columns(table_schema, db_name) %}
 
     {%- call statement('columns', fetch_result=True) -%}
+    with bound_views as (
+        select
+            table_name,
+            table_schema,
+            table_catalog,
+            column_name,
+            data_type,
+            is_nullable
+        from
+            {% if db_name %}{{db_name}}.{% endif %} information_schema.columns
+    ),
+    external_views as (
+        select
+            table_name,
+            table_schema,
+            table_catalog,
+            column_name,
+            data_type,
+            is_nullable
+        from
+            pg_catalog.svv_columns
+    ),
+    unioned as (
+        select * from bound_views
+        union all
+        select * from external_views
+    )
+
     select
+        column_name,
+        data_type,
         table_name,
         table_schema,
         table_catalog,
-        column_name,
-        data_type,
         is_nullable
-    from 
-        {% if db_name %}{{db_name}}.{% endif %}information_schema.columns
+    from
+        unioned
     where
         table_schema = '{{ table_schema }}'
     {% endcall %}
