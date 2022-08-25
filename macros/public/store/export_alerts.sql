@@ -8,10 +8,7 @@
             {{ format_timestamp('time_window_end')}} as {{ re_data.quote_column('time_window_end') }} 
         from {{ ref('re_data_alerts') }}
         where
-            case
-                when type = 'anomaly' then {{ in_date_window('time_window_end', start_date, end_date) }}
-                else {{ in_date_window('time_window_end', start_date, none) }}
-            end
+            {{ in_date_window('time_window_end', start_date, end_date) }}
         order by time_window_end desc
     {% endset %}
 
