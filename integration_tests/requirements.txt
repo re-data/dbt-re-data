@@ -1,4 +1,4 @@
 pytest==6.2.5
 pyyaml==6.0
-dbt-core==1.1.0
-dbt-postgres==1.1.0
+dbt-core==1.2.0
+dbt-postgres==1.2.0
