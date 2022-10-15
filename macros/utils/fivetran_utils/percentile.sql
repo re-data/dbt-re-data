@@ -5,7 +5,7 @@
 
 {% macro percentile(percentile_field, partition_field, percent) -%}
 
-{{ adapter.dispatch('percentile', 'fivetran_utils') (percentile_field, partition_field, percent) }}
+{{ adapter.dispatch('percentile') (percentile_field, partition_field, percent) }}
 
 {%- endmacro %}
 

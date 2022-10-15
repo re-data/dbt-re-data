@@ -5,7 +5,7 @@
 
 {% macro json_extract(string, string_path) -%}
 
-{{ adapter.dispatch('json_extract', 'fivetran_utils') (string, string_path) }}
+{{ adapter.dispatch('json_extract') (string, string_path) }}
 
 {%- endmacro %}
 
