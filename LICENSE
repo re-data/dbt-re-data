@@ -28,5 +28,7 @@ Third party Apache 2.0 licenses
 The following files contain signifant parts of code licensed under third party Apache 2.0 License.
 
 macros/public/validating/regex_dict.sql 
+macros/utils/fivetran_utils/percentile.sql
+macros/utils/fivetran_utils/json_extract.sql
 
 
