@@ -5,7 +5,7 @@
             else '"' ||
                 regexp_replace(
                     replace(cast({{ column }} as {{ string_type() }}), '"', {{ escape_seq_for_json('"') }}),
-                    '\n', {{ quote_new_line() }} {% if target.type == 'postgres' or target.type == 'greenplum' %}, 'g' {% endif %}
+                    '\n', {{ quote_new_line() }} {% if target.type in postgres_type_db() %}, 'g' {% endif %}
                 ) || '"'
         end
     )
