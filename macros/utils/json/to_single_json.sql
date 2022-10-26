@@ -1,11 +1,11 @@
 {% macro to_json_string_value_or_null(column) %}
     (
         case 
-            when {{column}} is null then 'null'
+            when {{ column }} is null then 'null'
             else '"' ||
                 regexp_replace(
-                    replace(cast({{column}} as {{string_type()}}), '"', {{escape_seq_for_json('"') }}),
-                    '\n', {{ quote_new_line() }} {% if target.type == 'postgres' %}, 'g' {% endif %}
+                    replace(cast({{ column }} as {{ string_type() }}), '"', {{ escape_seq_for_json('"') }}),
+                    '\n', {{ quote_new_line() }} {% if target.type in postgres_type_db() %}, 'g' {% endif %}
                 ) || '"'
         end
     )
