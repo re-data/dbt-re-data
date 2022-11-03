@@ -35,7 +35,7 @@ models:
           - re_data.assert_less:
               metric: min
               value: 100
-              where: time_window_start >= '2020-05-02'
+              condition: time_window_start = '2021-05-02'
           
           - re_data.assert_less_equal:
               metric: min
@@ -43,7 +43,7 @@ models:
 
       - name: value2
         tests:
-          - re_data.assert_greater:
+          - re_data.assert_greater_equal:
               metric: min
               value: 200
-              where: time_window_start >= '2020-05-02'
+              condition: time_window_start = '2021-05-02'

@@ -33,73 +33,73 @@
 
 {# new test macros #}
 
-{% test assert_true(model, column_name=None, metric=None, expression=expression, where=None) %}
+{% test assert_true(model, column_name=None, metric=None, expression=expression, condition=None) %}
     -- depends_on: {{ ref('re_data_base_metrics') }}
     {% if execute %}
-        {{ re_data.metric_expression(model, metric, expression, column_name, where) }}
+        {{ re_data.metric_expression(model, metric, expression, column_name, condition) }}
     {% else %}
         {{ re_data.empty_table() }}
     {% endif %}
 {% endtest %}
 
-{% test assert_false(model, column_name=None, metric=None, expression=expression, where=None) %}
+{% test assert_false(model, column_name=None, metric=None, expression=expression, condition=None) %}
     -- depends_on: {{ ref('re_data_base_metrics') }}
     {% if execute %}
-        {{ re_data.metric_expression(model, metric, 'not (' ~ expression ~ ')', column_name, where) }}
+        {{ re_data.metric_expression(model, metric, 'not (' ~ expression ~ ')', column_name, condition) }}
     {% else %}
         {{ re_data.empty_table() }}
     {% endif %}
 {% endtest %}
 
-{% test assert_in_range(model, column_name=None, metric=None, min_value=None, max_value=None, where=None) %}
+{% test assert_in_range(model, column_name=None, metric=None, min_value=None, max_value=None, condition=None) %}
     -- depends_on: {{ ref('re_data_base_metrics') }}
     {% if execute %}
-        {{ re_data.metric_expression(model, metric, 'value >= ' ~ min_value ~ ' and value <= ' ~ max_value, column_name, where) }}
+        {{ re_data.metric_expression(model, metric, 'value >= ' ~ min_value ~ ' and value <= ' ~ max_value, column_name, condition) }}
     {% else %}
         {{ re_data.empty_table() }}
     {% endif %}
 {% endtest %}
 
-{% test assert_equal(model, column_name=None, metric=None, value=value, where=None) %}
+{% test assert_equal(model, column_name=None, metric=None, value=value, condition=None) %}
     -- depends_on: {{ ref('re_data_base_metrics') }}
     {% if execute %}
-        {{ re_data.metric_expression(model, metric, 'value = ' ~ value, column_name, where) }}
+        {{ re_data.metric_expression(model, metric, 'value = ' ~ value, column_name, condition) }}
     {% else %}
         {{ re_data.empty_table() }}
     {% endif %}
 {% endtest %}
 
-{% test assert_greater(model, column_name=None, metric=None, value=None, where=None) %}
+{% test assert_greater(model, column_name=None, metric=None, value=None, condition=None) %}
     -- depends_on: {{ ref('re_data_base_metrics') }}
     {% if execute %}
-        {{ re_data.metric_expression(model, metric, 'value > ' ~ value, column_name, where) }}
+        {{ re_data.metric_expression(model, metric, 'value > ' ~ value, column_name, condition) }}
     {% else %}
         {{ re_data.empty_table() }}
     {% endif %}
 {% endtest %}
 
-{% test assert_greater_equal(model, column_name=None, metric=None, value=None, where=None) %}
+{% test assert_greater_equal(model, column_name=None, metric=None, value=None, condition=None) %}
     -- depends_on: {{ ref('re_data_base_metrics') }}
     {% if execute %}
-        {{ re_data.metric_expression(model, metric, 'value >= ' ~ value, column_name, where) }}
+        {{ re_data.metric_expression(model, metric, 'value >= ' ~ value, column_name, condition) }}
     {% else %}
         {{ re_data.empty_table() }}
     {% endif %}
 {% endtest %}
 
-{% test assert_less(model, column_name=None, metric=None, value=None, where=None) %}
+{% test assert_less(model, column_name=None, metric=None, value=None, condition=None) %}
     -- depends_on: {{ ref('re_data_base_metrics') }}
     {% if execute %}
-        {{ re_data.metric_expression(model, metric, 'value < ' ~ value, column_name, where) }}
+        {{ re_data.metric_expression(model, metric, 'value < ' ~ value, column_name, condition) }}
     {% else %}
         {{ re_data.empty_table() }}
     {% endif %}
 {% endtest %}
 
-{% test assert_less_equal(model, column_name=None, metric=None, value=None, where=None) %}
+{% test assert_less_equal(model, column_name=None, metric=None, value=None, condition=None) %}
     -- depends_on: {{ ref('re_data_base_metrics') }}
     {% if execute %}
-        {{ re_data.metric_expression(model, metric, 'value <= ' ~ value, column_name, where) }}
+        {{ re_data.metric_expression(model, metric, 'value <= ' ~ value, column_name, condition) }}
     {% else %}
         {{ re_data.empty_table() }}
     {% endif %}
