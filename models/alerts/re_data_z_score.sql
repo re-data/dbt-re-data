@@ -48,7 +48,7 @@ with z_score_without_id as (
     )
 
 select
-    cast ({{ dbt_utils.surrogate_key([
+    cast ({{ dbt_utils.generate_surrogate_key([
       'table_name',
       'column_name',
       'metric',

@@ -22,7 +22,7 @@ where
 )
 
 select
-    cast ({{ dbt_utils.surrogate_key([
+    cast ({{ dbt_utils.generate_surrogate_key([
       'table_name',
       'column_name',
       'detected_time'
