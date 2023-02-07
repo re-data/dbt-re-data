@@ -12,6 +12,6 @@
 select
     table_name,
     sample_data,
-    cast ({{- dbt_utils.current_timestamp_in_utc() -}} as {{ timestamp_type() }}) as sampled_on
+    cast ({{- dbt.current_timestamp() -}} as {{ timestamp_type() }}) as sampled_on
 
 from {{ ref('re_data_last_table_samples_part') }}

@@ -27,7 +27,7 @@
         cast (column_name as {{ string_type() }} ) as column_name,
         cast (data_type as {{ string_type() }} ) as data_type,
         cast (case is_nullable when 'YES' then 1 else 0 end as {{ boolean_type() }} ) as is_nullable,
-        cast ({{- dbt_utils.current_timestamp_in_utc() -}} as {{ timestamp_type() }}) as computed_on
+        cast ({{- dbt.current_timestamp() -}} as {{ timestamp_type() }}) as computed_on
     from columns_from_select
 
     {% else %}
