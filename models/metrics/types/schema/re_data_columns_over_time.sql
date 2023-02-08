@@ -14,7 +14,7 @@ select
     cols.column_name,
     cols.data_type,
     cols.is_nullable,
-    cast ({{dbt.current_timestamp()}} as {{ timestamp_type() }} ) as detected_time
+    cast ({{dbt.current_timestamp_backcompat()}} as {{ timestamp_type() }} ) as detected_time
 from
     {{ ref('re_data_columns')}} cols, {{ ref('re_data_selected')}} tables
 where
