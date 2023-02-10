@@ -143,12 +143,12 @@
             all_changes.prev_column_name,
             all_changes.prev_data_type,
             all_changes.prev_is_nullable,
-            cast({{dbt_utils.current_timestamp_in_utc()}} as {{ timestamp_type() }}) as detected_time
+            cast({{dbt.current_timestamp_backcompat()}} as {{ timestamp_type() }}) as detected_time
         from all_changes
     )
 
     select 
-        cast ({{ dbt_utils.surrogate_key([
+        cast ({{ dbt_utils.generate_surrogate_key([
         'table_name',
         'column_name',
         'detected_time'

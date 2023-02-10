@@ -34,7 +34,7 @@ with_time_window as (
     {% endfor %}
 )
 select
-    cast ({{ dbt_utils.surrogate_key([
+    cast ({{ dbt_utils.generate_surrogate_key([
         'table_name',
         'column_name',
         'metric',
@@ -50,5 +50,5 @@ select
     cast (
         {{ interval_length_sec('time_window_start', 'time_window_end') }} as {{ integer_type() }}
     ) as interval_length_sec,
-    cast ({{- dbt_utils.current_timestamp_in_utc() -}} as {{ timestamp_type() }}) as computed_on
+    cast ({{dbt.current_timestamp_backcompat()}} as {{ timestamp_type() }}) as computed_on
 from with_time_window
