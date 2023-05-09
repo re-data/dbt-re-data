@@ -20,7 +20,7 @@
             {% do re_data.insert_list_to_table(
                 ref('re_data_test_history'),
                 tests,
-                ['table_name', 'column_name', 'test_name', 'status', 'execution_time', 'message', 'failures_count', 'failures_json', 'failures_table', 'severity', 'compiled_sql', 'run_at'],
+                ['table_name', 'column_name', 'test_name', 'status', 'execution_time', 'message', 'tested_records_count' ,'failures_count', 'failures_json', 'failures_table', 'severity', 'compiled_sql', 'run_at'],
                 { 'run_at': timestamp_type() }
             ) %}
         {% endif %}
@@ -80,6 +80,18 @@
 
     {% set failures_json = none %}
 
+    {% if table_name %}
+        {% set tested_records_query %}
+            select count(*) as count from {{ table_name }}
+            {% if el.node.config.get('where') %}
+                where {{ el.node.config['where'] }}
+            {% endif %}
+        {% endset %}
+        {% set tested_records_count = re_data.row_value(run_query(tested_records_query).rows[0],'count') %}
+    {% else %}
+        {% set tested_records_count = none %}
+    {% endif %}
+
     {{ return ({
         'table_name': table_name,
         'column_name': el.node.column_name or none,
@@ -87,6 +99,7 @@
         'status': el.status.name,
         'execution_time': el.execution_time,
         'message': el.message,
+        'tested_records_count': tested_records_count,
         'failures_count': el.failures,
         'failures_json': '' ~ failures_list,
         'failures_table': el.node.relation_name or none,

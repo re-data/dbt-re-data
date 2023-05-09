@@ -13,6 +13,7 @@
         ('status', 'string'),
         ('execution_time', 'numeric'),
         ('message', 'string'),
+        ('tested_records_count', 'numeric'),
         ('failures_count', 'numeric'),
         ('failures_json', 'long_string'),
         ('failures_table', 'long_string'),
