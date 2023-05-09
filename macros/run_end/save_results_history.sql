@@ -91,7 +91,7 @@
         'failures_json': '' ~ failures_list,
         'failures_table': el.node.relation_name or none,
         'severity': el.node.config.severity,
-        'compiled_sql': el.node.compiled_sql or none,
+        'compiled_sql': el.node.compiled_sql or el.node.compiled_code or none,
         'run_at': run_started_at_str,
         })
     }}
