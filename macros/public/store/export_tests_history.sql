@@ -8,6 +8,7 @@
             status,
             execution_time, 
             message, 
+            tested_records_count, 
             failures_count, 
             failures_json, 
             failures_table,

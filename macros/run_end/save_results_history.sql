@@ -20,7 +20,7 @@
             {% do re_data.insert_list_to_table(
                 ref('re_data_test_history'),
                 tests,
-                ['table_name', 'column_name', 'test_name', 'status', 'execution_time', 'message', 'failures_count', 'failures_json', 'failures_table', 'severity', 'compiled_sql', 'run_at'],
+                ['table_name', 'column_name', 'test_name', 'status', 'execution_time', 'message', 'tested_records_count' ,'failures_count', 'failures_json', 'failures_table', 'severity', 'compiled_sql', 'run_at'],
                 { 'run_at': timestamp_type() }
             ) %}
         {% endif %}
@@ -87,6 +87,7 @@
         'status': el.status.name,
         'execution_time': el.execution_time,
         'message': el.message,
+        'tested_records_count': 0,
         'failures_count': el.failures,
         'failures_json': '' ~ failures_list,
         'failures_table': el.node.relation_name or none,
