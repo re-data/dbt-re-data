@@ -36,7 +36,7 @@
                     {% set selected_name = selected_nodes.get(target_name, false) %}
                     {% set selected_tag = [] %}
 
-                    {% for tag in el.config.tags %}
+                    {% for tag in el.tags %}
                         {% if selected_tags.get(tag, false) %}
                             {% do selected_tag.append(true) %}
                         {% endif %}
