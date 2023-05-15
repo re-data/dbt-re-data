@@ -20,7 +20,7 @@
             {% do re_data.insert_list_to_table(
                 ref('re_data_test_history'),
                 tests,
-                ['table_name', 'column_name', 'test_name', 'status', 'execution_time', 'message', 'tested_records_count' ,'failures_count', 'failures_json', 'failures_table', 'severity', 'compiled_sql', 'run_at'],
+                ['table_name', 'column_name', 'test_name', 'status', 'execution_time', 'message', 'tested_records_count' ,'failures_count', 'failures_json', 'failures_table', 'severity', 'compiled_sql', 'run_at','additional_runtime_metadata'],
                 { 'run_at': timestamp_type() }
             ) %}
         {% endif %}
@@ -91,6 +91,21 @@
     {% else %}
         {% set tested_records_count = none %}
     {% endif %}
+    
+    {% if var.has_var('re_data:save_test_history_additional_runtime_metadata') %}
+        {% set additional_runtime_metadata = {} %}
+        {% for _var in var('re_data:save_test_history_additional_runtime_metadata').get('vars') %}
+            {% if var.has_var(_var) %}
+                {% do additional_runtime_metadata.update({_var:var(_var)}) %}
+            {% endif %}
+        {% endfor %}      
+        {% for _env_var in var('re_data:save_test_history_additional_runtime_metadata').get('env_vars') %}
+            {% if env_var(_env_var,'')|length>0 %}
+                {% do additional_runtime_metadata.update({_env_var:env_var(_env_var)}) %}
+            {% endif %}
+        {% endfor %}
+        {% set additional_runtime_metadata = tojson(additional_runtime_metadata) %}
+    {% endif %}
 
     {{ return ({
         'table_name': table_name,
@@ -106,6 +121,7 @@
         'severity': el.node.config.severity,
         'compiled_sql': el.node.compiled_sql or el.node.compiled_code or none,
         'run_at': run_started_at_str,
+        'additional_runtime_metadata': additional_runtime_metadata or none
         })
     }}
 

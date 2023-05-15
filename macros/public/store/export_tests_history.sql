@@ -13,7 +13,8 @@
             failures_json, 
             failures_table,
             severity, 
-            compiled_sql
+            compiled_sql,
+            additional_runtime_metadata
         from
             {{ ref('re_data_test_history') }}
         where {{ in_date_window('run_at', start_date, end_date) }}

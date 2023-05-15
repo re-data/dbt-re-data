@@ -19,6 +19,7 @@
         ('failures_table', 'long_string'),
         ('severity', 'string'),
         ('compiled_sql', 'long_string'),
-        ('run_at', 'timestamp')
+        ('run_at', 'timestamp'),
+        ('additional_runtime_metadata', 'long_string')
     ])
 }}

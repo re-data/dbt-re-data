@@ -23,6 +23,10 @@ vars:
 
   re_data:save_test_history: false
 
+  re_data:save_test_history_additional_runtime_metadata: 
+    vars: []
+    env_vars: []
+
   re_data:anomaly_detector:
     name: modified_z_score
     threshold: 3
