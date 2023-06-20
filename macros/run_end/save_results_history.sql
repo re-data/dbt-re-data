@@ -40,6 +40,9 @@
 
         {% if any_refs %}
             {% set name = any_refs[0] %}
+            -- NOTE: This relies on snapshot models to include the word "snapshot" in the model name. 
+            -- There doesn't seem to be an easily accessible field to tell us that this node is a snapshot
+            -- without relying on the name or other proxies.
             {% if "snapshot" in name %}
                 {% set ref_type = "snapshot" %}
             {% else %}
