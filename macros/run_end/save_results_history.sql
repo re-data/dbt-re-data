@@ -40,7 +40,12 @@
 
         {% if any_refs %}
             {% set name = any_refs[0] %}
-            {% set node_name = re_data.priv_full_name_from_depends(el.node, name, "model") %}
+            {% if "snapshot" in name %}
+                {% set ref_type = "snapshot" %}
+            {% else %}
+                {% set ref_type = "model" %}
+            {% endif %}
+            {% set node_name = re_data.priv_full_name_from_depends(el.node, name, ref_type) %}
             {% set schema = graph.nodes.get(node_name)['schema'] %}
             {% set database = graph.nodes.get(node_name)['database'] %}
             {% set table_name = (database + '.' + schema + '.' + name) | lower %}
