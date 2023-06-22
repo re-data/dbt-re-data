@@ -40,10 +40,12 @@
 
         {% if any_refs %}
             {% set name = any_refs[0] %}
-            -- NOTE: This relies on snapshot models to include the word "snapshot" in the model name. 
-            -- There doesn't seem to be an easily accessible field to tell us that this node is a snapshot
-            -- without relying on the name or other proxies.
-            {% if "snapshot" in name %}
+            -- NOTE: This relies on snapshot models to include the word "snapshot" in the model name or
+            -- the column `dbt_scd_id` to be included in the metadata kwargs (since this is a good proxy 
+            -- for this model being a snapshot given `dbt_scd_id` is an internal dbt field).
+            -- There doesn't seem to be another, easily accessible field to tell us unambigously that this node is a snapshot
+            {% set metadata_column_name = el.node.to_dict().get('test_metadata', dict()).get('kwargs', dict()).get('column_name') %}
+            {% if "snapshot" in name or metadata_column_name == "dbt_scd_id" %}
                 {% set ref_type = "snapshot" %}
             {% else %}
                 {% set ref_type = "model" %}
