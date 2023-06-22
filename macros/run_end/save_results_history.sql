@@ -38,19 +38,21 @@
         {% set any_refs = modules.re.findall("ref\(\'(?P<name>.*)\'\)", el.node.test_metadata.kwargs['model']) %}
         {% set any_source = modules.re.findall("source\(\'(?P<one>.*)\'\,\s+\'(?P<two>.*)\'\)", el.node.test_metadata.kwargs['model']) %}
 
+        -- Separate `depends_on` nodes into sources and models to avoid incorrect matching of a test to a source
+        -- when it fact it refers to a model (snapshot or regular model)
+        {% set depends_on_sources = [] %}
+        {% set depends_on_models = [] %}
+        {% for full_name in el.node.depends_on.nodes %}
+            {%- if full_name.split('.')[0] == "source" -%}
+                {% do depends_on_sources.append(full_name)%}
+            {%- else -%}
+                {% do depends_on_models.append(full_name)%}
+            {%- endif -%}
+        {% endfor %}
+
         {% if any_refs %}
             {% set name = any_refs[0] %}
-            -- NOTE: This relies on snapshot models to include the word "snapshot" in the model name or
-            -- the column `dbt_scd_id` to be included in the metadata kwargs (since this is a good proxy 
-            -- for this model being a snapshot given `dbt_scd_id` is an internal dbt field).
-            -- There doesn't seem to be another, easily accessible field to tell us unambigously that this node is a snapshot
-            {% set metadata_column_name = el.node.to_dict().get('test_metadata', dict()).get('kwargs', dict()).get('column_name') %}
-            {% if "snapshot" in name or metadata_column_name == "dbt_scd_id" %}
-                {% set ref_type = "snapshot" %}
-            {% else %}
-                {% set ref_type = "model" %}
-            {% endif %}
-            {% set node_name = re_data.priv_full_name_from_depends(el.node, name, ref_type) %}
+            {% set node_name = re_data.priv_full_name_from_depends(el.node, name, depends_on_models) %}
             {% set schema = graph.nodes.get(node_name)['schema'] %}
             {% set database = graph.nodes.get(node_name)['database'] %}
             {% set table_name = (database + '.' + schema + '.' + name) | lower %}
@@ -58,7 +60,7 @@
         {% elif any_source %}
             {% set package_name = any_source[0][0] %}
             {% set name = any_source[0][1] %}
-            {% set node_name = re_data.priv_full_name_from_depends(el.node, name, "source") %}
+            {% set node_name = re_data.priv_full_name_from_depends(el.node, name, depends_on_sources) %}
             {% set schema = graph.sources.get(node_name)['schema'] %}
             {% set database = graph.sources.get(node_name)['database'] %}
             {% set table_name = (database + '.' + schema + '.' + name) | lower %}
@@ -108,12 +110,11 @@
 
 {% endmacro %}
 
-{% macro priv_full_name_from_depends(node, name, type) %}
+{% macro priv_full_name_from_depends(node, name, depends_on_nodes) %}
 
-    {% for full_name in node.depends_on.nodes %}
+    {% for full_name in depends_on_nodes %}
         {% set node_name = full_name.split('.')[-1] %}
-        {% set node_type = full_name.split('.')[0] %}
-        {% if node_name == name and node_type == type %}
+        {% if node_name == name %}
             {{ return(full_name) }}
         {% endif %}
     {% endfor %}
