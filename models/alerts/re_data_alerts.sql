@@ -5,7 +5,7 @@ select
     last_value_text as value,
     time_window_end
 from
-    {{ var('re_data_anomalies_filtered') }}
+    {{ ref(var('re_data:re_data_anomalies_filtered')) }}
 union all
 
 select
