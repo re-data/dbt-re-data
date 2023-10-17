@@ -1,4 +1,8 @@
-{% macro generate_anomaly_message(column_name, metric, last_value, last_avg) %}
+{% macro generate_anomaly_message(column_name, metric, last_value, last_avg) -%}
+  {{ return(adapter.dispatch('generate_anomaly_message', 're_data')(column_name, metric, last_value, last_avg)) }}
+{%- endmacro %}
+
+{% macro default__generate_anomaly_message(column_name, metric, last_value, last_avg) %}
 
     case when {{ column_name }} != '' then metric || '(' || column_name || ')'
     else metric
