@@ -1,5 +1,5 @@
 name: "re_data"
-version: "0.10.8"
+version: "0.10.9"
 config-version: 2
 
 require-dbt-version: [">=1.0.0", "<2.0.0"]
