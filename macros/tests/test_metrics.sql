@@ -1,18 +1,36 @@
 
 {% macro metric_expression(table, metric, expression, column_name=None, condition=None) %}
-    select * from {{ref('re_data_base_metrics')}}
+    with
+    target as (
+      select
+      *
+      from {{ ref('re_data_base_metrics') }}
+      where
+      table_name = '{{ re_data.full_table_name_values(table.identifier, table.schema, table.database)}}'
+      and metric = '{{ metric }}'
+      {% if column_name is not none %}
+      and column_name = '{{ column_name }}'
+      {% endif %}
+      union all
+      select id, table_name, null, null, null, time_window_start, time_window_end, interval_length_sec, computed_on
+      from {{ ref('re_data_base_metrics') }}
+      where
+      table_name = '{{ re_data.full_table_name_values(table.identifier, table.schema, table.database)}}'
+      limit 1
+    ),
+    target_with_rn as (
+      select row_number() over (order by column_name,metric) rn, * from target
+    )
+    select * from target_with_rn
     where
-        table_name = '{{ re_data.full_table_name_values(table.identifier, table.schema, table.database)}}' and
-        metric = '{{ metric }}' and
+        rn = 1 and (
+        (
         {% if condition is not none %}
             {{ condition }} and
         {% endif %}
-        {% if column_name is none %}
         not ( {{ expression }} )
-        {% else %}
-        column_name = '{{ column_name }}' and
-        not ( {{ expression }} )
-        {% endif %}
+        ) or value is null
+        )
 
 {% endmacro %}
 
