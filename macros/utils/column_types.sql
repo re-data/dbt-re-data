@@ -27,6 +27,10 @@
             'enum',
         ] %}
         {{ return('numeric') }}
+    
+    {% elif column.data_type in [ 'boolean', 'bool' ] %}
+    
+        {{ return('boolean') }}
 
     {% else %}
         {{ return('unknown') }}
@@ -67,6 +71,10 @@
     ] %}
 
         {{ return('numeric') }}
+
+    {% elif column.data_type in [ 'BOOLEAN' ] %}
+    
+        {{ return('boolean') }}
 
     {% else %}
 
