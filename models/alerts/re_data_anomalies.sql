@@ -8,7 +8,7 @@
 select
 name,schema,database,{{json_extract('anomaly_detector','filter')}} filter
 from {{ ref('re_data_selected') }}
-where json_extract_scalar(anomaly_detector,'$.filter') is not null
+where {{ json_extract('anomaly_detector', 'filter') }} is not null
 {% endset %}
 
 {%- set filters = dbt_utils.get_query_results_as_dict(sql) -%}
