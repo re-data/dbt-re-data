@@ -34,16 +34,22 @@ on {{ split_and_return_nth_value('table_name', '.', 1) }} = m.database
 and {{ split_and_return_nth_value('table_name', '.', 2) }} = m.schema
 and {{ split_and_return_nth_value('table_name', '.', 3) }} = m.name
 where
-    case 
-        when {{ json_extract('m.anomaly_detector', 'name') }} = 'z_score' 
-            then abs(z_score_value) > cast({{ json_extract('m.anomaly_detector', 'threshold') }} as {{ numeric_type() }})
-        when {{ json_extract('m.anomaly_detector', 'name') }} = 'modified_z_score' 
-            then abs(modified_z_score_value) > cast( {{ json_extract('m.anomaly_detector', 'threshold') }} as {{numeric_type()}} )
-        when {{ json_extract('m.anomaly_detector', 'name') }} = 'boxplot' 
-            then (
-                z.last_value < z.last_first_quartile - (cast( {{ json_extract('m.anomaly_detector', 'whisker_boundary_multiplier') }} as {{numeric_type()}} ) * z.last_iqr)
-                or 
-                z.last_value > z.last_third_quartile + (cast( {{ json_extract('m.anomaly_detector', 'whisker_boundary_multiplier') }} as {{numeric_type()}} ) * z.last_iqr)
-            )
+    case when (lower(coalesce({{ json_extract('m.anomaly_detector', 'direction') }}, 'both')) = 'up' and z.last_value > z.last_avg)
+        or (lower(coalesce({{ json_extract('m.anomaly_detector', 'direction') }}, 'both')) = 'down' and z.last_value < z.last_avg)
+        or (lower(coalesce({{ json_extract('m.anomaly_detector', 'direction') }}, 'both')) != 'up' and lower(coalesce({{ json_extract('m.anomaly_detector', 'direction') }}, 'both')) != 'down')
+        then
+            case 
+                when {{ json_extract('m.anomaly_detector', 'name') }} = 'z_score' 
+                    then abs(z_score_value) > cast({{ json_extract('m.anomaly_detector', 'threshold') }} as {{ numeric_type() }})
+                when {{ json_extract('m.anomaly_detector', 'name') }} = 'modified_z_score' 
+                    then abs(modified_z_score_value) > cast( {{ json_extract('m.anomaly_detector', 'threshold') }} as {{numeric_type()}} )
+                when {{ json_extract('m.anomaly_detector', 'name') }} = 'boxplot' 
+                    then (
+                        z.last_value < z.last_first_quartile - (cast( {{ json_extract('m.anomaly_detector', 'whisker_boundary_multiplier') }} as {{numeric_type()}} ) * z.last_iqr)
+                        or 
+                        z.last_value > z.last_third_quartile + (cast( {{ json_extract('m.anomaly_detector', 'whisker_boundary_multiplier') }} as {{numeric_type()}} ) * z.last_iqr)
+                    )
+                else false
+            end
         else false
     end
