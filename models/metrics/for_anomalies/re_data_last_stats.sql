@@ -13,8 +13,8 @@ with median_value as (
     from
         {{ ref('re_data_base_metrics') }}
     where
-        time_window_end > {{- anamaly_detection_time_window_start() -}} and
-        time_window_end <= {{- time_window_end() -}}
+        cast(time_window_end as timestamp) >  {{- anamaly_detection_time_window_start() -}} and
+        cast(time_window_end as timestamp) <= {{- time_window_end() -}}
     {% if target.type in postgres_type_db() %} 
         group by
             {{ columns_to_group_by }}
@@ -38,8 +38,8 @@ with median_value as (
             s.metric = mv.metric and
             s.interval_length_sec = mv.interval_length_sec
     where
-        s.time_window_end > {{- anamaly_detection_time_window_start() -}} and
-        s.time_window_end <= {{- time_window_end() -}}
+        cast(s.time_window_end as timestamp) > {{- anamaly_detection_time_window_start() -}} and
+        cast(s.time_window_end as timestamp) <= {{- time_window_end() -}}
 ), median_abs_deviation as (
     select distinct
         table_name,
@@ -66,8 +66,8 @@ with median_value as (
     from
         {{ ref('re_data_base_metrics') }}
     where
-        time_window_end > {{- anamaly_detection_time_window_start() -}} and
-        time_window_end <= {{- time_window_end() -}}
+        cast(time_window_end as timestamp) >  {{- anamaly_detection_time_window_start() -}} and
+        cast(time_window_end as timestamp) <= {{- time_window_end() -}}
     group by
         {{ columns_to_group_by }}
 )
