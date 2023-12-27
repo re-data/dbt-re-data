@@ -59,7 +59,7 @@ where
         then
             {{
                 is_anomaly_from_model(
-                    anomaly_config="'c.metric_spec'",
+                    anomaly_config="c.metric_spec",
                     last_value="z.last_value",
                     last_avg="z.last_avg",
                     z_score_value="z.z_score_value",
@@ -72,7 +72,7 @@ where
         else
             {{
                 is_anomaly_from_model(
-                    anomaly_config="'m.anomaly_detector'",
+                    anomaly_config="m.anomaly_detector",
                     last_value="z.last_value",
                     last_avg="z.last_avg",
                     z_score_value="z.z_score_value",
