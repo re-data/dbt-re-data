@@ -3,10 +3,10 @@
 ) %}
     {% set column_path = "column." ~ column_name %}
     select
-        name as table_name,
+        name as name,
         schema as schema,
         database as database,
-        {{ "'" ~ column_name ~ "'" }} as column_name,
+        {{ "'" ~ column_name ~ "'" }} as column,
         {{ "'" ~ metric_name ~ "'" }} as metric_name,
         json_query(t, {{ "'$." ~ metric_name ~ "'" }}) as metric_spec
     from
