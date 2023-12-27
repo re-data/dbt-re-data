@@ -79,6 +79,186 @@
 {% endmacro %}
 
 
+{% macro is_anomaly_absolute_threshold(anomaly_config, last_value) %}
+    case
+        when
+            {{
+                json_extract(
+                    anomaly_config,
+                    "absolute_threshold.threshold",
+                )
+            }} is not null
+        then
+            case
+                when
+
+                    lower(
+                        {{
+                            json_extract(
+                                anomaly_config,
+                                "absolute_threshold.direction",
+                            )
+                        }}
+                    )
+                    = 'up'
+                then
+                    {{ last_value }} > cast(
+                        {{
+                            json_extract(
+                                anomaly_config,
+                                "absolute_threshold.threshold",
+                            )
+                        }} as {{ numeric_type() }}
+                    )
+
+                when
+                    lower(
+                        {{
+                            json_extract(
+                                anomaly_config,
+                                "absolute_threshold.direction",
+                            )
+                        }}
+                    )
+                    = 'down'
+                then
+                    {{ last_value }} < cast(
+                        {{
+                            json_extract(
+                                anomaly_config,
+                                "absolute_threshold.threshold",
+                            )
+                        }} as {{ numeric_type() }}
+                    )
+                when
+                    lower(
+                        coalesce(
+                            {{
+                                json_extract(
+                                    anomaly_config,
+                                    "absolute_threshold.direction",
+                                )
+                            }},
+                            'both'
+                        )
+                    )
+                    = 'both'
+                then
+                    abs({{ last_value }}) > cast(
+                        {{
+                            json_extract(
+                                anomaly_config,
+                                "absolute_threshold.threshold",
+                            )
+                        }} as {{ numeric_type() }}
+                    )
+            end
+        else true
+    end
+
+{% endmacro %}
+
+{% macro is_anomaly_change_percentage(anomaly_config, last_value, last_avg) %}
+    case
+        when
+            {{
+                json_extract(
+                    anomaly_config,
+                    "change_percentage.threshold",
+                )
+            }} is not null
+        then
+            case
+                when
+
+                    lower(
+                        {{
+                            json_extract(
+                                anomaly_config,
+                                "change_percentage.direction",
+                            )
+                        }}
+                    )
+                    = 'up'
+                then
+                    (
+                        {{
+                            change_percentage(
+                                last_value=last_value, last_avg=last_avg
+                            )
+                        }}
+                    ) > cast(
+                        {{
+                            json_extract(
+                                anomaly_config,
+                                "change_percentage.threshold",
+                            )
+                        }} as {{ numeric_type() }}
+                    )
+
+                when
+                    lower(
+                        {{
+                            json_extract(
+                                anomaly_config,
+                                "change_percentage.direction",
+                            )
+                        }}
+                    )
+                    = 'down'
+                then
+                    (
+                        {{
+                            change_percentage(
+                                last_value=last_value, last_avg=last_avg
+                            )
+                        }}
+                    ) < (
+                        0.0 - (
+                            cast(
+                                {{
+                                    json_extract(
+                                        anomaly_config,
+                                        "change_percentage.threshold",
+                                    )
+                                }} as {{ numeric_type() }}
+                            )
+                        )
+                    )
+                when
+                    lower(
+                        coalesce(
+                            {{
+                                json_extract(
+                                    anomaly_config,
+                                    "change_percentage.direction",
+                                )
+                            }},
+                            'both'
+                        )
+                    )
+                    = 'both'
+                then
+                    abs(
+                        {{
+                            change_percentage(
+                                last_value=last_value, last_avg=last_avg
+                            )
+                        }}
+                    ) > cast(
+                        {{
+                            json_extract(
+                                anomaly_config,
+                                "change_percentage.threshold",
+                            )
+                        }} as {{ numeric_type() }}
+                    )
+            end
+        else true
+    end
+
+{% endmacro %}
+
 {% macro is_anomaly_from_column(
     anomaly_config,
     last_value,

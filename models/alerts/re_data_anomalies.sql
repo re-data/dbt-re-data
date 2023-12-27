@@ -69,6 +69,18 @@ where
                     last_third_quartile="z.last_third_quartile",
                 )
             }}
+            and {{
+                is_anomaly_absolute_threshold(
+                    anomaly_config="c.metric_spec", last_value="z.last_value"
+                )
+            }}
+            and {{
+                is_anomaly_change_percentage(
+                    anomaly_config="c.metric_spec",
+                    last_value="z.last_value",
+                    last_avg="z.last_avg",
+                )
+            }}
         else
             {{
                 is_anomaly_from_model(
