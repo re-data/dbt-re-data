@@ -58,7 +58,7 @@ where
         when c.metric_spec is not null
         then
             {{
-                is_anomaly_from_model(
+                is_anomaly_from_column(
                     anomaly_config="c.metric_spec",
                     last_value="z.last_value",
                     last_avg="z.last_avg",
