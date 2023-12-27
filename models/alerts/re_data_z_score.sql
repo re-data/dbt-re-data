@@ -29,7 +29,7 @@ with z_score_without_id as (
         stats.last_third_quartile - stats.last_first_quartile as last_iqr,
         stats.last_first_quartile,
         stats.last_third_quartile,
-        {{ time_window_end() }} as time_window_end,
+        cast( {{ time_window_end() }} as {{ timestamp_type() }}) as time_window_end,
         cast( {{dbt.current_timestamp_backcompat()}} as {{ timestamp_type() }} ) as computed_on
     from
         {{ ref('re_data_last_stats') }} as stats,

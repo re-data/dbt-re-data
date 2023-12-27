@@ -14,7 +14,9 @@
                         {%- if row[p] is none -%}
                             NULL
                         {%- else -%}
-                            {%- if row[p] is string -%}
+                            {%- if row[p] is boolean -%}
+                                cast ({{-row[p]}} as {{ boolean_type()-}})
+                            {%- elif row[p] is string -%}
                                 {%- if dtype and p in dtype -%}
                                   {% set cast_type = dtype[p] %}
                                   cast ({{ re_data.quote_string(row[p]) }} as {{ cast_type }})
