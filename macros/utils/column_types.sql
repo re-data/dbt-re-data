@@ -27,6 +27,10 @@
             'enum',
         ] %}
         {{ return('numeric') }}
+    
+    {% elif column.data_type in [ 'boolean', 'bool' ] %}
+    
+        {{ return('boolean') }}
 
     {% else %}
         {{ return('unknown') }}
@@ -68,6 +72,10 @@
 
         {{ return('numeric') }}
 
+    {% elif column.data_type in [ 'BOOLEAN' ] %}
+    
+        {{ return('boolean') }}
+
     {% else %}
 
         {{ return('unknown') }}
@@ -78,23 +86,17 @@
 
 
 {% macro bigquery__get_column_type(column) %}
-    
-    {% if column.data_type in [
-        'STRING'
-    ] %}
 
+    {% if column.data_type in [ 'STRING' ] %}
         {{ return('text') }}
 
-    {% elif column.data_type in [
-        "INT64", "NUMERIC", "BIGNUMERIC", "FLOAT64", "INTEGER"]
-    %}
-
+        {% elif column.data_type in [ "INT64", "NUMERIC", "BIGNUMERIC", "FLOAT64", "INTEGER"] %}
         {{ return('numeric') }}
 
+        {% elif column.data_type in [ "BOOLEAN", "BOOL"] %}
+        {{ return('boolean') }}
     {% else %}
-    
         {{ return('unknown') }}
 
     {% endif %}
-
 {% endmacro %}

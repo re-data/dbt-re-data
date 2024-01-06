@@ -8,66 +8,20 @@ env:
   RE_DATA_TESTING_USER: ${{ secrets.RE_DATA_TESTING_USER }}
   RE_DATA_TESTING_PASSWORD: ${{ secrets.RE_DATA_TESTING_PASSWORD }}
   REDSHIFT_RE_DATA_TESTING_HOST: ${{ secrets.REDSHIFT_RE_DATA_TESTING_HOST }}
+  BIGQUERY_TESTING_TYPE: ${{ secrets.BIGQUERY_TESTING_TYPE }}
   BIGQUERY_TESTING_PROJECT_ID: ${{ secrets.BIGQUERY_TESTING_PROJECT_ID }}
-  BIGQUERY_TESTING_SERVICE_ACCOUNT_BASE64: ${{ secrets.BIGQUERY_TESTING_SERVICE_ACCOUNT_BASE64 }}
-  BIGQUERY_TESTING_SERVICE_ACCOUNT_PATH: ${{ github.workspace }}/bigquery-testing-service-account.json
+  BIGQUERY_TESTING_PRIVATE_KEY_ID: ${{ secrets.BIGQUERY_TESTING_PRIVATE_KEY_ID }}
+  BIGQUERY_TESTING_PRIVATE_KEY: ${{ secrets.BIGQUERY_TESTING_PRIVATE_KEY }}
+  BIGQUERY_TESTING_CLIENT_EMAIL: ${{ secrets.BIGQUERY_TESTING_CLIENT_EMAIL }}
+  BIGQUERY_TESTING_CLIENT_ID: ${{ secrets.BIGQUERY_TESTING_CLIENT_ID }}
+  BIGQUERY_TESTING_AUTH_URI: ${{ secrets.BIGQUERY_TESTING_AUTH_URI }}
+  BIGQUERY_TESTING_TOKEN_URI: ${{ secrets.BIGQUERY_TESTING_TOKEN_URI }}
+  BIGQUERY_TESTING_AUTH_PROVIDER_X509_CERT_URL: ${{ secrets.BIGQUERY_TESTING_AUTH_PROVIDER_X509_CERT_URL }}
+  BIGQUERY_TESTING_CLIENT_X509_CERT_URL: ${{ secrets.BIGQUERY_TESTING_CLIENT_X509_CERT_URL }}
+  DBT_VERSION: 1.7
+  PYTHON_VERSION: "3.8.x"
 
 jobs:
-  test-other-dbs:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.repository == 're-data/dbt-re-data'
-    strategy:
-      fail-fast: false
-      matrix:
-        database: [snowflake, bigquery, redshift]
-    steps:        
-      - name: Check out
-        uses: actions/checkout@v2
-
-      - uses: actions/setup-python@v1
-        with:
-          python-version: "3.7.x"
-
-      - name: Inject slug/short variables
-        uses: rlespinasse/github-slug-action@v3.x
-
-      - name: Set the DQ_SCHEMA environment variable
-        shell: bash
-        run: |
-          echo "DQ_SCHEMA=dq_${GITHUB_REF_SLUG//[^[:alnum:]]/_}" >> $GITHUB_ENV
-
-      - name: Print DQ_SCHEMA
-        run: |
-          echo $DQ_SCHEMA
-
-      - name: Decode service account for BigQuery
-        if: matrix.database == 'bigquery'
-        run: 'echo $BIGQUERY_TESTING_SERVICE_ACCOUNT_BASE64 | base64 --decode > $BIGQUERY_TESTING_SERVICE_ACCOUNT_PATH'
-        shell: bash
-
-      - name: Install dependencies
-        working-directory: ./integration_tests
-        run: |
-          pip install -r requirements.txt
-          pip install dbt-${{ matrix.database }}==1.4.0
-          dbt deps
-
-      - name: Drop schemas
-        working-directory: ./integration_tests
-        run: |
-          dbt run-operation drop_all_schemas --args "{ schema_name: ${{ env.DQ_SCHEMA }} }" --profile re_data_${{ matrix.database }} --vars "{ source_schema: ${{ env.DQ_SCHEMA }} }"
-
-      - name: Create Schemas if needed
-        if: matrix.database == 'redshift'
-        working-directory: ./integration_tests
-        run: |
-          dbt run-operation create_required_schemas --args "{ schema_name: ${{ env.DQ_SCHEMA }} }" --profile re_data_${{ matrix.database }} --vars "{ source_schema: ${{ env.DQ_SCHEMA }} }"
-
-      - name: Test DB
-        working-directory: ./integration_tests/python_tests
-        run: |
-          pytest --db ${{ matrix.database }} --source_schema ${{ env.DQ_SCHEMA }}
-
   test-postgres:
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
@@ -89,23 +43,24 @@ jobs:
       - name: Check out
         uses: actions/checkout@v2
 
-      - uses: actions/setup-python@v1
+      - uses: actions/setup-python@v4
         with:
-          python-version: "3.7.x"
+          python-version: ${{ env.PYTHON_VERSION }}
 
       - name: Install dependencies
         working-directory: ./integration_tests
         run: |
           pip install -r requirements.txt
+          pip install dbt-postgres==$DBT_VERSION
           dbt deps
 
       - name: Test DB
         working-directory: ./integration_tests/python_tests
         run: pytest --db postgres --source_schema dq
 
-  clean-up-schemas:
+  test-other-dbs:
     runs-on: ubuntu-latest
-    if: github.event_name == 'delete' && github.repository == 're-data/dbt-re-data'
+    if: github.event_name == 'push' && github.repository == 're-data/dbt-re-data' && github.ref == 'refs/heads/main'
     strategy:
       fail-fast: false
       matrix:
@@ -114,9 +69,59 @@ jobs:
       - name: Check out
         uses: actions/checkout@v2
 
-      - uses: actions/setup-python@v1
+      - uses: actions/setup-python@v4
         with:
-          python-version: "3.7.x"
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Inject slug/short variables
+        uses: rlespinasse/github-slug-action@v3.x
+
+      - name: Set the DQ_SCHEMA environment variable
+        shell: bash
+        run: |
+          echo "DQ_SCHEMA=dq_${GITHUB_REF_SLUG//[^[:alnum:]]/_}" >> $GITHUB_ENV
+
+      - name: Print DQ_SCHEMA
+        run: |
+          echo $DQ_SCHEMA
+
+      - name: Install dependencies
+        working-directory: ./integration_tests
+        run: |
+          pip install -r requirements.txt
+          pip install dbt-${{ matrix.database }}==$DBT_VERSION
+          dbt deps
+
+      - name: Drop schemas
+        working-directory: ./integration_tests
+        run: |
+          dbt run-operation drop_all_schemas --args "{ schema_name: ${{ env.DQ_SCHEMA }} }" --profile re_data_${{ matrix.database }} --vars "{ source_schema: ${{ env.DQ_SCHEMA }} }"
+
+      - name: Create Schemas if needed
+        if: matrix.database == 'redshift'
+        working-directory: ./integration_tests
+        run: |
+          dbt run-operation create_required_schemas --args "{ schema_name: ${{ env.DQ_SCHEMA }} }" --profile re_data_${{ matrix.database }} --vars "{ source_schema: ${{ env.DQ_SCHEMA }} }"
+
+      - name: Test DB
+        working-directory: ./integration_tests/python_tests
+        run: |
+          pytest --db ${{ matrix.database }} --source_schema ${{ env.DQ_SCHEMA }}
+
+  clean-up-schemas:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'delete' && github.repository == 're-data/dbt-re-data' && github.ref == 'refs/heads/main'
+    strategy:
+      fail-fast: false
+      matrix:
+        database: [snowflake, bigquery, redshift]
+    steps:        
+      - name: Check out
+        uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
 
       - name: Inject slug/short variables
         uses: rlespinasse/github-slug-action@v3.x
@@ -130,15 +135,10 @@ jobs:
         run: |
           echo $DQ_SCHEMA
 
-      - name: Decode service account for BigQuery
-        if: matrix.database == 'bigquery'
-        run: 'echo $BIGQUERY_TESTING_SERVICE_ACCOUNT_BASE64 | base64 --decode > $BIGQUERY_TESTING_SERVICE_ACCOUNT_PATH'
-        shell: bash
-
       - name: Install dependencies and drop branch schema
         working-directory: ./integration_tests
         run: |
           pip install -r requirements.txt
-          pip install dbt-${{ matrix.database }}==1.5.0
+          pip install dbt-${{ matrix.database }}==$DBT_VERSION
           dbt deps
           dbt run-operation drop_all_schemas --args "{ schema_name: ${{ env.DQ_SCHEMA }} }" --profile re_data_${{ matrix.database }} --vars "{ source_schema: ${{ env.DQ_SCHEMA }} }"

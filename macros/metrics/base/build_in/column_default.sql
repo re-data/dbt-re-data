@@ -64,4 +64,28 @@
     {{ percentage_formula(re_data_metric_missing_count(context), re_data_metric_row_count()) }}
 {% endmacro %}
 
+{% macro re_data_metric_count_true(context) %}
+    COALESCE(
+        SUM(
+            CASE
+                WHEN {{ context.column_name }} IS TRUE THEN 1
+                ELSE 0
+            END
+        ),
+        0
+    )
+{% endmacro %}
+
+{% macro re_data_metric_count_false(context) %}
+    COALESCE(
+        SUM(
+            CASE
+                WHEN {{ context.column_name }} IS FALSE THEN 1
+                ELSE 0
+            END
+        ),
+        0
+    )
+{% endmacro %}
+
 

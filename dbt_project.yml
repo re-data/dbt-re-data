@@ -1,5 +1,5 @@
 name: "re_data"
-version: "0.11.8"
+version: "0.12.0"
 config-version: 2
 
 require-dbt-version: [">=1.0.0", "<2.0.0"]
@@ -19,6 +19,7 @@ vars:
   re_data:anomaly_detection_look_back_days: 30
   re_data:select: null
 
+  re_data:re_data_anomalies_filtered: re_data_anomalies
   re_data:alerting_z_score: 3
 
   re_data:save_test_history: false
