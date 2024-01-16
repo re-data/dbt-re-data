@@ -1,3 +1,9 @@
+{% macro change_percentage(last_value, last_avg) %}
+    cast({{ last_value }} - {{ last_avg }} as float64)
+    / nullif(cast({{ last_avg }} as float64), 0)
+    * 100.0
+{% endmacro %}
+
 {% macro is_anomaly_from_model(
     anomaly_config,
     last_value,
