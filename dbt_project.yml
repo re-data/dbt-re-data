@@ -54,6 +54,11 @@ vars:
           - missing_count
           - nulls_percent
           - missing_percent
+        boolean:
+          - count_true
+          - count_false
+          - nulls_count
+          - nulls_percent
 
   re_data:default_metrics:
     - table_metrics
