@@ -1,6 +1,6 @@
 {% macro change_percentage(last_value, last_avg) %}
-    cast({{ last_value }} - {{ last_avg }} as float64)
-    / nullif(cast({{ last_avg }} as float64), 0)
+    cast({{ last_value }} - {{ last_avg }} as {{ numeric_type() }})
+    / nullif(cast({{ last_avg }} as {{ numeric_type() }}), 0)
     * 100.0
 {% endmacro %}
 
