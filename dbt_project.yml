@@ -1,5 +1,5 @@
 name: "re_data"
-version: "0.11.0"
+version: "0.12.0"
 config-version: 2
 
 require-dbt-version: [">=1.0.0", "<2.0.0"]
@@ -23,6 +23,7 @@ vars:
   re_data:alerting_z_score: 3
 
   re_data:save_test_history: false
+  re_data:show_warns_as_alerts: false
 
   re_data:anomaly_detector:
     name: modified_z_score
