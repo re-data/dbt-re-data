@@ -26,4 +26,9 @@ select
     run_at as time_window_end
 
 from {{ ref('re_data_test_history') }}
-where status = 'Fail' or status = 'Error'
+where
+    status = 'Fail'
+    or status = 'Error'
+    {% if var('re_data:show_warns_as_alerts') %}
+    or status = 'Warn'
+    {% endif %}
