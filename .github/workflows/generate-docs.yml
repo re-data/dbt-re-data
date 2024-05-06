@@ -35,7 +35,7 @@ jobs:
 
       - name: Install dependencies and run
         run: |
-          pip install dbt-postgres==$DBT_VERSION
+          pip install protobuf==4.25.3 dbt-postgres==$DBT_VERSION
           dbt deps
           dbt run
 
