@@ -38,17 +38,29 @@
         {% set any_refs = modules.re.findall("ref\(\'(?P<name>.*)\'\)", el.node.test_metadata.kwargs['model']) %}
         {% set any_source = modules.re.findall("source\(\'(?P<one>.*)\'\,\s+\'(?P<two>.*)\'\)", el.node.test_metadata.kwargs['model']) %}
 
+        -- Separate `depends_on` nodes into sources and models to avoid incorrect matching of a test to a source
+        -- when it fact it refers to a model (snapshot or regular model)
+        {% set depends_on_sources = [] %}
+        {% set depends_on_models = [] %}
+        {% for full_name in el.node.depends_on.nodes %}
+            {%- if full_name.split('.')[0] == "source" -%}
+                {% do depends_on_sources.append(full_name)%}
+            {%- else -%}
+                {% do depends_on_models.append(full_name)%}
+            {%- endif -%}
+        {% endfor %}
+
         {% if any_refs %}
             {% set name = any_refs[0] %}
-            {% set node_name = re_data.priv_full_name_from_depends(el.node, name) %}
+            {% set node_name = re_data.priv_full_name_from_depends(el.node, name, depends_on_models) %}
             {% set schema = graph.nodes.get(node_name)['schema'] %}
             {% set database = graph.nodes.get(node_name)['database'] %}
-            {% set table_name = (database + '.' + schema + '.' + name) | lower %} 
-            
+            {% set table_name = (database + '.' + schema + '.' + name) | lower %}
+
         {% elif any_source %}
             {% set package_name = any_source[0][0] %}
             {% set name = any_source[0][1] %}
-            {% set node_name = re_data.priv_full_name_from_depends(el.node, name) %}
+            {% set node_name = re_data.priv_full_name_from_depends(el.node, name, depends_on_sources) %}
             {% set schema = graph.sources.get(node_name)['schema'] %}
             {% set database = graph.sources.get(node_name)['database'] %}
             {% set table_name = (database + '.' + schema + '.' + name) | lower %}
@@ -98,9 +110,9 @@
 
 {% endmacro %}
 
-{% macro priv_full_name_from_depends(node, name) %}
+{% macro priv_full_name_from_depends(node, name, depends_on_nodes) %}
 
-    {% for full_name in node.depends_on.nodes %}
+    {% for full_name in depends_on_nodes %}
         {% set node_name = full_name.split('.')[-1] %}
         {% if node_name == name %}
             {{ return(full_name) }}
